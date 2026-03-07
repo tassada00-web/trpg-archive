@@ -218,20 +218,57 @@
         </div>
     </section>
 
-<section id="enemies" class="page max-w-5xl mx-auto px-6">
+<section id="enemies" class="page max-w-6xl mx-auto px-6">
     <h2 class="cinzel text-5xl text-white mb-2 text-center uppercase">Enemies</h2>
-    <p class="text-amber-700 mb-16 text-center tracking-widest uppercase italic">기록된 위협적 생명체들</p>
+    <p class="text-amber-700 mb-8 text-center tracking-widest uppercase italic">중앙 대륙의 위협적 생명체들</p>
     
-    <div class="grid md:grid-cols-2 gap-6 mt-12">
-        
-        <div class="item-card">
-            <h3 class="text-2xl font-bold text-red-500 mb-2">고블린 약탈자</h3>
-            <p class="text-sm text-gray-400 mb-4">노리튼 외곽에서 농작물을 훔치는 골칫덩이입니다.</p>
-            <div class="bg-black/30 p-4 rounded text-xs space-y-1">
-                <p>❤️ HP: 15 | ⚡ SP: 10</p>
-                <p>✊ 힘: 8 | 🏃 속도: 14 | 🎯 정밀: 12</p>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
+        <button onclick="filterRegion('common')" class="region-btn active">공통</button>
+        <button onclick="filterRegion('norriton')" class="region-btn">타락한 노리튼</button>
+        <button onclick="filterRegion('araon')" class="region-btn">고요한 아라온</button>
+        <button onclick="filterRegion('twisted')" class="region-btn">악독한 트위스타드</button>
+        <button onclick="filterRegion('baran')" class="region-btn">잊혀진 바란</button>
+        <button onclick="filterRegion('dotrey')" class="region-btn">혹한의 도트레이</button>
+        <button onclick="filterRegion('karaz-dum')" class="region-btn">폐허의 카라즈-둠</button>
+        <button onclick="filterRegion('asksz')" class="region-btn">고행의 아스키즈</button>
+        <button onclick="filterRegion('arcana')" class="region-btn">무너진 아르카나</button>
+        <button onclick="filterRegion('jungle')" class="region-btn">에이델린 원시림</button>
+    </div>
+
+    <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="item-card monster-item common">
+            <h3 class="text-xl font-bold text-red-500 mb-2">굶주린 쥐떼</h3>
+            <p class="text-xs text-gray-400 mb-4">어느 지역에서나 볼 수 있는 흔한 위협입니다.</p>
+            <div class="bg-black/30 p-3 rounded text-[10px] space-y-1">
+                <p>❤️ HP: 5 | ⚡ SP: 5</p>
             </div>
-        </div> </div> </section>
+        </div>
+
+        <div class="item-card monster-item norriton hidden">
+            <h3 class="text-xl font-bold text-red-500 mb-2">고블린 약탈자</h3>
+            <p class="text-xs text-gray-400 mb-4">타락한 노리튼 외곽의 골칫덩이입니다.</p>
+            <div class="bg-black/30 p-3 rounded text-[10px] space-y-1">
+                <p>❤️ HP: 15 | ⚡ SP: 10</p>
+            </div>
+        </div>
+        
+        </div>
+</section>
+
+<style>
+    .region-btn {
+        background: #1a1a1a;
+        border: 1px solid #444;
+        color: #888;
+        padding: 10px 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: 0.2s;
+    }
+    .region-btn:hover { border-color: #f59e0b; color: #fff; }
+    .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
+    .monster-item.hidden { display: none; }
+</style>
 
     <section id="equip" class="page max-w-5xl mx-auto px-6 text-center">
         <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Equipment</h2>
@@ -345,6 +382,24 @@
                 history.replaceState({ pageId: 'home' }, "", "#home");
             }
         });
+        function filterRegion(regionId) {
+            // 1. 모든 지역 버튼에서 active 클래스 제거
+            const buttons = document.querySelectorAll('.region-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // 2. 클릭한 버튼에 active 클래스 추가 (주황색 불)
+            if (event) {
+                event.currentTarget.classList.add('active');
+            }
+
+            // 3. 모든 몬스터 항목을 숨김
+            const monsters = document.querySelectorAll('.monster-item');
+            monsters.forEach(monster => monster.classList.add('hidden'));
+
+            // 4. 선택한 지역 클래스를 가진 몬스터만 표시
+            const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
+            selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
+        }
     </script>
 </body>
 </html>
