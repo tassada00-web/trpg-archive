@@ -330,10 +330,18 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
+            // 1. 주소창의 # 뒤에 있는 글자(해시)를 가져옵니다.
             const hash = window.location.hash.substring(1);
-            if(hash && document.getElementById(hash)) {
+            
+            // 2. 만약 해시가 있고, 그 이름과 일치하는 페이지(section)가 있다면
+            if (hash && document.getElementById(hash)) {
+                // 즉시 해당 페이지를 보여줍니다.
                 showPage(hash, false);
+                // 메뉴 스타일(색상 등)도 함께 업데이트합니다.
+                updateActiveStyle(hash);
             } else {
+                // 해시가 없다면 기본 홈 화면을 보여줍니다.
+                showPage('home', false);
                 history.replaceState({ pageId: 'home' }, "", "#home");
             }
         });
