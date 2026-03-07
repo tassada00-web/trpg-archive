@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETERNAL CITY - TRPG 도감</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Cinzel:wght@700&display=swap');
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #0d0d0d; 
+            color: #d1d5db; 
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; }
+
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), #0d0d0d),
+                        url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page { display: none; min-height: 100vh; padding-top: 100px; padding-bottom: 80px; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        nav {
+            background-color: rgba(10, 10, 10, 0.98);
+            border-bottom: 1px solid rgba(120, 53, 15, 0.5);
+            backdrop-filter: blur(10px);
+            height: 70px;
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: #111;
+            border-right: 1px solid #333;
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 80px;
+            overflow-y: auto;
+        }
+        #sidebar.open { left: 0; }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        .side-btn-container { display: flex; align-items: center; border-bottom: 1px solid #222; transition: 0.2s; }
+        .side-btn-container:hover { background: #1a1a1a; }
+        .side-main-link { flex-grow: 1; padding: 15px 10px 15px 25px; display: flex; align-items: center; cursor: pointer; color: #d1d5db; }
+        .side-toggle { padding: 15px 25px 15px 10px; cursor: pointer; color: #555; transition: 0.2s; }
+        .side-toggle:hover { color: #f59e0b; }
+
+        .side-btn-single { width: 100%; padding: 15px 25px; display: flex; align-items: center; border-bottom: 1px solid #222; cursor: pointer; color: #d1d5db; }
+        .side-btn-single:hover { background: #1a1a1a; color: #f59e0b; }
+
+        .active-menu { color: #f59e0b !important; font-weight: bold; }
+        .active-tab { color: #f59e0b !important; border-bottom: 2px solid #f59e0b; }
+
+        .submenu { background: #0a0a0a; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .submenu.show { max-height: 600px; }
+        .sub-btn { width: 100%; padding: 12px 25px 12px 55px; text-align: left; font-size: 13px; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.2s; }
+        .sub-btn:hover { color: #f59e0b; background: #151515; }
+
+        .item-card { background: rgba(20, 20, 20, 0.8); border: 1px solid #444; padding: 2.5rem 1.5rem; border-radius: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .item-card:hover { border-color: #f59e0b; transform: translateY(-8px); background: rgba(30, 30, 30, 0.9); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        .item-card i { transition: transform 0.3s ease; }
+        .item-card:hover i { transform: scale(1.2); }
+
+        /* 커스텀 SVG 아이콘: 무기(검), 방패 */
+        .icon-sword {
+            display: inline-block;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #f59e0b;
+            margin-bottom: 1rem;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            transition: transform 0.3s ease;
+        }
+        .item-card:hover .icon-sword { transform: scale(1.2); }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    
+    <aside id="sidebar">
+        <div class="px-6 py-4 text-amber-600 font-bold cinzel border-b border-amber-900/30 tracking-widest uppercase text-left">Archive Menu</div>
+        
+        <div id="menu-enemies" class="side-btn-single" onclick="showPage('enemies')">
+            <i class="fa-solid fa-skull mr-4 w-6 text-center text-red-700"></i>적 (Enemies)
+        </div>
+        
+        <div class="side-btn-container">
+            <div id="menu-equip" class="side-main-link" onclick="showPage('equip')">
+                <i class="fa-solid fa-shield mr-4 w-6 text-center text-blue-700"></i>장비 (Equip)
+            </div>
+            <div class="side-toggle" onclick="toggleSubmenu('sub-equip')">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </div>
+        <div id="sub-equip" class="submenu">
+            <div id="menu-weapon-detail" class="sub-btn" onclick="showPage('weapon-detail')">ㄴ 무기 도감</div>
+            <div id="menu-armor-detail" class="sub-btn" onclick="showPage('armor-detail')">ㄴ 방어구 도감</div>
+        </div>
+
+        <div id="menu-consumables" class="side-btn-single" onclick="showPage('consumables')">
+            <i class="fa-solid fa-flask mr-4 w-6 text-center text-green-700"></i>소모품 (Consumable)
+        </div>
+
+        <div id="menu-materials" class="side-btn-single" onclick="showPage('materials')">
+            <i class="fa-solid fa-gem mr-4 w-6 text-center text-purple-700"></i>재료 (Material)
+        </div>
+
+        <div id="menu-npc" class="side-btn-single" onclick="showPage('npc')">
+            <i class="fa-solid fa-users mr-4 w-6 text-center text-yellow-600"></i>NPC
+        </div>
+
+        <div id="menu-recipes" class="side-btn-single" onclick="showPage('recipes')">
+            <i class="fa-solid fa-scroll mr-4 w-6 text-center text-orange-600"></i>레시피 (Recipe)
+        </div>
+    </aside>
+
+    <nav class="fixed top-0 w-full z-[100] px-6 flex justify-between items-center text-left">
+        <div class="flex items-center">
+            <button onclick="toggleSidebar()" class="text-white text-2xl mr-6 hover:text-amber-500 transition"><i class="fa-solid fa-bars"></i></button>
+            <button onclick="showPage('home')" class="font-bold text-2xl text-amber-600 cinzel tracking-widest uppercase">TRPG Encyclopedia</button>
+        </div>
+        <div class="hidden md:flex space-x-6 text-xs font-semibold text-gray-400 uppercase">
+            <button id="nav-enemies" onclick="showPage('enemies')" class="nav-link hover:text-amber-500 transition px-1 py-2">적</button>
+            <button id="nav-equip" onclick="showPage('equip')" class="nav-link hover:text-amber-500 transition px-1 py-2">장비</button>
+            <button id="nav-consumables" onclick="showPage('consumables')" class="nav-link hover:text-amber-500 transition px-1 py-2">소모품</button>
+            <button id="nav-materials" onclick="showPage('materials')" class="nav-link hover:text-amber-500 transition px-1 py-2">재료</button>
+            <button id="nav-npc" onclick="showPage('npc')" class="nav-link hover:text-amber-500 transition px-1 py-2">NPC</button>
+            <button id="nav-recipes" onclick="showPage('recipes')" class="nav-link hover:text-amber-500 transition px-1 py-2">레시피</button>
+        </div>
+    </nav>
+
+    <section id="home" class="page active !p-0">
+        <div class="hero-section text-center">
+            <h1 class="cinzel text-5xl md:text-8xl text-white font-bold mb-4 tracking-[0.1em] drop-shadow-2xl">TRPG 도감</h1>
+            <p class="text-amber-600 text-lg md:text-2xl mb-16 tracking-[0.4em] font-light uppercase italic">The Great Archive of Eternal City</p>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl w-full px-6">
+
+                <!-- 적 -->
+                <button onclick="showPage('enemies')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-skull text-4xl mb-4 text-red-700"></i>
+                    <span class="font-bold text-lg">적 (Enemies)</span>
+                </button>
+
+                <!-- 장비 - fa-shield (무료 버전 지원) + 검 SVG 아이콘 -->
+                <button onclick="showPage('equip')" class="item-card flex flex-col items-center">
+                    <div class="flex items-center gap-2 mb-4">
+                        <!-- 검 SVG (무료 Font Awesome에 없어서 직접 그림) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-9 h-9" style="transition: transform 0.3s ease;">
+                            <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                        </svg>
+                        <!-- 방패 아이콘 -->
+                        <i class="fa-solid fa-shield text-4xl text-blue-500"></i>
+                    </div>
+                    <span class="font-bold text-lg">장비 (Equip)</span>
+                </button>
+
+                <!-- 소모품 -->
+                <button onclick="showPage('consumables')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-flask text-4xl mb-4 text-green-700"></i>
+                    <span class="font-bold text-lg">소모품 (Consumable)</span>
+                </button>
+
+                <!-- 재료 -->
+                <button onclick="showPage('materials')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-gem text-4xl mb-4 text-purple-700"></i>
+                    <span class="font-bold text-lg">재료 (Material)</span>
+                </button>
+
+                <!-- NPC - fa-users-rectangle → fa-users (무료 버전 지원) -->
+                <button onclick="showPage('npc')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-users text-4xl mb-4 text-yellow-600"></i>
+                    <span class="font-bold text-lg">NPC</span>
+                </button>
+
+                <!-- 레시피 -->
+                <button onclick="showPage('recipes')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-scroll text-4xl mb-4 text-orange-600"></i>
+                    <span class="font-bold text-lg">레시피 (Recipe)</span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+<section id="enemies" class="page max-w-5xl mx-auto px-6">
+    <h2 class="cinzel text-5xl text-white mb-2 text-center uppercase">Enemies</h2>
+    <p class="text-amber-700 mb-16 text-center tracking-widest uppercase italic">기록된 위협적 생명체들</p>
+    
+    <div class="grid md:grid-cols-2 gap-6 mt-12">
+        
+        <div class="item-card">
+            <h3 class="text-2xl font-bold text-red-500 mb-2">고블린 약탈자</h3>
+            <p class="text-sm text-gray-400 mb-4">노리튼 외곽에서 농작물을 훔치는 골칫덩이입니다.</p>
+            <div class="bg-black/30 p-4 rounded text-xs space-y-1">
+                <p>❤️ HP: 15 | ⚡ SP: 10</p>
+                <p>✊ 힘: 8 | 🏃 속도: 14 | 🎯 정밀: 12</p>
+            </div>
+        </div> </div> </section>
+
+    <section id="equip" class="page max-w-5xl mx-auto px-6 text-center">
+        <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Equipment</h2>
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('weapon-detail')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-14 h-14 mb-6" style="transition: transform 0.3s ease;">
+                    <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                </svg>
+                <h3 class="text-2xl font-bold uppercase">무기 도감 (Weapons)</h3>
+            </div>
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('armor-detail')">
+                <i class="fa-solid fa-shield text-5xl mb-6 text-blue-500"></i>
+                <h3 class="text-2xl font-bold uppercase">방어구 도감 (Armor)</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="weapon-detail" class="page max-w-4xl mx-auto px-6">
+        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Weapon Catalog</h2>
+        <div class="item-card">무기 목록이 준비 중입니다.</div>
+        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    </section>
+
+    <section id="armor-detail" class="page max-w-4xl mx-auto px-6">
+        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Armor Catalog</h2>
+        <div class="item-card">방어구 목록이 준비 중입니다.</div>
+        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    </section>
+
+    <section id="consumables" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Consumables</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="materials" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Materials</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
+    <section id="recipes" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Crafting Recipes</h2><div class="item-card mt-16 text-center">발견된 레시피가 없습니다.</div></section>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('show');
+        }
+
+        function toggleSubmenu(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function showPage(pageId, pushToHistory = true) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active'));
+            
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebar-overlay').classList.remove('show');
+
+                updateActiveStyle(pageId);
+
+                if (pushToHistory && window.location.hash !== '#' + pageId) {
+                    history.pushState({ pageId: pageId }, "", "#" + pageId);
+                }
+            }
+        }
+
+        function updateActiveStyle(pageId) {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-tab'));
+            document.querySelectorAll('.side-btn-single, .side-main-link, .sub-btn').forEach(menu => menu.classList.remove('active-menu'));
+
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) activeNav.classList.add('active-tab');
+
+            const activeSide = document.getElementById('menu-' + pageId);
+            if (activeSide) activeSide.classList.add('active-menu');
+
+            if(['weapon-detail', 'armor-detail'].includes(pageId)) {
+                document.getElementById('menu-equip')?.classList.add('active-menu');
+                document.getElementById('nav-equip')?.classList.add('active-tab');
+            }
+        }
+
+        // 카드 호버 시 SVG 아이콘도 scale 적용
+        document.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const svg = card.querySelector('svg');
+                if (svg) svg.style.transform = 'scale(1.2)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const svg = card.querySelector('svg');
+                if (svg) svg.style.transform = 'scale(1)';
+            });
+        });
+
+        window.addEventListener('popstate', function(event) {
+            const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
+            showPage(pageId, false);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if(hash && document.getElementById(hash)) {
+                showPage(hash, false);
+            } else {
+                history.replaceState({ pageId: 'home' }, "", "#home");
+            }
+        });
+    </script>
+</body>
+</html>
