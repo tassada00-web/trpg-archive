@@ -452,67 +452,66 @@ function openMonsterModal(id) {
 
     const content = document.getElementById('modal-content');
     
-    // 능력치 그리드 (크기를 줄이고 가로로 길게 배치)
+    // 능력치 그리드: 콤팩트한 7열 배치
     const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
         <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
             <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
             <p class="text-lg font-bold text-white">${value}</p>
         </div>
-    `).join('') : `<div class="col-span-full py-6 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
+    `).join('') : `<div class="col-span-full py-4 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
 
-    // 스킬 리스트 (디자인 최적화)
+    // 스킬 리스트: 가로 공간을 꽉 채우기 위해 그리드 레이아웃 적용
     const skillsHtml = data.skills ? data.skills.map(skill => `
-        <div class="bg-black/40 p-3 rounded-lg border border-white/5 space-y-1 hover:border-amber-900/50 transition-colors">
-            <p class="text-sm font-bold text-amber-500">[${skill.name}]</p>
-            <p class="text-xs text-gray-400 leading-relaxed">${skill.desc}</p>
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
+            <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
+            <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
         </div>
-    `).join('') : `<p class="text-gray-600 italic text-sm px-2 text-center">기록된 기술이 없습니다.</p>`;
+    `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">관측된 기술 정보가 부족합니다.</p>`;
 
     content.innerHTML = `
-        <div class="h-full flex flex-col md:flex-row gap-8 animate-fadeIn text-left">
-            <div class="w-full md:w-[320px] flex flex-col gap-6">
-                <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] flex items-center justify-center shadow-inner">
-                    ${data.image ? 
-                        `<img src="${data.image}" class="w-full h-full object-cover rounded shadow-md border border-white/5">` : 
-                        `<i class="fa-solid fa-ghost text-8xl text-white/5"></i>`
-                    }
+        <div class="h-full flex flex-col gap-10 animate-fadeIn text-left">
+            
+            <div class="flex flex-col md:flex-row gap-10">
+                <div class="w-full md:w-[280px] shrink-0">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl">
+                        ${data.image ? 
+                            `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
+                            `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
+                        }
+                    </div>
                 </div>
-                
-                <div class="hidden md:block flex-grow overflow-y-auto space-y-3 pr-2 custom-scrollbar">
-                    <h4 class="text-[10px] text-amber-600 font-bold uppercase tracking-[0.3em] px-1 mb-4">고유 기술 (SKILLS)</h4>
+
+                <div class="flex-grow flex flex-col gap-6">
+                    <div class="border-b border-white/10 pb-6">
+                        <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
+                        <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
+                        <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
+                            ${data.desc || '이 생명체에 대한 상세한 기록을 확보하지 못했습니다.'}
+                        </p>
+                    </div>
+                    
                     <div class="space-y-3">
-                        ${skillsHtml}
+                        <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${statsHtml}
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="flex-grow flex flex-col gap-6">
-                <div class="border-b border-white/5 pb-6">
-                    <h2 class="cinzel text-6xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
-                    <p class="text-xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
-                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl border-l-2 border-amber-900/50 pl-4 bg-white/5 py-2 pr-4 rounded-r">
-                        ${data.desc || '이 개체에 대한 상세 기록이 부족합니다.'}
-                    </p>
-                </div>
-                
-                <div class="space-y-4">
-                    <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
-                    <div class="flex flex-wrap md:flex-nowrap gap-2">
-                        ${statsHtml}
-                    </div>
-                </div>
 
-                <div class="md:hidden mt-4 space-y-3">
-                    <h4 class="text-xs text-amber-500 font-bold uppercase tracking-widest px-1">고유 기술 (SKILLS)</h4>
-                    <div class="grid grid-cols-1 gap-2">
-                        ${skillsHtml}
-                    </div>
+            <div class="flex-grow border-t border-white/10 pt-8">
+                <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] mb-6 flex items-center gap-3">
+                    <span class="w-8 h-[1px] bg-amber-900/50"></span>
+                    고유 기술 (UNIQUE SKILLS)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${skillsHtml}
                 </div>
+            </div>
 
-                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[9px] text-gray-600 uppercase tracking-[0.4em]">
-                    <span>The Eternal City Archive - Identification Log</span>
-                    <span class="cinzel text-amber-900/50 font-bold text-xs leading-none">EC-001</span>
-                </div>
+            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
+                <span>The Eternal City Archive - Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold">Ref code: EC-MO-001</span>
             </div>
         </div>
     `;
@@ -520,6 +519,7 @@ function openMonsterModal(id) {
     document.getElementById('monster-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 }
+
 
         // 3. 미니창(모달) 닫기 함수
         function closeMonsterModal() {
