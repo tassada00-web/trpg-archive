@@ -411,24 +411,34 @@
             selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
         }
 // 몬스터 상세 정보 데이터베이스
-        const monsterData = {
+const monsterData = {
             'goblin': {
                 name: '고블린',
                 title: '비겁한 숲의 약탈자',
                 rarity: 'Common',
                 image: './normal/goblin.jpg',
+                // 도감용 능력치 수치
                 stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
+                // 몬스터 입장의 서술형 스킬 설명
                 skills: [
-                    { name: '비겁한 연격', desc: '<span class="text-orange-400">속도(7) 판정.</span> 기습 성공 시 데미지 1.5배.' },
-                    { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">매력(2) vs 지혜(6).</span> 실패 시 <span class="text-purple-400">[악취]</span> 스택 +1.' },
-                    { name: '비열한 손길', desc: '<span class="text-orange-400">속도(7) vs 속도(6).</span> 실패 시 <span class="text-red-400">[성욕]</span> 스택 +1.' }
+                    { 
+                        name: '비겁한 연격', 
+                        desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 기습에 성공할 경우 치명적인 피해를 입힙니다.' 
+                    },
+                    { 
+                        name: '조롱 섞인 오물', 
+                        desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 부여합니다.' 
+                    },
+                    { 
+                        name: '비열한 손길', 
+                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 부여합니다.' 
+                    }
                 ]
             },
             'goblin_warrior': {
                 name: '고블린 전사',
                 title: '조사 중인 개체',
                 rarity: 'Elite',
-                // 사진이나 능력치가 없으므로 빈 상태로 둡니다.
             },
             'goblin_archer': {
                 name: '고블린 궁수',
