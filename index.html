@@ -412,38 +412,39 @@
         }
 // 몬스터 상세 정보 데이터베이스
 const monsterData = {
-            'goblin': {
-                name: '고블린',
-                title: '비겁한 숲의 약탈자',
-                // rarity 삭제
-                image: './normal/goblin.jpg',
-                stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
-                skills: [
-                    { 
-                        name: '비겁한 연격', 
-                        desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' // 내용 변경 적용
-                    },
-                    { 
-                        name: '조롱 섞인 오물', 
-                        desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' // 수치 표기 적용
-                    },
-                    { 
-                        name: '비열한 손길', 
-                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' // 수치 표기 적용
-                    }
-                ]
+    'goblin': {
+        name: '고블린',
+        title: '비겁한 숲의 약탈자',
+        image: './normal/goblin.jpg',
+        // 도감용 플레이버 텍스트 추가 (빈 공간을 더 풍성하게 채워줍니다)
+        desc: '무리를 지어 약한 여행자를 습격하는 비열한 생명체입니다. 주로 어두운 숲이나 동굴에 서식하며, 비겁하지만 영악한 생존 본능을 지니고 있습니다.',
+        stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
+        skills: [
+            { 
+                name: '비겁한 연격', 
+                desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' 
             },
-            'goblin_warrior': {
-                name: '고블린 전사',
-                title: '조사 중인 개체',
-                // rarity 삭제
+            { 
+                name: '조롱 섞인 오물', 
+                desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' 
             },
-            'goblin_archer': {
-                name: '고블린 궁수',
-                title: '조사 중인 개체',
-                // rarity 삭제
+            { 
+                name: '비열한 손길', 
+                desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' 
             }
-        };
+        ]
+    },
+    'goblin_warrior': {
+        name: '고블린 전사',
+        title: '조사 중인 개체',
+        desc: '전투 훈련을 받은 것으로 보이는 고블린 변종입니다. 상세 데이터는 아직 수집 중입니다.'
+    },
+    'goblin_archer': {
+        name: '고블린 궁수',
+        title: '조사 중인 개체',
+        desc: '원거리에서 독화살을 사용하는 개체입니다. 생포 및 관찰이 진행 중입니다.'
+    }
+};
 
 function openMonsterModal(id) {
     const data = monsterData[id];
@@ -451,48 +452,66 @@ function openMonsterModal(id) {
 
     const content = document.getElementById('modal-content');
     
+    // 능력치 그리드 (크기를 줄이고 가로로 길게 배치)
     const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
-        <div class="bg-black/30 p-4 rounded border border-white/5 text-center">
-            <p class="text-[10px] text-gray-500 uppercase font-medium tracking-wider mb-1">${key}</p>
-            <p class="text-2xl font-bold text-white">${value}</p>
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
+            <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
+            <p class="text-lg font-bold text-white">${value}</p>
         </div>
-    `).join('') : `<div class="col-span-4 py-10 text-gray-600 italic">아직 상세 능력치가 기록되지 않았습니다.</div>`;
+    `).join('') : `<div class="col-span-full py-6 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
 
+    // 스킬 리스트 (디자인 최적화)
     const skillsHtml = data.skills ? data.skills.map(skill => `
-        <div class="bg-black/20 p-4 rounded-lg border border-gray-800 space-y-1 text-left">
-            <p class="text-lg font-semibold text-gray-100">[${skill.name}]</p>
-            <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
+        <div class="bg-black/40 p-3 rounded-lg border border-white/5 space-y-1 hover:border-amber-900/50 transition-colors">
+            <p class="text-sm font-bold text-amber-500">[${skill.name}]</p>
+            <p class="text-xs text-gray-400 leading-relaxed">${skill.desc}</p>
         </div>
-    `).join('') : `<p class="text-gray-600 italic">관측된 고유 기술이 없습니다.</p>`;
+    `).join('') : `<p class="text-gray-600 italic text-sm px-2 text-center">기록된 기술이 없습니다.</p>`;
 
     content.innerHTML = `
-        <div class="h-full flex flex-col md:flex-row gap-12 animate-fadeIn">
-            <div class="w-full md:w-1/3">
-                <div class="bg-black/40 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] flex items-center justify-center">
+        <div class="h-full flex flex-col md:flex-row gap-8 animate-fadeIn text-left">
+            <div class="w-full md:w-[320px] flex flex-col gap-6">
+                <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] flex items-center justify-center shadow-inner">
                     ${data.image ? 
                         `<img src="${data.image}" class="w-full h-full object-cover rounded shadow-md border border-white/5">` : 
                         `<i class="fa-solid fa-ghost text-8xl text-white/5"></i>`
                     }
                 </div>
+                
+                <div class="hidden md:block flex-grow overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+                    <h4 class="text-[10px] text-amber-600 font-bold uppercase tracking-[0.3em] px-1 mb-4">고유 기술 (SKILLS)</h4>
+                    <div class="space-y-3">
+                        ${skillsHtml}
+                    </div>
                 </div>
+            </div>
             
-            <div class="flex-grow flex flex-col justify-start space-y-10 text-left">
-                <div>
-                    <h2 class="cinzel text-7xl text-white font-bold mb-3 uppercase tracking-tighter">${data.name}</h2>
-                    <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold">${data.title || 'Unknown Entity'}</p>
+            <div class="flex-grow flex flex-col gap-6">
+                <div class="border-b border-white/5 pb-6">
+                    <h2 class="cinzel text-6xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
+                    <p class="text-xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl border-l-2 border-amber-900/50 pl-4 bg-white/5 py-2 pr-4 rounded-r">
+                        ${data.desc || '이 개체에 대한 상세 기록이 부족합니다.'}
+                    </p>
                 </div>
                 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/5">
-                    ${statsHtml}
+                <div class="space-y-4">
+                    <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
+                    <div class="flex flex-wrap md:flex-nowrap gap-2">
+                        ${statsHtml}
+                    </div>
                 </div>
 
-                <div class="space-y-4 pt-6 border-t border-white/5">
-                    <h4 class="text-sm text-amber-500 font-bold uppercase tracking-wider mb-3">고유 스킬 (Skills)</h4>
-                    ${skillsHtml}
+                <div class="md:hidden mt-4 space-y-3">
+                    <h4 class="text-xs text-amber-500 font-bold uppercase tracking-widest px-1">고유 기술 (SKILLS)</h4>
+                    <div class="grid grid-cols-1 gap-2">
+                        ${skillsHtml}
+                    </div>
                 </div>
 
-                <div class="pt-10 border-t border-white/5 mt-auto text-xs text-gray-600 uppercase tracking-[0.4em]">
-                    The Eternal City Archive - Identification Log
+                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[9px] text-gray-600 uppercase tracking-[0.4em]">
+                    <span>The Eternal City Archive - Identification Log</span>
+                    <span class="cinzel text-amber-900/50 font-bold text-xs leading-none">EC-001</span>
                 </div>
             </div>
         </div>
