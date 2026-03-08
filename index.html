@@ -415,99 +415,92 @@ const monsterData = {
             'goblin': {
                 name: '고블린',
                 title: '비겁한 숲의 약탈자',
-                rarity: 'Common',
+                // rarity 삭제
                 image: './normal/goblin.jpg',
-                // 도감용 능력치 수치
                 stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
-                // 몬스터 입장의 서술형 스킬 설명
                 skills: [
                     { 
                         name: '비겁한 연격', 
-                        desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 기습에 성공할 경우 치명적인 피해를 입힙니다.' 
+                        desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' // 내용 변경 적용
                     },
                     { 
                         name: '조롱 섞인 오물', 
-                        desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 부여합니다.' 
+                        desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' // 수치 표기 적용
                     },
                     { 
                         name: '비열한 손길', 
-                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 부여합니다.' 
+                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' // 수치 표기 적용
                     }
                 ]
             },
             'goblin_warrior': {
                 name: '고블린 전사',
                 title: '조사 중인 개체',
-                rarity: 'Elite',
+                // rarity 삭제
             },
             'goblin_archer': {
                 name: '고블린 궁수',
                 title: '조사 중인 개체',
-                rarity: 'Ranged',
+                // rarity 삭제
             }
         };
 
-        function openMonsterModal(id) {
-            const data = monsterData[id];
-            if (!data) return;
+function openMonsterModal(id) {
+    const data = monsterData[id];
+    if (!data) return;
 
-            const content = document.getElementById('modal-content');
+    const content = document.getElementById('modal-content');
+    
+    const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
+        <div class="bg-black/30 p-4 rounded border border-white/5 text-center">
+            <p class="text-[10px] text-gray-500 uppercase font-medium tracking-wider mb-1">${key}</p>
+            <p class="text-2xl font-bold text-white">${value}</p>
+        </div>
+    `).join('') : `<div class="col-span-4 py-10 text-gray-600 italic">아직 상세 능력치가 기록되지 않았습니다.</div>`;
+
+    const skillsHtml = data.skills ? data.skills.map(skill => `
+        <div class="bg-black/20 p-4 rounded-lg border border-gray-800 space-y-1 text-left">
+            <p class="text-lg font-semibold text-gray-100">[${skill.name}]</p>
+            <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
+        </div>
+    `).join('') : `<p class="text-gray-600 italic">관측된 고유 기술이 없습니다.</p>`;
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col md:flex-row gap-12 animate-fadeIn">
+            <div class="w-full md:w-1/3">
+                <div class="bg-black/40 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] flex items-center justify-center">
+                    ${data.image ? 
+                        `<img src="${data.image}" class="w-full h-full object-cover rounded shadow-md border border-white/5">` : 
+                        `<i class="fa-solid fa-ghost text-8xl text-white/5"></i>`
+                    }
+                </div>
+                </div>
             
-            // 능력치 그리드 (데이터가 있을 때만 생성)
-            const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
-                <div class="bg-black/30 p-4 rounded border border-white/5 text-center">
-                    <p class="text-[10px] text-gray-500 uppercase font-medium tracking-wider mb-1">${key}</p>
-                    <p class="text-2xl font-bold text-white">${value}</p>
+            <div class="flex-grow flex flex-col justify-start space-y-10 text-left">
+                <div>
+                    <h2 class="cinzel text-7xl text-white font-bold mb-3 uppercase tracking-tighter">${data.name}</h2>
+                    <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold">${data.title || 'Unknown Entity'}</p>
                 </div>
-            `).join('') : `<div class="col-span-4 py-10 text-gray-600 italic">아직 상세 능력치가 기록되지 않았습니다.</div>`;
-
-            // 스킬 리스트 (데이터가 있을 때만 생성)
-            const skillsHtml = data.skills ? data.skills.map(skill => `
-                <div class="bg-black/20 p-4 rounded-lg border border-gray-800 space-y-1 text-left">
-                    <p class="text-lg font-semibold text-gray-100">[${skill.name}]</p>
-                    <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/5">
+                    ${statsHtml}
                 </div>
-            `).join('') : `<p class="text-gray-600 italic">관측된 고유 기술이 없습니다.</p>`;
 
-            content.innerHTML = `
-                <div class="h-full flex flex-col md:flex-row gap-12 animate-fadeIn">
-                    <div class="w-full md:w-1/3 space-y-4">
-                        <div class="bg-black/40 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] flex items-center justify-center">
-                            ${data.image ? 
-                                `<img src="${data.image}" class="w-full h-full object-cover rounded shadow-md border border-white/5">` : 
-                                `<i class="fa-solid fa-ghost text-8xl text-white/5"></i>`
-                            }
-                        </div>
-                        <div class="text-center bg-red-950/20 py-2 rounded border border-red-900/30">
-                            <span class="text-xs text-red-400 font-bold uppercase tracking-[0.2em]">${data.rarity}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="flex-grow flex flex-col justify-start space-y-10 text-left">
-                        <div>
-                            <h2 class="cinzel text-7xl text-white font-bold mb-3 uppercase tracking-tighter">${data.name}</h2>
-                            <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold">${data.title || 'Unknown Entity'}</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/5">
-                            ${statsHtml}
-                        </div>
-
-                        <div class="space-y-4 pt-6 border-t border-white/5">
-                            <h4 class="text-sm text-amber-500 font-bold uppercase tracking-wider mb-3">고유 스킬 (Skills)</h4>
-                            ${skillsHtml}
-                        </div>
-
-                        <div class="pt-10 border-t border-white/5 mt-auto text-xs text-gray-600 uppercase tracking-[0.4em]">
-                            The Eternal City Archive - Identification Log
-                        </div>
-                    </div>
+                <div class="space-y-4 pt-6 border-t border-white/5">
+                    <h4 class="text-sm text-amber-500 font-bold uppercase tracking-wider mb-3">고유 스킬 (Skills)</h4>
+                    ${skillsHtml}
                 </div>
-            `;
 
-            document.getElementById('monster-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
+                <div class="pt-10 border-t border-white/5 mt-auto text-xs text-gray-600 uppercase tracking-[0.4em]">
+                    The Eternal City Archive - Identification Log
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
 
         // 3. 미니창(모달) 닫기 함수
         function closeMonsterModal() {
