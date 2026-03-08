@@ -235,24 +235,64 @@
         <button onclick="filterRegion('jungle')" class="region-btn">에이델린 원시림</button>
     </div>
 
-    <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="item-card monster-item common">
-            <h3 class="text-xl font-bold text-red-500 mb-2">굶주린 쥐떼</h3>
-            <p class="text-xs text-gray-400 mb-4">어느 지역에서나 볼 수 있는 흔한 위협입니다.</p>
-            <div class="bg-black/30 p-3 rounded text-[10px] space-y-1">
-                <p>❤️ HP: 5 | ⚡ SP: 5</p>
-            </div>
+<div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="item-card monster-item common">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린</h3>
+            <span class="text-[10px] px-2 py-1 bg-red-900/20 text-red-400 rounded border border-red-900/30 uppercase">Common</span>
         </div>
-
-        <div class="item-card monster-item norriton hidden">
-            <h3 class="text-xl font-bold text-red-500 mb-2">고블린 약탈자</h3>
-            <p class="text-xs text-gray-400 mb-4">타락한 노리튼 외곽의 골칫덩이입니다.</p>
-            <div class="bg-black/30 p-3 rounded text-[10px] space-y-1">
-                <p>❤️ HP: 15 | ⚡ SP: 10</p>
-            </div>
-        </div>
+        <p class="text-xs text-gray-400 mb-6 italic">"비겁하고 교활하며, 무리지어 다니는 것을 좋아합니다."</p>
         
+        <div class="space-y-2">
+            <div class="w-full bg-gray-900 rounded-full h-1.5 mb-1">
+                <div class="bg-red-600 h-1.5 rounded-full" style="width: 40%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-tighter">
+                <span>HP Low</span>
+                <span>ATK Low</span>
+                <span>SPD Mid</span>
+            </div>
         </div>
+    </div>
+
+    <div class="item-card monster-item common hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 전사</h3>
+            <span class="text-[10px] px-2 py-1 bg-orange-900/20 text-orange-400 rounded border border-orange-900/30 uppercase">Elite</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-6 italic">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
+        
+        <div class="space-y-2">
+            <div class="w-full bg-gray-900 rounded-full h-1.5 mb-1">
+                <div class="bg-orange-500 h-1.5 rounded-full" style="width: 65%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-tighter">
+                <span>HP Mid</span>
+                <span>DEF Mid</span>
+                <span>ATK Low</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="item-card monster-item common hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 궁수</h3>
+            <span class="text-[10px] px-2 py-1 bg-yellow-900/20 text-yellow-400 rounded border border-yellow-900/30 uppercase">Ranged</span>
+        </div>
+        <p class="text-xs text-gray-400 mb-6 italic">"멀리서 독이 묻은 화살을 날려 모험가를 괴롭힙니다."</p>
+        
+        <div class="space-y-2">
+            <div class="w-full bg-gray-900 rounded-full h-1.5 mb-1">
+                <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 35%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-tighter">
+                <span>HP Low</span>
+                <span>ACC High</span>
+                <span>SPD Mid</span>
+            </div>
+        </div>
+    </div>
+</div>
 </section>
 
 <style>
