@@ -411,14 +411,14 @@
             selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
         }
 // 몬스터 상세 정보 데이터베이스
+// 몬스터 상세 정보 데이터베이스 업데이트
 const monsterData = {
     'goblin': {
         name: '고블린',
         title: '비겁한 숲의 약탈자',
         image: './normal/goblin.jpg',
-        // 도감용 플레이버 텍스트 추가 (빈 공간을 더 풍성하게 채워줍니다)
         desc: '무리를 지어 약한 여행자를 습격하는 비열한 생명체입니다. 주로 어두운 숲이나 동굴에 서식하며, 비겁하지만 영악한 생존 본능을 지니고 있습니다.',
-        stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
+        stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
         skills: [
             { 
                 name: '비겁한 연격', 
@@ -435,9 +435,25 @@ const monsterData = {
         ]
     },
     'goblin_warrior': {
-        name: '고블린 전사',
-        title: '조사 중인 개체',
-        desc: '전투 훈련을 받은 것으로 보이는 고블린 변종입니다. 상세 데이터는 아직 수집 중입니다.'
+        name: '고블린 병사',
+        title: '단단하게 무장한 전선 보병',
+        image: './normal/goblin_warrior.jpg',
+        desc: '단순한 약탈자가 아닌, 체계적인 전투 훈련을 받은 개체입니다. 조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하며, 나약한 인간들을 힘으로 짓눌러버리는 것에 특화되어 있습니다.',
+        stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+        skills: [
+            { 
+                name: '방패 밀치기', 
+                desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적의 중심을 무너뜨립니다. 판정 승리 시 적을 1턴 동안 넘어뜨려 무력화합니다.' 
+            },
+            { 
+                name: '압도적 구속', 
+                desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다. 판정 패배 시 적은 구속 상태에 빠져 저항할 수 없게 됩니다.' 
+            },
+            { 
+                name: '무력한 유린', 
+                desc: '<span class="text-orange-400">건강 vs 건강.</span> 구속된 먹잇감의 신체적 약점을 집요하게 파고듭니다. 판정 패배 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
+            }
+        ]
     },
     'goblin_archer': {
         name: '고블린 궁수',
@@ -452,7 +468,7 @@ function openMonsterModal(id) {
 
     const content = document.getElementById('modal-content');
     
-    // 능력치 그리드: 콤팩트한 7열 배치
+    // 능력치 그리드 (지정된 순서: 힘 건강 속도 정밀 지능 지혜 매력)
     const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
         <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
             <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
@@ -460,13 +476,13 @@ function openMonsterModal(id) {
         </div>
     `).join('') : `<div class="col-span-full py-4 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
 
-    // 스킬 리스트: 가로 공간을 꽉 채우기 위해 그리드 레이아웃 적용
+    // 스킬 리스트 (하단 가로 전체 사용)
     const skillsHtml = data.skills ? data.skills.map(skill => `
         <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
             <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
             <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
         </div>
-    `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">관측된 기술 정보가 부족합니다.</p>`;
+    `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">기록된 기술이 없습니다.</p>`;
 
     content.innerHTML = `
         <div class="h-full flex flex-col gap-10 animate-fadeIn text-left">
@@ -486,7 +502,7 @@ function openMonsterModal(id) {
                         <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
                         <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
                         <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
-                            ${data.desc || '이 생명체에 대한 상세한 기록을 확보하지 못했습니다.'}
+                            ${data.desc || '이 개체에 대한 상세 기록이 부족합니다.'}
                         </p>
                     </div>
                     
@@ -511,7 +527,7 @@ function openMonsterModal(id) {
 
             <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
                 <span>The Eternal City Archive - Identification Log</span>
-                <span class="cinzel text-amber-900/80 font-bold">Ref code: EC-MO-001</span>
+                <span class="cinzel text-amber-900/80 font-bold">Ref code: EC-MO-002</span>
             </div>
         </div>
     `;
@@ -519,7 +535,6 @@ function openMonsterModal(id) {
     document.getElementById('monster-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 }
-
 
         // 3. 미니창(모달) 닫기 함수
         function closeMonsterModal() {
