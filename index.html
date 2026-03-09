@@ -410,14 +410,15 @@
             const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
             selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
         }
-        // 몬스터 상세 정보 데이터베이스 업데이트
+        // 몬스터 상세 정보 데이터베이스
         const monsterData = {
             'goblin': {
                 name: '고블린',
                 title: '비겁한 숲의 약탈자',
+                // rarity 삭제됨
                 image: './normal/goblin.jpg',
                 desc: '무리를 지어 약한 여행자를 습격하는 비열한 생명체입니다. 주로 어두운 숲이나 동굴에 서식하며, 비겁하지만 영악한 생존 본능을 지니고 있습니다.',
-                stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
+                stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지혜': 4, '지능': 3, '매력': 2 },
                 skills: [
                     { 
                         name: '비겁한 연격', 
@@ -437,20 +438,20 @@
                 name: '고블린 병사',
                 title: '단단하게 무장한 전선 보병',
                 image: './normal/goblin_warrior.jpg',
-                desc: '단순한 약탈자가 아닌, 체계적인 전투 훈련을 받은 개체입니다. 조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하며, 나약한 인간들을 힘으로 짓눌러버리는 것에 특화되어 있습니다.',
-                stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+                desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하며, 인간들을 힘으로 짓눌러버리는 것에 특화된 개체입니다.',
+                stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지혜': 5, '지능': 4, '매력': 3 },
                 skills: [
                     { 
                         name: '방패 밀치기', 
-                        desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적의 중심을 무너뜨립니다. 판정 승리 시 적을 1턴 동안 넘어뜨려 무력화합니다.' 
+                        desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적의 중심을 무너뜨려 1턴 동안 넘어뜨립니다.' 
                     },
                     { 
                         name: '압도적 구속', 
-                        desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다. 판정 패배 시 적은 구속 상태에 빠져 저항할 수 없게 됩니다.' 
+                        desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정해 저항할 수 없는 상태로 만듭니다.' 
                     },
                     { 
                         name: '무력한 유린', 
-                        desc: '<span class="text-orange-400">건강 vs 건강.</span> 구속된 먹잇감의 신체적 약점을 집요하게 파고듭니다. 판정 패배 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
+                        desc: '<span class="text-orange-400">건강 vs 건강.</span> 구속된 먹잇감의 신체적 약점을 집요하게 파고듭니다. 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
                     }
                 ]
             },
@@ -458,20 +459,20 @@
                 name: '고블린 궁수',
                 title: '그늘 속에 숨어든 저격수',
                 image: './normal/goblin_archer.jpg',
-                desc: '전면전보다는 수풀이나 그늘 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다. 정면으로 맞서기보다는 적의 발을 묶고 서서히 마비시켜, 저항조차 할 수 없는 상태로 만드는 것을 즐깁니다.',
-                stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
+                desc: '전면전보다는 수풀이나 그늘 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
+                stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지혜': 5, '지능': 6, '매력': 4 },
                 skills: [
                     { 
                         name: '마비 촉수', 
-                        desc: '<span class="text-orange-400">정밀 vs 속도.</span> 끈적이는 마비액이 발린 화살로 적의 관절을 꿰뚫습니다. 판정 패배 시 적에게 <span class="text-yellow-400">[점착]</span> 스택을 <span class="text-white">+2</span> 부여하며, 턴 순서를 뒤로 밀어냅니다.' 
+                        desc: '<span class="text-orange-400">정밀 vs 속도.</span> 끈적이는 마비액이 발린 화살로 관절을 꿰뚫습니다. 성공 시 적에게 <span class="text-yellow-400">[점착]</span> 스택을 <span class="text-white">+2</span> 부여하며, 턴 순서를 뒤로 밀어냅니다.' 
                     },
                     { 
                         name: '독니 연사', 
-                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 전열이 흐트러진 틈을 타 빠르게 연사합니다. 선제공격을 시도하며, 명중 시 적에게 <span class="text-green-400">[독]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
+                        desc: '<span class="text-orange-400">속도 vs 속도.</span> 전열이 흐트러진 틈을 타 선제공격을 시도합니다. 명중 시 적에게 <span class="text-green-400">[독]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
                     },
                     { 
                         name: '신경 자극', 
-                        desc: '<span class="text-orange-400">정밀 vs 건강.</span> 독이 퍼져 예민해진 부위를 정확히 겨냥해 고통과 쾌락을 동시에 줍니다. 판정 패배 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' 
+                        desc: '<span class="text-orange-400">정밀 vs 건강.</span> 독이 퍼져 예민해진 부위를 정확히 겨냥합니다. 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' 
                     }
                 ]
             }
@@ -483,17 +484,16 @@
 
             const content = document.getElementById('modal-content');
             
-            // 능력치 그리드 (순서: 힘 건강 속도 정밀 지능 지혜 매력)
+            // 능력치 그리드 (수치 복구)
             const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
                 <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
                     <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
                     <p class="text-lg font-bold text-white">${value}</p>
                 </div>
-            `).join('') : `<div class="col-span-full py-4 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
+            `).join('') : `<div class="col-span-full py-6 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
 
-            // 스킬 리스트 (하단 가로 전체 3열 그리드)
             const skillsHtml = data.skills ? data.skills.map(skill => `
-                <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
+                <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg text-left">
                     <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
                     <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
                 </div>
@@ -550,6 +550,8 @@
             document.getElementById('monster-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
+
+
         // 3. 미니창(모달) 닫기 함수
         function closeMonsterModal() {
             document.getElementById('monster-modal').classList.add('hidden');
