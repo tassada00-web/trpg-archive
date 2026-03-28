@@ -259,6 +259,7 @@
         <p class="text-xs text-gray-400 italic font-medium">"멀리서 독이 묻은 화살을 날려 모험가를 괴롭힙니다."</p>
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
+    
     <div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">홉고블린</h3>
@@ -317,278 +318,260 @@
     <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
     <section id="recipes" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Crafting Recipes</h2><div class="item-card mt-16 text-center">발견된 레시피가 없습니다.</div></section>
 
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebar-overlay').classList.toggle('show');
-        }
-
-        function toggleSubmenu(id) {
-            document.getElementById(id).classList.toggle('show');
-        }
-
-        function showPage(pageId, pushToHistory = true) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(p => p.classList.remove('active'));
-            
-            const target = document.getElementById(pageId);
-            if (target) {
-                target.classList.add('active');
-                window.scrollTo({top: 0, behavior: 'smooth'});
-                
-                document.getElementById('sidebar').classList.remove('open');
-                document.getElementById('sidebar-overlay').classList.remove('show');
-
-                updateActiveStyle(pageId);
-
-                if (pushToHistory && window.location.hash !== '#' + pageId) {
-                    history.pushState({ pageId: pageId }, "", "#" + pageId);
-                }
-            }
-        }
-
-        function updateActiveStyle(pageId) {
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-tab'));
-            document.querySelectorAll('.side-btn-single, .side-main-link, .sub-btn').forEach(menu => menu.classList.remove('active-menu'));
-
-            const activeNav = document.getElementById('nav-' + pageId);
-            if (activeNav) activeNav.classList.add('active-tab');
-
-            const activeSide = document.getElementById('menu-' + pageId);
-            if (activeSide) activeSide.classList.add('active-menu');
-
-            if(['weapon-detail', 'armor-detail'].includes(pageId)) {
-                document.getElementById('menu-equip')?.classList.add('active-menu');
-                document.getElementById('nav-equip')?.classList.add('active-tab');
-            }
-        }
-
-        // 카드 호버 시 SVG 아이콘도 scale 적용
-        document.querySelectorAll('.item-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                const svg = card.querySelector('svg');
-                if (svg) svg.style.transform = 'scale(1.2)';
-            });
-            card.addEventListener('mouseleave', () => {
-                const svg = card.querySelector('svg');
-                if (svg) svg.style.transform = 'scale(1)';
-            });
-        });
-
-        window.addEventListener('popstate', function(event) {
-            const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
-            showPage(pageId, false);
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            // 1. 주소창의 # 뒤에 있는 글자(해시)를 가져옵니다.
-            const hash = window.location.hash.substring(1);
-            
-            // 2. 만약 해시가 있고, 그 이름과 일치하는 페이지(section)가 있다면
-            if (hash && document.getElementById(hash)) {
-                // 즉시 해당 페이지를 보여줍니다.
-                showPage(hash, false);
-                // 메뉴 스타일(색상 등)도 함께 업데이트합니다.
-                updateActiveStyle(hash);
-            } else {
-                // 해시가 없다면 기본 홈 화면을 보여줍니다.
-                showPage('home', false);
-                history.replaceState({ pageId: 'home' }, "", "#home");
-            }
-        });
-        function filterRegion(regionId) {
-            // 1. 모든 지역 버튼에서 active 클래스 제거
-            const buttons = document.querySelectorAll('.region-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // 2. 클릭한 버튼에 active 클래스 추가 (주황색 불)
-            if (event) {
-                event.currentTarget.classList.add('active');
-            }
-
-            // 3. 모든 몬스터 항목을 숨김
-            const monsters = document.querySelectorAll('.monster-item');
-            monsters.forEach(monster => monster.classList.add('hidden'));
-
-            // 4. 선택한 지역 클래스를 가진 몬스터만 표시
-            const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
-            selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
-        }
-// 몬스터 상세 정보 데이터베이스
-        const monsterData = {
-    'goblin': {
-        name: '고블린',
-        title: '비겁한 숲의 약탈자',
-        image: './normal/goblin.jpg',
-        desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
-        stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
-        skills: [
-            { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
-            { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
-            { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
-        ],
-        // 루팅 아이템 데이터 추가
-        loots: [
-            { name: '낡은 단검', chance: '30%', desc: '녹슬고 이가 빠진 고블린들의 주력 무기입니다.' },
-            { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품으로 쓰이는 흔한 부산물입니다.' }
-        ]
-    },
-    'goblin_warrior': {
-        name: '고블린 병사',
-        title: '단단하게 무장한 전선 보병',
-        image: './normal/goblin_warrior.jpg',
-        desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
-        stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
-        skills: [
-            { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
-            { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
-            { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
-        ],
-        loots: [
-            { name: '금이 간 방패', chance: '20%', desc: '방어구 재료로 쓰일 법한 방패 파편입니다.' },
-            { name: '강철 조각', chance: '15%', desc: '장비 제련에 사용 가능한 금속 조각입니다.' }
-        ]
-    },
-    'goblin_archer': {
-        name: '고블린 궁수',
-        title: '그늘 속에 숨어든 저격수',
-        image: './normal/goblin_archer.jpg',
-        desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
-        stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
-        skills: [
-            { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
-            { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
-            { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
-        ],
-        loots: [
-            { name: '마비 독 병', chance: '25%', desc: '화살촉에 바르던 치명적인 독 액체입니다.' },
-            { name: '고품질 깃털', chance: '40%', desc: '화살 깃을 만드는 데 쓰이는 새의 깃털입니다.' }
-        ]
-    },
-    'hobgoblin': {
-        name: '홉고블린',
-        title: '군단 위계의 정점에 선 지배자',
-        image: './normal/Hobgoblin.jpg',
-        desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
-        stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
-        skills: [
-            { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
-            { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
-            { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
-            { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
-            { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
-        ],
-        loots: [
-            { name: '지배자의 견장', chance: '5%', desc: '홉고블린의 지위를 상징하는 화려한 장식입니다.' },
-            { name: '거대 곤봉', chance: '10%', desc: '압도적인 위압감을 주는 홉고블린의 주무기입니다.' }
-        ]
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('show');
     }
-};
 
-        function openMonsterModal(id) {function openMonsterModal(id) {
-    const data = monsterData[id];
-    if (!data) return;
+    function toggleSubmenu(id) {
+        document.getElementById(id).classList.toggle('show');
+    }
 
-    const content = document.getElementById('modal-content');
-    
-    // 1. 능력치(Stats) HTML 생성: 힘, 건강 등 7개 스탯을 칩 형태로 만듭니다.
-    const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
-        <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
-            <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
-            <p class="text-lg font-bold text-white">${value}</p>
-        </div>
-    `).join('') : `<div class="col-span-full py-4 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
-
-    // 2. 스킬(Skills) HTML 생성: 왼쪽 70% 영역에 들어갈 기술 카드들입니다.
-    const skillsHtml = data.skills ? data.skills.map(skill => `
-        <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
-            <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
-            <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
-        </div>
-    `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">기록된 기술이 없습니다.</p>`;
-
-    // 3. 루팅 결과물(Loots) HTML 생성: 오른쪽 30% 영역에 들어갈 아이템 리스트입니다.
-    const lootsHtml = data.loots ? data.loots.map(loot => `
-        <div class="bg-white/5 p-3 rounded border border-white/5 flex flex-col gap-1 text-left">
-            <div class="flex justify-between items-center">
-                <span class="text-sm font-bold text-blue-400">${loot.name}</span>
-                ${loot.chance ? `<span class="text-[10px] text-gray-600 font-bold tracking-widest">${loot.chance}</span>` : ''}
-            </div>
-            <p class="text-[11px] text-gray-500 leading-tight">${loot.desc}</p>
-        </div>
-    `).join('') : `<p class="text-gray-600 italic text-sm py-4 text-center">획득 가능한 물품이 없습니다.</p>`;
-
-    // 4. 전체 레이아웃 렌더링
-    content.innerHTML = `
-        <div class="h-full flex flex-col gap-8 animate-fadeIn text-left">
+    function showPage(pageId, pushToHistory = true) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.classList.remove('active'));
+        
+        const target = document.getElementById(pageId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
             
-            <div class="flex flex-col md:flex-row gap-10">
-                <div class="w-full md:w-[280px] shrink-0">
-                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl relative">
-                        ${data.image ? 
-                            `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
-                            `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
-                        }
-                    </div>
-                </div>
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('show');
 
-                <div class="flex-grow flex flex-col gap-6">
-                    <div class="border-b border-white/10 pb-6">
-                        <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
-                        <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
-                        <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
-                            ${data.desc || '이 생명체에 대한 상세한 기록을 확보하지 못했습니다.'}
-                        </p>
+            updateActiveStyle(pageId);
+
+            if (pushToHistory && window.location.hash !== '#' + pageId) {
+                history.pushState({ pageId: pageId }, "", "#" + pageId);
+            }
+        }
+    }
+
+    function updateActiveStyle(pageId) {
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-tab'));
+        document.querySelectorAll('.side-btn-single, .side-main-link, .sub-btn').forEach(menu => menu.classList.remove('active-menu'));
+
+        const activeNav = document.getElementById('nav-' + pageId);
+        if (activeNav) activeNav.classList.add('active-tab');
+
+        const activeSide = document.getElementById('menu-' + pageId);
+        if (activeSide) activeSide.classList.add('active-menu');
+
+        if(['weapon-detail', 'armor-detail'].includes(pageId)) {
+            document.getElementById('menu-equip')?.classList.add('active-menu');
+            document.getElementById('nav-equip')?.classList.add('active-tab');
+        }
+    }
+
+    // 카드 호버 효과
+    document.querySelectorAll('.item-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1.2)';
+        });
+        card.addEventListener('mouseleave', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1)';
+        });
+    });
+
+    window.addEventListener('popstate', function(event) {
+        const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
+        showPage(pageId, false);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && document.getElementById(hash)) {
+            showPage(hash, false);
+            updateActiveStyle(hash);
+        } else {
+            showPage('home', false);
+            history.replaceState({ pageId: 'home' }, "", "#home");
+        }
+    });
+
+    function filterRegion(regionId) {
+        const buttons = document.querySelectorAll('.region-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        if (event) event.currentTarget.classList.add('active');
+
+        const monsters = document.querySelectorAll('.monster-item');
+        monsters.forEach(monster => monster.classList.add('hidden'));
+
+        const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
+        selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
+    }
+
+    // 몬스터 상세 정보 데이터베이스
+    const monsterData = {
+        'goblin': {
+            name: '고블린',
+            title: '비겁한 숲의 약탈자',
+            image: './normal/goblin.jpg',
+            desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
+            stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
+            skills: [
+                { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
+                { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
+                { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
+            ],
+            loots: [
+                { name: '낡은 단검', chance: '30%', desc: '녹슬고 이가 빠진 고블린들의 주력 무기입니다.' },
+                { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품으로 쓰이는 흔한 부산물입니다.' }
+            ]
+        },
+        'goblin_warrior': {
+            name: '고블린 병사',
+            title: '단단하게 무장한 전선 보병',
+            image: './normal/goblin_warrior.jpg',
+            desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
+            stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+            skills: [
+                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
+                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
+                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
+            ],
+            loots: [
+                { name: '금이 간 방패', chance: '20%', desc: '방어구 재료로 쓰일 법한 방패 파편입니다.' },
+                { name: '강철 조각', chance: '15%', desc: '장비 제련에 사용 가능한 금속 조각입니다.' }
+            ]
+        },
+        'goblin_archer': {
+            name: '고블린 궁수',
+            title: '그늘 속에 숨어든 저격수',
+            image: './normal/goblin_archer.jpg',
+            desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
+            stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
+            skills: [
+                { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
+                { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
+                { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
+            ],
+            loots: [
+                { name: '마비 독 병', chance: '25%', desc: '화살촉에 바르던 치명적인 독 액체입니다.' },
+                { name: '고품질 깃털', chance: '40%', desc: '화살 깃을 만드는 데 쓰이는 새의 깃털입니다.' }
+            ]
+        },
+        'hobgoblin': {
+            name: '홉고블린',
+            title: '군단 위계의 정점에 선 지배자',
+            image: './normal/Hobgoblin.jpg',
+            desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
+            stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
+            skills: [
+                { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
+                { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
+                { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
+                { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
+                { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
+            ],
+            loots: [
+                { name: '지배자의 견장', chance: '5%', desc: '홉고블린의 지위를 상징하는 화려한 장식입니다.' },
+                { name: '거대 곤봉', chance: '10%', desc: '압도적인 위압감을 주는 홉고블린의 주무기입니다.' }
+            ]
+        }
+    };
+
+    function openMonsterModal(id) {
+        const data = monsterData[id];
+        if (!data) return;
+
+        const content = document.getElementById('modal-content');
+        
+        const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
+            <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
+                <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
+                <p class="text-lg font-bold text-white">${value}</p>
+            </div>
+        `).join('') : '';
+
+        const skillsHtml = data.skills ? data.skills.map(skill => `
+            <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
+                <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
+                <p class="text-sm text-gray-400 leading-relaxed text-left">${skill.desc}</p>
+            </div>
+        `).join('') : '';
+
+        const lootsHtml = data.loots ? data.loots.map(loot => `
+            <div class="bg-white/5 p-3 rounded border border-white/5 flex flex-col gap-1 text-left">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-bold text-blue-400">${loot.name}</span>
+                    <span class="text-[10px] text-gray-600 font-bold tracking-widest">${loot.chance}</span>
+                </div>
+                <p class="text-[11px] text-gray-500 leading-tight">${loot.desc}</p>
+            </div>
+        `).join('') : '';
+
+        content.innerHTML = `
+            <div class="h-full flex flex-col gap-8 animate-fadeIn">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="w-full md:w-[280px] shrink-0 text-left">
+                        <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl relative">
+                            ${data.image ? 
+                                `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
+                                `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
+                            }
+                        </div>
                     </div>
-                    
-                    <div class="space-y-3">
-                        <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${statsHtml}
+
+                    <div class="flex-grow flex flex-col gap-6 text-left">
+                        <div class="border-b border-white/10 pb-6">
+                            <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
+                            <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title}</p>
+                            <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
+                                ${data.desc}
+                            </p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${statsHtml}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-10 gap-8 border-t border-white/10 pt-8">
-                <div class="lg:col-span-7">
-                    <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
-                        <span class="w-8 h-[1px] bg-amber-900/50"></span>
-                        고유 기술 (UNIQUE SKILLS)
-                    </h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        ${skillsHtml}
+                <div class="grid grid-cols-1 lg:grid-cols-10 gap-8 border-t border-white/10 pt-8">
+                    <div class="lg:col-span-7 text-left">
+                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                            <span class="w-8 h-[1px] bg-amber-900/50"></span>
+                            고유 기술 (UNIQUE SKILLS)
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${skillsHtml}
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 text-left">
+                        <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                            <span class="w-8 h-[1px] bg-blue-900/50"></span>
+                            루팅 결과물 (LOOTS)
+                        </h4>
+                        <div class="flex flex-col gap-2 max-h-[350px] overflow-y-auto custom-scrollbar pr-2">
+                            ${lootsHtml}
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-3">
-                    <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
-                        <span class="w-8 h-[1px] bg-blue-900/50"></span>
-                        루팅 결과물 (LOOTS)
-                    </h4>
-                    <div class="flex flex-col gap-2 max-h-[350px] overflow-y-auto custom-scrollbar pr-2">
-                        ${lootsHtml}
-                    </div>
+                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
+                    <span>Archive Identification Log</span>
+                    <span class="cinzel text-amber-900/80 font-bold text-xs uppercase tracking-widest">EC-REF-${id}</span>
                 </div>
             </div>
+        `;
 
-            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
-                <span>Archive Identification Log</span>
-                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase tracking-widest">EC-REF-${id}</span>
-            </div>
-        </div>
-    `;
+        document.getElementById('monster-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
 
-    document.getElementById('monster-modal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-}
-
-        // 3. 미니창(모달) 닫기 함수
-        function closeMonsterModal() {
-            document.getElementById('monster-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    </script>
+    function closeMonsterModal() {
+        document.getElementById('monster-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+</script>
     <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeMonsterModal()"></div>
         
