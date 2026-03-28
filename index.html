@@ -259,7 +259,7 @@
         <p class="text-xs text-gray-400 italic font-medium">"멀리서 독이 묻은 화살을 날려 모험가를 괴롭힙니다."</p>
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
-    
+
     <div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">홉고블린</h3>
@@ -418,8 +418,10 @@
                 { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
             ],
             loots: [
-                { name: '낡은 단검', chance: '30%', desc: '녹슬고 이가 빠진 고블린들의 주력 무기입니다.' },
-                { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품으로 쓰이는 흔한 부산물입니다.' }
+                { name: '낡은 페니 주머니', chance: '100%', desc: '4~6 페니가 들어있음.' }, // 추가
+                { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품 및 기본 환금 아이템.' },
+                { name: '거친 가죽 조각', chance: '40%', desc: '재봉 스킬 재료.' },
+                { name: '이가 빠진 단검', chance: '15%', desc: '야금 스킬 재료 혹은 임시 무기.' }
             ]
         },
         'goblin_warrior': {
@@ -434,8 +436,10 @@
                 { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
             ],
             loots: [
-                { name: '금이 간 방패', chance: '20%', desc: '방어구 재료로 쓰일 법한 방패 파편입니다.' },
-                { name: '강철 조각', chance: '15%', desc: '장비 제련에 사용 가능한 금속 조각입니다.' }
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '녹슨 철 조각', chance: '30%', desc: '야금 스킬의 주 재료.' },
+            { name: '철검', chance: '5%', desc: '근접 무기.' }
             ]
         },
         'goblin_archer': {
@@ -450,8 +454,10 @@
                 { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
             ],
             loots: [
-                { name: '마비 독 병', chance: '25%', desc: '화살촉에 바르던 치명적인 독 액체입니다.' },
-                { name: '고품질 깃털', chance: '40%', desc: '화살 깃을 만드는 데 쓰이는 새의 깃털입니다.' }
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' },/
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '마비 독 화살 묶음', chance: '20%', desc: '적을 마비시키는 소모성 화살 세트.' }, 
+            { name: '질긴 활', chance: '5%', desc: '원거리 무기.' } 
             ]
         },
         'hobgoblin': {
@@ -468,8 +474,11 @@
                 { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
             ],
             loots: [
-                { name: '지배자의 견장', chance: '5%', desc: '홉고블린의 지위를 상징하는 화려한 장식입니다.' },
-                { name: '거대 곤봉', chance: '10%', desc: '압도적인 위압감을 주는 홉고블린의 주무기입니다.' }
+                { name: '묵직한 페니 주머니', chance: '100%', desc: '30~40 페니가 들어있음.' }, // 추가
+                { name: '지배자의 증표', chance: '100%', desc: '퀘스트 아이템.' },
+                { name: '홉고블린의 견장', chance: '10%', desc: '매력이나 힘 스탯 보너스 장신구.' },
+                { name: '엑스', chance: '5%', desc: '강력한 파괴력을 가진 힘 기반 도끼 무기.' }, // 곤봉에서 교체
+                { name: '방패', chance: '5%', desc: '방어력을 높여주는 방어 보조 장비.' } // 추가
             ]
         }
     };
