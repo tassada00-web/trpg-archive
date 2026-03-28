@@ -416,147 +416,172 @@
         }
 // 몬스터 상세 정보 데이터베이스
         const monsterData = {
-            'goblin': {
-                name: '고블린',
-                title: '비겁한 숲의 약탈자',
-                image: './normal/goblin.jpg',
-                desc: '무리를 지어 약한 여행자를 습격하는 비열한 생명체입니다. 주로 어두운 숲이나 동굴에 서식하며, 비겁하지만 영악한 생존 본능을 지니고 있습니다.',
-                stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
-                skills: [
-                    { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 적의 허점을 찔러 빠르게 두 번 공격합니다. 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
-                    { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 적에게 더러운 오물을 던져 수치심을 줍니다. 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
-                    { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 난전 중에 적의 몸을 음흉하게 더듬습니다. 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
-                ]
-            },
-            'goblin_warrior': {
-                name: '고블린 병사',
-                title: '단단하게 무장한 전선 보병',
-                image: './normal/goblin_warrior.jpg',
-                desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하며, 인간들을 힘으로 짓눌러버리는 것에 특화된 개체입니다.',
-                stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
-                skills: [
-                    { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적의 중심을 무너뜨려 1턴 동안 넘어뜨립니다.' },
-                    { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정해 저항할 수 없는 상태로 만듭니다.' },
-                    { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 구속된 먹잇감의 신체적 약점을 집요하게 파고듭니다. 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
-                ]
-            },
-            'goblin_archer': {
-                name: '고블린 궁수',
-                title: '그늘 속에 숨어든 저격수',
-                image: './normal/goblin_archer.jpg',
-                desc: '전면전보다는 수풀이나 그늘 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
-                stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
-                skills: [
-                    { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 끈적이는 마비액이 발린 화살로 관절을 꿰뚫습니다. 성공 시 적에게 <span class="text-yellow-400">[점착]</span> 스택을 <span class="text-white">+2</span> 부여하며, 턴 순서를 뒤로 밀어냅니다.' },
-                    { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 전열이 흐트러진 틈을 타 선제공격을 시도합니다. 명중 시 적에게 <span class="text-green-400">[독]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' },
-                    { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 독이 퍼져 예민해진 부위를 정확히 겨냥합니다. 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
-                ]
-            },
-            'hobgoblin': {
+    'goblin': {
+        name: '고블린',
+        title: '비겁한 숲의 약탈자',
+        image: './normal/goblin.jpg',
+        desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
+        stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
+        skills: [
+            { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
+            { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
+            { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
+        ],
+        // 루팅 아이템 데이터 추가
+        loots: [
+            { name: '낡은 단검', chance: '30%', desc: '녹슬고 이가 빠진 고블린들의 주력 무기입니다.' },
+            { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품으로 쓰이는 흔한 부산물입니다.' }
+        ]
+    },
+    'goblin_warrior': {
+        name: '고블린 병사',
+        title: '단단하게 무장한 전선 보병',
+        image: './normal/goblin_warrior.jpg',
+        desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
+        stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+        skills: [
+            { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
+            { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
+            { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
+        ],
+        loots: [
+            { name: '금이 간 방패', chance: '20%', desc: '방어구 재료로 쓰일 법한 방패 파편입니다.' },
+            { name: '강철 조각', chance: '15%', desc: '장비 제련에 사용 가능한 금속 조각입니다.' }
+        ]
+    },
+    'goblin_archer': {
+        name: '고블린 궁수',
+        title: '그늘 속에 숨어든 저격수',
+        image: './normal/goblin_archer.jpg',
+        desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
+        stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
+        skills: [
+            { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
+            { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
+            { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
+        ],
+        loots: [
+            { name: '마비 독 병', chance: '25%', desc: '화살촉에 바르던 치명적인 독 액체입니다.' },
+            { name: '고품질 깃털', chance: '40%', desc: '화살 깃을 만드는 데 쓰이는 새의 깃털입니다.' }
+        ]
+    },
+    'hobgoblin': {
         name: '홉고블린',
         title: '군단 위계의 정점에 선 지배자',
         image: './normal/Hobgoblin.jpg',
-        desc: '일반적인 고블린과는 궤를 달리하는 거구와 지능을 지녔습니다. 엄격한 군대식 규율로 무리를 통솔하며, 전장에서 마주하는 적들을 단순히 죽이는 것이 아니라 완전히 굴복시켜 전리품으로 취하는 것을 즐깁니다.',
+        desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
         stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
         skills: [
-            { 
-                name: '방패 성채', 
-                desc: '<span class="text-orange-400">힘 판정.</span> 거대한 방패로 적을 밀쳐내어 진형을 붕괴시킵니다. 판정 승리 시 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' 
-            },
-            { 
-                name: '갈고리 투척', 
-                desc: '<span class="text-orange-400">정밀 vs 속도.</span> 도망치는 적의 발목에 갈고리를 던집니다. 판정 패배 시 적을 자신의 인접한 칸으로 강제로 끌고 오며 이동 불가 상태로 만듭니다.' 
-            },
-            { 
-                name: '방패 뒤의 유린', 
-                desc: '<span class="text-orange-400">지능 vs 지혜.</span> 거대한 방패와 자신의 몸 사이에 적을 가두고 유린합니다. 판정 패배 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+3</span> 부여하며 <span class="text-yellow-400">[현기증]</span>을 유발합니다.' 
-            },
-            { 
-                name: '강제 복종의 일격', 
-                desc: '<span class="text-orange-400">힘 vs 건강.</span> 적의 의지를 꺾어버리는 묵직한 일격을 날립니다. 판정 패배 시 적은 위축되어 다음 저항 판정에서 큰 패널티를 받게 됩니다.' 
-            },
-            { 
-                name: '숨막히는 압착', 
-                desc: '<span class="text-orange-400">힘 vs 건강.</span> 구속된 적을 온 힘을 다해 짓누릅니다. 판정 지속 시 매 턴 적의 <span class="text-blue-400">[스테미나]</span>를 <span class="text-white">-5</span> 깎아내리고 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' 
-            }
+            { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
+            { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
+            { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
+            { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
+            { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
+        ],
+        loots: [
+            { name: '지배자의 견장', chance: '5%', desc: '홉고블린의 지위를 상징하는 화려한 장식입니다.' },
+            { name: '거대 곤봉', chance: '10%', desc: '압도적인 위압감을 주는 홉고블린의 주무기입니다.' }
         ]
     }
-        };
+};
 
-        function openMonsterModal(id) {
-            const data = monsterData[id];
-            if (!data) return;
+        function openMonsterModal(id) {function openMonsterModal(id) {
+    const data = monsterData[id];
+    if (!data) return;
 
-            const content = document.getElementById('modal-content');
+    const content = document.getElementById('modal-content');
+    
+    // 1. 능력치(Stats) HTML 생성: 힘, 건강 등 7개 스탯을 칩 형태로 만듭니다.
+    const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
+            <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
+            <p class="text-lg font-bold text-white">${value}</p>
+        </div>
+    `).join('') : `<div class="col-span-full py-4 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
+
+    // 2. 스킬(Skills) HTML 생성: 왼쪽 70% 영역에 들어갈 기술 카드들입니다.
+    const skillsHtml = data.skills ? data.skills.map(skill => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
+            <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
+            <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
+        </div>
+    `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">기록된 기술이 없습니다.</p>`;
+
+    // 3. 루팅 결과물(Loots) HTML 생성: 오른쪽 30% 영역에 들어갈 아이템 리스트입니다.
+    const lootsHtml = data.loots ? data.loots.map(loot => `
+        <div class="bg-white/5 p-3 rounded border border-white/5 flex flex-col gap-1 text-left">
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-bold text-blue-400">${loot.name}</span>
+                ${loot.chance ? `<span class="text-[10px] text-gray-600 font-bold tracking-widest">${loot.chance}</span>` : ''}
+            </div>
+            <p class="text-[11px] text-gray-500 leading-tight">${loot.desc}</p>
+        </div>
+    `).join('') : `<p class="text-gray-600 italic text-sm py-4 text-center">획득 가능한 물품이 없습니다.</p>`;
+
+    // 4. 전체 레이아웃 렌더링
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-8 animate-fadeIn text-left">
             
-            // 능력치 그리드 (수치 복구 및 콤팩트 디자인)
-            const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
-                <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
-                    <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
-                    <p class="text-lg font-bold text-white">${value}</p>
+            <div class="flex flex-col md:flex-row gap-10">
+                <div class="w-full md:w-[280px] shrink-0">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl relative">
+                        ${data.image ? 
+                            `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
+                            `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
+                        }
+                    </div>
                 </div>
-            `).join('') : `<div class="col-span-full py-6 text-gray-600 italic text-sm text-center">기록된 능력치가 없습니다.</div>`;
 
-            // 스킬 리스트 (하단 가로 3열 레이아웃)
-            const skillsHtml = data.skills ? data.skills.map(skill => `
-                <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg text-left">
-                    <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
-                    <p class="text-sm text-gray-400 leading-relaxed">${skill.desc}</p>
-                </div>
-            `).join('') : `<p class="text-gray-600 italic text-sm col-span-full text-center py-10">기록된 기술이 없습니다.</p>`;
-
-            content.innerHTML = `
-                <div class="h-full flex flex-col gap-10 animate-fadeIn text-left">
+                <div class="flex-grow flex flex-col gap-6">
+                    <div class="border-b border-white/10 pb-6">
+                        <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
+                        <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
+                        <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
+                            ${data.desc || '이 생명체에 대한 상세한 기록을 확보하지 못했습니다.'}
+                        </p>
+                    </div>
                     
-                    <div class="flex flex-col md:flex-row gap-10">
-                        <div class="w-full md:w-[280px] shrink-0">
-                            <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl">
-                                ${data.image ? 
-                                    `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
-                                    `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
-                                }
-                            </div>
+                    <div class="space-y-3">
+                        <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${statsHtml}
                         </div>
-
-                        <div class="flex-grow flex flex-col gap-6">
-                            <div class="border-b border-white/10 pb-6">
-                                <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
-                                <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title || 'Unknown Entity'}</p>
-                                <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
-                                    ${data.desc || '이 개체에 대한 상세 기록이 부족합니다.'}
-                                </p>
-                            </div>
-                            
-                            <div class="space-y-3">
-                                <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    ${statsHtml}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-grow border-t border-white/10 pt-8">
-                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] mb-6 flex items-center gap-3">
-                            <span class="w-8 h-[1px] bg-amber-900/50"></span>
-                            고유 기술 (UNIQUE SKILLS)
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            ${skillsHtml}
-                        </div>
-                    </div>
-
-                    <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
-                        <span>The Eternal City Archive - Identification Log</span>
-                        <span class="cinzel text-amber-900/80 font-bold">Ref code: EC-MO-${id === 'goblin' ? '001' : id === 'goblin_warrior' ? '002' : '003'}</span>
                     </div>
                 </div>
-            `;
+            </div>
 
-            document.getElementById('monster-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
+            <div class="grid grid-cols-1 lg:grid-cols-10 gap-8 border-t border-white/10 pt-8">
+                <div class="lg:col-span-7">
+                    <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-amber-900/50"></span>
+                        고유 기술 (UNIQUE SKILLS)
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${skillsHtml}
+                    </div>
+                </div>
 
+                <div class="lg:col-span-3">
+                    <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-blue-900/50"></span>
+                        루팅 결과물 (LOOTS)
+                    </h4>
+                    <div class="flex flex-col gap-2 max-h-[350px] overflow-y-auto custom-scrollbar pr-2">
+                        ${lootsHtml}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-[0.4em]">
+                <span>Archive Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase tracking-widest">EC-REF-${id}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
 
         // 3. 미니창(모달) 닫기 함수
         function closeMonsterModal() {
