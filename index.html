@@ -409,6 +409,7 @@
         'goblin': {
             name: '고블린',
             title: '비겁한 숲의 약탈자',
+            type: '인간형, 고블린',
             image: './normal/goblin.jpg',
             desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
             stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
@@ -427,6 +428,7 @@
         'goblin_warrior': {
             name: '고블린 병사',
             title: '단단하게 무장한 전선 보병',
+            type: '인간형, 고블린',
             image: './normal/goblin_warrior.jpg',
             desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
             stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
@@ -445,6 +447,7 @@
         'goblin_archer': {
             name: '고블린 궁수',
             title: '그늘 속에 숨어든 저격수',
+            type: '인간형, 고블린',
             image: './normal/goblin_archer.jpg',
             desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
             stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
@@ -463,6 +466,7 @@
         'hobgoblin': {
             name: '홉고블린',
             title: '군단 위계의 정점에 선 지배자',
+            type: '인간형, 고블린',
             image: './normal/Hobgoblin.jpg',
             desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
             stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
@@ -489,13 +493,15 @@
 
         const content = document.getElementById('modal-content');
         
+        // 1. 핵심 능력치 HTML (이미지 하단용 - 좁은 폭에 맞게 2열 그리드로 조정)
         const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
-            <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center min-w-[60px]">
-                <p class="text-[9px] text-gray-500 uppercase font-medium tracking-wider mb-0.5">${key}</p>
-                <p class="text-lg font-bold text-white">${value}</p>
+            <div class="bg-black/30 p-2 rounded border border-white/5 text-center flex flex-col justify-center">
+                <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+                <p class="text-base font-bold text-white">${value}</p>
             </div>
         `).join('') : '';
 
+        // 2. 스킬 HTML
         const skillsHtml = data.skills ? data.skills.map(skill => `
             <div class="bg-black/40 p-4 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group shadow-lg">
                 <p class="text-base font-bold text-amber-500 mb-2 group-hover:text-amber-400 transition-colors">[${skill.name}]</p>
@@ -503,6 +509,7 @@
             </div>
         `).join('') : '';
 
+        // 3. 루팅 HTML
         const lootsHtml = data.loots ? data.loots.map(loot => `
             <div class="bg-white/5 p-3 rounded border border-white/5 flex flex-col gap-1 text-left">
                 <div class="flex justify-between items-center">
@@ -516,29 +523,36 @@
         content.innerHTML = `
             <div class="h-full flex flex-col gap-8 animate-fadeIn">
                 <div class="flex flex-col md:flex-row gap-10">
-                    <div class="w-full md:w-[280px] shrink-0 text-left">
+                    
+                    <div class="w-full md:w-[280px] shrink-0 flex flex-col gap-4 text-left">
                         <div class="bg-black/60 rounded-lg border border-gray-800 p-2 overflow-hidden aspect-[3/4] shadow-2xl relative">
                             ${data.image ? 
                                 `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
                                 `<div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-ghost text-7xl text-white/5"></i></div>`
                             }
                         </div>
+                        
+                        <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
+                            <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.3em] mb-3">핵심 능력치 (STATS)</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                ${statsHtml}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex-grow flex flex-col gap-6 text-left">
                         <div class="border-b border-white/10 pb-6">
-                            <h2 class="cinzel text-7xl text-white font-bold mb-2 uppercase tracking-tighter">${data.name}</h2>
+                            <div class="flex flex-col gap-1 mb-2">
+                                <h2 class="cinzel text-7xl text-white font-bold uppercase tracking-tighter">${data.name}</h2>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-blue-900/30 text-blue-400 text-[10px] px-2 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-wider">종류</span>
+                                    <p class="text-sm text-gray-400 font-medium">${data.type || '미분류'}</p>
+                                </div>
+                            </div>
                             <p class="text-2xl text-amber-600 italic tracking-[0.3em] font-semibold mb-4">${data.title}</p>
                             <p class="text-base text-gray-400 leading-relaxed max-w-3xl border-l-2 border-amber-900/50 pl-6 py-1 bg-white/5 rounded-r">
                                 ${data.desc}
                             </p>
-                        </div>
-                        
-                        <div class="space-y-3">
-                            <h4 class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em]">핵심 능력치 (CORE STATS)</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${statsHtml}
-                            </div>
                         </div>
                     </div>
                 </div>
