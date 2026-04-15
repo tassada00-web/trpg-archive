@@ -315,10 +315,60 @@
         </div>
     </section>
 
-    <section id="weapon-detail" class="page max-w-4xl mx-auto px-6">
-        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Weapon Catalog</h2>
-        <div class="item-card">무기 목록이 준비 중입니다.</div>
-        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    <section id="weapon-detail" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Weapon Catalog</h2>
+                <p id="selected-category-name" class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">종류를 선택해주세요</p>
+            </div>
+            <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
+        </div>
+
+        <div id="weapon-category-selector" class="grid grid-cols-3 md:grid-cols-9 gap-2 mb-12">
+            <button onclick="filterWeapon('shield', '방패')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">방패</span>
+            </button>
+            <button onclick="filterWeapon('sword', '한손검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-khanda text-xl text-amber-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">한손검</span>
+            </button>
+            <button onclick="filterWeapon('dagger', '단검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-screwdriver text-xl text-red-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">단검</span>
+            </button>
+            <button onclick="filterWeapon('greatsword', '대검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-sword text-xl text-orange-700 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">대검</span>
+            </button>
+            <button onclick="filterWeapon('mace', '둔기')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-hammer text-xl text-gray-400 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">둔기</span>
+            </button>
+            <button onclick="filterWeapon('spear', '창')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-location-arrow text-xl text-green-600 group-hover:scale-110 transition" style="transform: rotate(-45deg);"></i>
+                <span class="text-[10px] font-bold">창</span>
+            </button>
+            <button onclick="filterWeapon('bow', '활')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-bow-arrow text-xl text-lime-600 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">활</span>
+            </button>
+            <button onclick="filterWeapon('crossbow', '석궁')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-crosshairs text-xl text-emerald-700 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">석궁</span>
+            </button>
+            <button onclick="filterWeapon('musket', '머스킷')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-gun text-xl text-stone-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">머스킷</span>
+            </button>
+        </div>
+
+        <div id="weapon-list-display" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
+            <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+                <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+                <p class="text-gray-600 italic">상단의 무기 종류를 선택하면 카탈로그가 열립니다.</p>
+            </div>
+        </div>
     </section>
 
     <section id="armor-detail" class="page max-w-4xl mx-auto px-6">
@@ -596,6 +646,36 @@
         document.getElementById('monster-modal').classList.add('hidden');
         document.body.style.overflow = 'auto';
     }
+
+// [3번: 필터링 로직] 무기 카테고리 선택 함수
+function filterWeapon(categoryKey, categoryName) {
+    // 1. 선택된 카테고리 이름 표시 업데이트
+    document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
+
+    // 2. 버튼 활성화 시각 효과
+    const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
+    buttons.forEach(btn => {
+        btn.classList.remove('border-amber-500', 'bg-amber-900/20');
+        btn.querySelector('span').classList.remove('text-amber-500');
+    });
+    
+    // 클릭된 버튼 강조
+    const activeBtn = event.currentTarget;
+    activeBtn.classList.add('border-amber-500', 'bg-amber-900/20');
+    activeBtn.querySelector('span').classList.add('text-amber-500');
+
+    // 3. [1번 대기] 실제 데이터 대신 임시 문구 출력
+    const display = document.getElementById('weapon-list-display');
+    
+    // 나중에 데이터가 준비되면 여기에 weaponData[categoryKey]를 연결하면 됩니다.
+    display.innerHTML = `
+        <div class="col-span-full py-20 text-center animate-pulse">
+            <i class="fa-solid fa-toolbox text-amber-900/40 text-5xl mb-6"></i>
+            <h3 class="text-xl font-bold text-gray-500 mb-2">${categoryName} 카탈로그 업데이트 예정</h3>
+            <p class="text-gray-600 text-sm">현재 무기 데이터를 분석 중입니다. 잠시만 기다려주세요.</p>
+        </div>
+    `;
+}
 </script>
     <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeMonsterModal()"></div>
