@@ -731,9 +731,10 @@
 function filterWeapon(categoryKey, categoryName) {
     document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
 
+    // 상단 카테고리 버튼 활성화 효과
     const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
     buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
-    if (event) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
+    if (event && event.currentTarget) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
 
     const display = document.getElementById('weapon-list-display');
     const items = weaponData[categoryKey] || [];
@@ -744,22 +745,11 @@ function filterWeapon(categoryKey, categoryName) {
     }
 
     display.innerHTML = items.map(item => `
-        <div class="item-card !p-0 overflow-hidden border-l-4 ${getRankColor(item.rank).split(' ')[0]} flex h-32 group hover:bg-white/5 transition-all cursor-pointer shadow-lg" 
-             onclick="openWeaponModal('${categoryKey}', '${item.id}')">
-            <div class="w-32 h-32 bg-black/40 shrink-0 border-r border-white/5 flex items-center justify-center overflow-hidden">
-                ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-shield-halved text-white/5 text-2xl"></i>`}
-            </div>
-            <div class="p-4 flex flex-col justify-center flex-grow">
-                <div class="flex justify-between items-center mb-1">
-                    <h4 class="text-base font-bold text-white">${item.name}</h4>
-                    <span class="text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-black/50 ${getRankColor(item.rank).split(' ')[1]} border border-white/10">${item.rank}</span>
-                </div>
-                <p class="text-[11px] text-gray-500 line-clamp-2">${item.desc}</p>
-                <div class="flex gap-2 mt-2">
-                    ${Object.entries(item.stats).map(([k, v]) => `<span class="text-[9px] text-amber-600 font-bold">${k} ${v}</span>`).join('')}
-                </div>
-            </div>
-        </div>
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border-l-4 ${getRankColor(item.rank).split(' ')[0]}" 
+                onclick="openWeaponModal('${categoryKey}', '${item.id}')">
+            <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+        </button>
     `).join('');
 }
 
