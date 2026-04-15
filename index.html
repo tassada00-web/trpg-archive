@@ -663,34 +663,129 @@
         document.body.style.overflow = 'auto';
     }
 
+    const weaponData = {
+        'shield': [
+            {
+                id: 'wooden_shield',
+                name: '나무 방패',
+                rank: 'Common',
+                image: '',
+                desc: '가벼운 가문비나무 판자를 덧대어 만든 기초적인 방패입니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '취약한 구조', desc: '화염 속성 공격 피격 시, 방패의 내구도가 추가로 5만큼 감소합니다.' }
+                ]
+            },
+            {
+                id: 'spiked_wooden_shield',
+                name: '못질한 나무 방패',
+                rank: 'Common',
+                image: '',
+                desc: '나무 방패 표면에 날카로운 철제 못을 박아 방어와 역습을 동시에 고려했습니다.',
+                stats: { '건강': '+1', '매력': '+1', '속도': '-1' },
+                effects: [
+                    { name: '가시 보복', desc: '근접 공격을 방어(Block)할 때마다 공격자에게 3의 고정 물리 피해를 입힙니다.' }
+                ]
+            },
+            {
+                id: 'water_soaked_wooden_shield',
+                name: '물이 스며든 나무 방패',
+                rank: 'Uncommon',
+                image: '',
+                desc: '수분을 가득 머금어 일반 목재보다 밀도가 높고 묵직해진 방패입니다.',
+                stats: { '건강': '+2', '속도': '-2' },
+                effects: [
+                    { name: '함습', desc: '화염 속성 공격 피격 시 받는 피해가 5만큼 감소합니다.' },
+                    { name: '과전도', desc: '전격 속성 공격 피격 시 받는 피해가 10만큼 증가하며, 1턴간 [기절] 상태가 됩니다.' }
+                ]
+            }
+        ],
+        'sword': [],
+        'dagger': [],
+        'greatsword': [],
+        'mace': [],
+        'spear': [],
+        'bow': [],
+        'crossbow': [],
+        'musket': []
+    };
+
+    function getRankColor(rank) {
+        switch (rank) {
+            case 'Common':
+                return 'border-amber-500 text-amber-500';
+            case 'Uncommon':
+                return 'border-lime-500 text-lime-500';
+            case 'Rare':
+                return 'border-sky-500 text-sky-500';
+            case 'Epic':
+                return 'border-violet-500 text-violet-500';
+            case 'Legend':
+                return 'border-orange-500 text-orange-500';
+            default:
+                return 'border-white/10 text-gray-300';
+        }
+    }
+
 // [3번: 필터링 로직] 무기 카테고리 선택 함수
 function filterWeapon(categoryKey, categoryName) {
-    // 1. 선택된 카테고리 이름 표시 업데이트
     document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
 
-    // 2. 버튼 활성화 시각 효과
     const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
     buttons.forEach(btn => {
         btn.classList.remove('border-amber-500', 'bg-amber-900/20');
         btn.querySelector('span').classList.remove('text-amber-500');
     });
-    
-    // 클릭된 버튼 강조
-    const activeBtn = event.currentTarget;
-    activeBtn.classList.add('border-amber-500', 'bg-amber-900/20');
-    activeBtn.querySelector('span').classList.add('text-amber-500');
+    event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
 
-    // 3. [1번 대기] 실제 데이터 대신 임시 문구 출력
     const display = document.getElementById('weapon-list-display');
-    
-    // 나중에 데이터가 준비되면 여기에 weaponData[categoryKey]를 연결하면 됩니다.
-    display.innerHTML = `
-        <div class="col-span-full py-20 text-center animate-pulse">
-            <i class="fa-solid fa-toolbox text-amber-900/40 text-5xl mb-6"></i>
-            <h3 class="text-xl font-bold text-gray-500 mb-2">${categoryName} 카탈로그 업데이트 예정</h3>
-            <p class="text-gray-600 text-sm">현재 무기 데이터를 분석 중입니다. 잠시만 기다려주세요.</p>
-        </div>
-    `;
+    const items = weaponData[categoryKey] || [];
+
+    if (items.length === 0) {
+        display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">등록된 데이터가 없습니다.</div>`;
+        return;
+    }
+
+    display.innerHTML = items.map(item => {
+        const statsHtml = Object.entries(item.stats).map(([key, val]) =>
+            `<span class="bg-white/5 px-1.5 py-0.5 rounded text-[10px] text-gray-300 border border-white/5">${key} ${val}</span>`
+        ).join('');
+
+        const effectsHtml = item.effects.map(eff =>
+            `<div class="text-[11px] mb-1">
+                <span class="text-amber-500 font-bold">[${eff.name}]</span>
+                <span class="text-gray-500"> ${eff.desc}</span>
+            </div>`
+        ).join('');
+
+        return `
+            <div class="item-card !p-0 overflow-hidden border-l-4 ${getRankColor(item.rank).split(' ')[0]} flex h-40 group hover:bg-white/5 transition-all cursor-pointer">
+                <div class="w-40 h-40 bg-black/40 shrink-0 border-r border-white/5 flex items-center justify-center relative overflow-hidden">
+                    ${item.image ?
+                        `<img src="${item.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">` :
+                        `<i class="fa-solid fa-image text-white/5 text-3xl"></i>`
+                    }
+                    <div class="absolute top-2 left-2 px-1.5 py-0.5 bg-black/80 rounded text-[8px] font-bold uppercase tracking-widest ${getRankColor(item.rank).split(' ')[1]} border border-white/10">
+                        ${item.rank}
+                    </div>
+                </div>
+
+                <div class="p-4 flex flex-col justify-between flex-grow overflow-hidden">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1 truncate">${item.name}</h4>
+                        <div class="flex flex-wrap gap-1 mb-2">
+                            ${statsHtml}
+                        </div>
+                        <p class="text-[11px] text-gray-500 leading-tight line-clamp-2 mb-3">${item.desc}</p>
+                    </div>
+                    
+                    <div class="border-t border-white/5 pt-2 overflow-y-auto no-scrollbar">
+                        ${effectsHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 </script>
     <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
