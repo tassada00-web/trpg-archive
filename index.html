@@ -668,8 +668,7 @@
             {
                 id: 'wooden_shield',
                 name: '나무 방패',
-                rank: 'Common',
-                image: '',
+                image: 'C:/Users/saj08/OneDrive/문서/trpg/아카이브/도감/weapon/shield/wood_shield.jpg',
                 desc: '가벼운 가문비나무 판자를 덧대어 만든 기초적인 방패입니다.',
                 stats: { '건강': '+1' },
                 effects: [
@@ -679,8 +678,7 @@
             {
                 id: 'spiked_wooden_shield',
                 name: '못질한 나무 방패',
-                rank: 'Common',
-                image: '',
+                image: 'C:/Users/saj08/OneDrive/문서/trpg/아카이브/도감/weapon/shield/motwood_shield.jpg',
                 desc: '나무 방패 표면에 날카로운 철제 못을 박아 방어와 역습을 동시에 고려했습니다.',
                 stats: { '건강': '+1', '매력': '+1', '속도': '-1' },
                 effects: [
@@ -690,8 +688,7 @@
             {
                 id: 'water_soaked_wooden_shield',
                 name: '물이 스며든 나무 방패',
-                rank: 'Uncommon',
-                image: '',
+                image: 'C:/Users/saj08/OneDrive/문서/trpg/아카이브/도감/weapon/shield/waterwood_shield.jpg',
                 desc: '수분을 가득 머금어 일반 목재보다 밀도가 높고 묵직해진 방패입니다.',
                 stats: { '건강': '+2', '속도': '-2' },
                 effects: [
@@ -700,14 +697,7 @@
                 ]
             }
         ],
-        'sword': [],
-        'dagger': [],
-        'greatsword': [],
-        'mace': [],
-        'spear': [],
-        'bow': [],
-        'crossbow': [],
-        'musket': []
+        'sword': [], 'dagger': [], 'greatsword': [], 'mace': [], 'spear': [], 'bow': [], 'crossbow': [], 'musket': []
     };
 
     function getRankColor(rank) {
@@ -731,7 +721,6 @@
 function filterWeapon(categoryKey, categoryName) {
     document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
 
-    // 상단 카테고리 버튼 활성화 효과
     const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
     buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
     if (event && event.currentTarget) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
@@ -745,7 +734,7 @@ function filterWeapon(categoryKey, categoryName) {
     }
 
     display.innerHTML = items.map(item => `
-        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border-l-4 ${getRankColor(item.rank).split(' ')[0]}" 
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20" 
                 onclick="openWeaponModal('${categoryKey}', '${item.id}')">
             <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
             <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
@@ -779,13 +768,11 @@ function openWeaponModal(category, id) {
                 
                 <div class="w-full md:w-[240px] shrink-0 flex flex-col gap-4">
                     <div class="bg-black/60 rounded-lg border border-gray-800 p-2 aspect-square shadow-2xl overflow-hidden">
-                        ${item.image ? 
-                            `<img src="${item.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
-                            `<div class="w-full h-full flex items-center justify-center bg-gray-900"><i class="fa-solid fa-shield-halved text-5xl text-white/5"></i></div>`
-                        }
+                        <img src="${item.image}" class="w-full h-full object-cover rounded border border-white/5" 
+                             onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gray-900\'><i class=\'fa-solid fa-circle-exclamation text-3xl text-red-900/50\'></i></div>'">
                     </div>
                     <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
-                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3 text-left">장비 보너스</h4>
+                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3">장비 보너스</h4>
                         <div class="grid grid-cols-2 gap-2">${statsHtml}</div>
                     </div>
                 </div>
@@ -793,10 +780,7 @@ function openWeaponModal(category, id) {
                 <div class="flex-grow flex flex-col w-full">
                     <div class="w-full mb-6">
                         <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="bg-blue-900/40 text-blue-400 text-[10px] px-2 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-widest">${item.rank}</span>
-                            <p class="text-sm text-gray-400 font-semibold">종류: 방패</p>
-                        </div>
+                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: SHIELD</p>
                         <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
                             "${item.desc}"
                         </p>
@@ -816,7 +800,7 @@ function openWeaponModal(category, id) {
 
             <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
                 <span>Equip Identification Log</span>
-                <span class="cinzel text-amber-900/80 font-bold text-xs">EC-ARMOR-${id.toUpperCase()}</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ITEM-${id.toUpperCase()}</span>
             </div>
         </div>
     `;
