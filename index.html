@@ -762,6 +762,78 @@ function filterWeapon(categoryKey, categoryName) {
         </div>
     `).join('');
 }
+
+function openWeaponModal(category, id) {
+    const item = weaponData[category].find(w => w.id === id);
+    if (!item) return;
+
+    const content = document.getElementById('modal-content');
+    
+    const statsHtml = Object.entries(item.stats).map(([key, value]) => `
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center">
+            <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+            <p class="text-sm font-bold text-white">${value}</p>
+        </div>
+    `).join('');
+
+    const effectsHtml = item.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                
+                <div class="w-full md:w-[240px] shrink-0 flex flex-col gap-4">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 aspect-square shadow-2xl overflow-hidden">
+                        ${item.image ? 
+                            `<img src="${item.image}" class="w-full h-full object-cover rounded border border-white/5">` : 
+                            `<div class="w-full h-full flex items-center justify-center bg-gray-900"><i class="fa-solid fa-shield-halved text-5xl text-white/5"></i></div>`
+                        }
+                    </div>
+                    <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
+                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3 text-left">장비 보너스</h4>
+                        <div class="grid grid-cols-2 gap-2">${statsHtml}</div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col w-full">
+                    <div class="w-full mb-6">
+                        <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-blue-900/40 text-blue-400 text-[10px] px-2 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-widest">${item.rank}</span>
+                            <p class="text-sm text-gray-400 font-semibold">종류: 방패</p>
+                        </div>
+                        <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                            "${item.desc}"
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                            <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                            특수 효과 (SPECIAL TRAITS)
+                        </h4>
+                        <div class="flex flex-col gap-3">
+                            ${effectsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Equip Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs">EC-ARMOR-${id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
 </script>
     <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeMonsterModal()"></div>
