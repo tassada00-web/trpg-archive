@@ -237,16 +237,16 @@
     <p class="text-amber-700 mb-8 text-center tracking-widest uppercase italic">중앙 대륙의 위협적 생명체들</p>
     
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
-        <button onclick="filterRegion('common')" class="region-btn active">공통</button>
-        <button onclick="filterRegion('norriton')" class="region-btn">타락한 노리튼</button>
-        <button onclick="filterRegion('araon')" class="region-btn">고요한 아라온</button>
-        <button onclick="filterRegion('twisted')" class="region-btn">악독한 트위스타드</button>
-        <button onclick="filterRegion('baran')" class="region-btn">잊혀진 바란</button>
-        <button onclick="filterRegion('dotrey')" class="region-btn">혹한의 도트레이</button>
-        <button onclick="filterRegion('karaz-dum')" class="region-btn">폐허의 카라즈-둠</button>
-        <button onclick="filterRegion('asksz')" class="region-btn">고행의 아스키즈</button>
-        <button onclick="filterRegion('arcana')" class="region-btn">무너진 아르카나</button>
-        <button onclick="filterRegion('jungle')" class="region-btn">에이델린 원시림</button>
+        <button onclick="filterRegion('common', this)" class="region-btn active">공통</button>
+        <button onclick="filterRegion('norriton', this)" class="region-btn">타락한 노리튼</button>
+        <button onclick="filterRegion('araon', this)" class="region-btn">고요한 아라온</button>
+        <button onclick="filterRegion('twisted', this)" class="region-btn">악독한 트위스타드</button>
+        <button onclick="filterRegion('baran', this)" class="region-btn">잊혀진 바란</button>
+        <button onclick="filterRegion('dotrey', this)" class="region-btn">혹한의 도트레이</button>
+        <button onclick="filterRegion('karaz-dum', this)" class="region-btn">폐허의 카라즈-둠</button>
+        <button onclick="filterRegion('asksz', this)" class="region-btn">고행의 아스키즈</button>
+        <button onclick="filterRegion('arcana', this)" class="region-btn">무너진 아르카나</button>
+        <button onclick="filterRegion('jungle', this)" class="region-btn">에이델린 원시림</button>
     </div>
 
     <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -274,11 +274,27 @@
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
 
-    <div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
+<div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">홉고블린</h3>
     </div>
     <p class="text-xs text-gray-400 italic font-medium">"고블린 무리를 통솔하는 거구의 지배자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item norriton" onclick="openMonsterModal('norriton_chain_hobgoblin_puller')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">노리튼 사슬 홉고블린 - [견인형]</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"사슬 갈고리로 후열을 끌어내 전열을 무너뜨리는 약탈자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item norriton" onclick="openMonsterModal('norriton_chain_hobgoblin_binder')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">노리튼 사슬 홉고블린 - [구속형]</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"견인된 사냥감을 단계적으로 고정해 완전 구속으로 몰아가는 집행자입니다."</p>
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 </div>
@@ -422,6 +438,10 @@
 
             updateActiveStyle(pageId);
 
+            if (pageId === 'enemies') {
+                filterRegion('common');
+            }
+
             if (pushToHistory && window.location.hash !== '#' + pageId) {
                 history.pushState({ pageId: pageId }, "", "#" + pageId);
             }
@@ -472,10 +492,14 @@
         }
     });
 
-    function filterRegion(regionId) {
+    function filterRegion(regionId, clickedButton = null) {
         const buttons = document.querySelectorAll('.region-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
-        if (event) event.currentTarget.classList.add('active');
+        if (clickedButton) {
+            clickedButton.classList.add('active');
+        } else {
+            document.querySelector(`.region-btn[onclick="filterRegion('${regionId}', this)"]`)?.classList.add('active');
+        }
 
         const monsters = document.querySelectorAll('.monster-item');
         monsters.forEach(monster => monster.classList.add('hidden'));
@@ -564,6 +588,45 @@
                 { name: '엑스', chance: '5%', desc: '강력한 파괴력을 가진 힘 기반 도끼 무기.' }, // 곤봉에서 교체
                 { name: '방패', chance: '5%', desc: '방어력을 높여주는 방어 보조 장비.' } // 추가
             ]
+        },
+        'norriton_chain_hobgoblin_puller': {
+            name: '노리튼 사슬 홉고블린 - [견인형]',
+            title: '사슬로 전열을 무너뜨리는 약탈자',
+            type: '인간형, 고블린, 노리튼',
+            image: './norriton/chainhobgoblin.jpg',
+            desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
+            stats: { '힘': 12, '건강': 10, '속도': 8, '정밀': 12, '지능': 7, '지혜': 6, '매력': 9 },
+            skills: [
+                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀(12) 판정.</span> 원거리 유저를 앞으로 견인. 성공 시 <span class="text-yellow-400">[이동 불가]</span> 및 <span class="text-amber-400">[연계 트리거]</span> 생성.' },
+                { name: '방어구 강제 해체', desc: '<span class="text-orange-400">정밀(12) vs 속도.</span> 성공 시 방어구 내구도 <span class="text-red-400">-10</span>.' },
+                { name: '전리품 감별 애무', desc: '<span class="text-orange-400">매력(9) vs 지능.</span> 실패 시 유저 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 다음 저항 판정 패널티.' }
+            ],
+            loots: [
+                { name: '노리튼 사슬 조각', chance: '100%', desc: '견인형이 사용하던 사슬 잔해.' },
+                { name: '갈고리 사슬', chance: '25%', desc: '제작 재료.' },
+                { name: '약탈 표식', chance: '15%', desc: '노리튼 약탈대 증표.' },
+                { name: '강화 사슬 고리', chance: '5%', desc: '희귀 재료.' }
+            ]
+        },
+        'norriton_chain_hobgoblin_binder': {
+            name: '노리튼 사슬 홉고블린 - [구속형]',
+            title: '사냥감을 형틀처럼 고정하는 집행자',
+            type: '인간형, 고블린, 노리튼',
+            image: './norriton/chainhobgoblin.jpg',
+            desc: '견인형이 끌어온 대상을 붙잡아 단계적으로 구속하는 개체. 팔 고정 → 다리 고정을 거쳐 완전 구속 상태를 만든다.',
+            stats: { '힘': 14, '건강': 12, '속도': 5, '정밀': 9, '지능': 8, '지혜': 7, '매력': 11 },
+            skills: [
+                { name: '인간 형틀 고정', desc: '<span class="text-orange-400">힘(14) vs 힘.</span> 1회 성공 시 <span class="text-yellow-400">[팔 고정]</span>. 이후 추가 성공 시 <span class="text-yellow-400">[다리 고정]</span> → <span class="text-red-400">[완전 구속]</span>. 탈출은 아군 도움으로만 가능.' },
+                { name: '자비 없는 복종 타격', desc: '<span class="text-orange-400">힘(14) vs 건강.</span> 실패 시 <span class="text-yellow-400">[기절]</span> 1턴 및 감도 상승.' },
+                { name: '공포의 집단 유린', desc: '<span class="text-orange-400">매력(11) vs 지혜.</span> 실패 시 매 턴 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+4</span> 및 <span class="text-purple-400">[두려움]</span> 부여.' },
+                { name: '정복자의 낙인 주입', desc: '<span class="text-orange-400">매력(11) vs 건강.</span> 실패 시 즉시 <span class="text-pink-400">[절정]</span> 및 <span class="text-purple-400">[광기]</span> <span class="text-white">+3</span>.' }
+            ],
+            loots: [
+                { name: '노리튼 구속 장치', chance: '100%', desc: '구속형 장비 잔해.' },
+                { name: '홉고블린 완장', chance: '20%', desc: '계급 장식.' },
+                { name: '강화 철제 족쇄', chance: '10%', desc: '제작 재료.' },
+                { name: '낙인 파편', chance: '5%', desc: '희귀 재료.' }
+            ]
         }
     };
 
@@ -602,7 +665,7 @@
                 <div class="flex flex-col md:flex-row gap-8 items-start w-full">
                     
                     <div class="w-full md:w-[220px] shrink-0 flex flex-col gap-3">
-                        <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-[3/4] shadow-2xl">
+                        <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-square shadow-2xl">
                             ${data.image ? `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : `<div class="w-full h-full flex items-center justify-center bg-gray-900"><i class="fa-solid fa-ghost text-4xl text-white/5"></i></div>`}
                         </div>
                         <div class="bg-amber-900/10 p-3 rounded-lg border border-amber-900/30">
