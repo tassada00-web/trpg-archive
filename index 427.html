@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETERNAL CITY - TRPG 도감</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Cinzel:wght@700&display=swap');
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #0d0d0d; 
+            color: #d1d5db; 
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; }
+
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), #0d0d0d),
+                        url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page { display: none; min-height: 100vh; padding-top: 100px; padding-bottom: 80px; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        nav {
+            background-color: rgba(10, 10, 10, 0.98);
+            border-bottom: 1px solid rgba(120, 53, 15, 0.5);
+            backdrop-filter: blur(10px);
+            height: 70px;
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: #111;
+            border-right: 1px solid #333;
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 80px;
+            overflow-y: auto;
+        }
+        #sidebar.open { left: 0; }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        .side-btn-container { display: flex; align-items: center; border-bottom: 1px solid #222; transition: 0.2s; }
+        .side-btn-container:hover { background: #1a1a1a; }
+        .side-main-link { flex-grow: 1; padding: 15px 10px 15px 25px; display: flex; align-items: center; cursor: pointer; color: #d1d5db; }
+        .side-toggle { padding: 15px 25px 15px 10px; cursor: pointer; color: #555; transition: 0.2s; }
+        .side-toggle:hover { color: #f59e0b; }
+
+        .side-btn-single { width: 100%; padding: 15px 25px; display: flex; align-items: center; border-bottom: 1px solid #222; cursor: pointer; color: #d1d5db; }
+        .side-btn-single:hover { background: #1a1a1a; color: #f59e0b; }
+
+        .active-menu { color: #f59e0b !important; font-weight: bold; }
+        .active-tab { color: #f59e0b !important; border-bottom: 2px solid #f59e0b; }
+
+        .submenu { background: #0a0a0a; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .submenu.show { max-height: 600px; }
+        .sub-btn { width: 100%; padding: 12px 25px 12px 55px; text-align: left; font-size: 13px; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.2s; }
+        .sub-btn:hover { color: #f59e0b; background: #151515; }
+
+        .item-card { background: rgba(20, 20, 20, 0.8); border: 1px solid #444; padding: 2.5rem 1.5rem; border-radius: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .item-card:hover { border-color: #f59e0b; transform: translateY(-8px); background: rgba(30, 30, 30, 0.9); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        .item-card i { transition: transform 0.3s ease; }
+        .item-card:hover i { transform: scale(1.2); }
+
+        /* 커스텀 SVG 아이콘: 무기(검), 방패 */
+        .icon-sword {
+            display: inline-block;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #f59e0b;
+            margin-bottom: 1rem;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            transition: transform 0.3s ease;
+        }
+        .item-card:hover .icon-sword { transform: scale(1.2); }
+
+/* 모달 내부 스크롤바 숨기기 (기능은 작동) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* 전리품 등 내부 스크롤이 필요한 곳도 숨기고 싶다면 */
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    
+    <aside id="sidebar">
+        <div class="px-6 py-4 text-amber-600 font-bold cinzel border-b border-amber-900/30 tracking-widest uppercase text-left">Archive Menu</div>
+        
+        <div id="menu-enemies" class="side-btn-single" onclick="showPage('enemies')">
+            <i class="fa-solid fa-skull mr-4 w-6 text-center text-red-700"></i>적 (Enemies)
+        </div>
+        
+        <div class="side-btn-container">
+            <div id="menu-equip" class="side-main-link" onclick="showPage('equip')">
+                <i class="fa-solid fa-shield mr-4 w-6 text-center text-blue-700"></i>장비 (Equip)
+            </div>
+            <div class="side-toggle" onclick="toggleSubmenu('sub-equip')">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </div>
+        <div id="sub-equip" class="submenu">
+            <div id="menu-weapon-detail" class="sub-btn" onclick="showPage('weapon-detail')">ㄴ 무기 도감</div>
+            <div id="menu-armor-detail" class="sub-btn" onclick="showPage('armor-detail')">ㄴ 방어구 도감</div>
+        </div>
+
+        <div id="menu-consumables" class="side-btn-single" onclick="showPage('consumables')">
+            <i class="fa-solid fa-flask mr-4 w-6 text-center text-green-700"></i>소모품 (Consumable)
+        </div>
+
+        <div id="menu-materials" class="side-btn-single" onclick="showPage('materials')">
+            <i class="fa-solid fa-gem mr-4 w-6 text-center text-purple-700"></i>재료 (Material)
+        </div>
+
+        <div id="menu-npc" class="side-btn-single" onclick="showPage('npc')">
+            <i class="fa-solid fa-users mr-4 w-6 text-center text-yellow-600"></i>NPC
+        </div>
+
+        <div id="menu-recipes" class="side-btn-single" onclick="showPage('recipes')">
+            <i class="fa-solid fa-scroll mr-4 w-6 text-center text-orange-600"></i>레시피 (Recipe)
+        </div>
+    </aside>
+
+    <nav class="fixed top-0 w-full z-[100] px-6 flex justify-between items-center text-left">
+        <div class="flex items-center">
+            <button onclick="toggleSidebar()" class="text-white text-2xl mr-6 hover:text-amber-500 transition"><i class="fa-solid fa-bars"></i></button>
+            <button onclick="showPage('home')" class="font-bold text-2xl text-amber-600 cinzel tracking-widest uppercase">TRPG Encyclopedia</button>
+        </div>
+        <div class="hidden md:flex space-x-6 text-xs font-semibold text-gray-400 uppercase">
+            <button id="nav-enemies" onclick="showPage('enemies')" class="nav-link hover:text-amber-500 transition px-1 py-2">적</button>
+            <button id="nav-equip" onclick="showPage('equip')" class="nav-link hover:text-amber-500 transition px-1 py-2">장비</button>
+            <button id="nav-consumables" onclick="showPage('consumables')" class="nav-link hover:text-amber-500 transition px-1 py-2">소모품</button>
+            <button id="nav-materials" onclick="showPage('materials')" class="nav-link hover:text-amber-500 transition px-1 py-2">재료</button>
+            <button id="nav-npc" onclick="showPage('npc')" class="nav-link hover:text-amber-500 transition px-1 py-2">NPC</button>
+            <button id="nav-recipes" onclick="showPage('recipes')" class="nav-link hover:text-amber-500 transition px-1 py-2">레시피</button>
+        </div>
+    </nav>
+
+    <section id="home" class="page active !p-0">
+        <div class="hero-section text-center">
+            <h1 class="cinzel text-5xl md:text-8xl text-white font-bold mb-4 tracking-[0.1em] drop-shadow-2xl">TRPG 도감</h1>
+            <p class="text-amber-600 text-lg md:text-2xl mb-16 tracking-[0.4em] font-light uppercase italic">The Great Archive of Eternal City</p>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl w-full px-6">
+
+                <!-- 적 -->
+                <button onclick="showPage('enemies')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-skull text-4xl mb-4 text-red-700"></i>
+                    <span class="font-bold text-lg">적 (Enemies)</span>
+                </button>
+
+                <!-- 장비 - fa-shield (무료 버전 지원) + 검 SVG 아이콘 -->
+                <button onclick="showPage('equip')" class="item-card flex flex-col items-center">
+                    <div class="flex items-center gap-2 mb-4">
+                        <!-- 검 SVG (무료 Font Awesome에 없어서 직접 그림) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-9 h-9" style="transition: transform 0.3s ease;">
+                            <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                        </svg>
+                        <!-- 방패 아이콘 -->
+                        <i class="fa-solid fa-shield text-4xl text-blue-500"></i>
+                    </div>
+                    <span class="font-bold text-lg">장비 (Equip)</span>
+                </button>
+
+                <!-- 소모품 -->
+                <button onclick="showPage('consumables')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-flask text-4xl mb-4 text-green-700"></i>
+                    <span class="font-bold text-lg">소모품 (Consumable)</span>
+                </button>
+
+                <!-- 재료 -->
+                <button onclick="showPage('materials')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-gem text-4xl mb-4 text-purple-700"></i>
+                    <span class="font-bold text-lg">재료 (Material)</span>
+                </button>
+
+                <!-- NPC - fa-users-rectangle → fa-users (무료 버전 지원) -->
+                <button onclick="showPage('npc')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-users text-4xl mb-4 text-yellow-600"></i>
+                    <span class="font-bold text-lg">NPC</span>
+                </button>
+
+                <!-- 레시피 -->
+                <button onclick="showPage('recipes')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-scroll text-4xl mb-4 text-orange-600"></i>
+                    <span class="font-bold text-lg">레시피 (Recipe)</span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+<section id="enemies" class="page max-w-6xl mx-auto px-6">
+    <h2 class="cinzel text-5xl text-white mb-2 text-center uppercase">Enemies</h2>
+    <p class="text-amber-700 mb-8 text-center tracking-widest uppercase italic">중앙 대륙의 위협적 생명체들</p>
+    
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
+        <button onclick="filterRegion('common')" class="region-btn active">공통</button>
+        <button onclick="filterRegion('norriton')" class="region-btn">타락한 노리튼</button>
+        <button onclick="filterRegion('araon')" class="region-btn">고요한 아라온</button>
+        <button onclick="filterRegion('twisted')" class="region-btn">악독한 트위스타드</button>
+        <button onclick="filterRegion('baran')" class="region-btn">잊혀진 바란</button>
+        <button onclick="filterRegion('dotrey')" class="region-btn">혹한의 도트레이</button>
+        <button onclick="filterRegion('karaz-dum')" class="region-btn">폐허의 카라즈-둠</button>
+        <button onclick="filterRegion('asksz')" class="region-btn">고행의 아스키즈</button>
+        <button onclick="filterRegion('arcana')" class="region-btn">무너진 아르카나</button>
+        <button onclick="filterRegion('jungle')" class="region-btn">에이델린 원시림</button>
+    </div>
+
+    <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"비겁하고 교활하며, 무리지어 다니는 것을 좋아합니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin_warrior')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 병사</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin_archer')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 궁수</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"멀리서 독이 묻은 화살을 날려 모험가를 괴롭힙니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">홉고블린</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"고블린 무리를 통솔하는 거구의 지배자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+</div>
+</section>
+
+<style>
+    .region-btn {
+        background: #1a1a1a;
+        border: 1px solid #444;
+        color: #888;
+        padding: 10px 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: 0.2s;
+    }
+    .region-btn:hover { border-color: #f59e0b; color: #fff; }
+    .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
+    .monster-item.hidden { display: none; }
+</style>
+
+    <section id="equip" class="page max-w-5xl mx-auto px-6 text-center">
+        <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Equipment</h2>
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('weapon-detail')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-14 h-14 mb-6" style="transition: transform 0.3s ease;">
+                    <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                </svg>
+                <h3 class="text-2xl font-bold uppercase">무기 도감 (Weapons)</h3>
+            </div>
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('armor-detail')">
+                <i class="fa-solid fa-shield text-5xl mb-6 text-blue-500"></i>
+                <h3 class="text-2xl font-bold uppercase">방어구 도감 (Armor)</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="weapon-detail" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Weapon Catalog</h2>
+                <p id="selected-category-name" class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">종류를 선택해주세요</p>
+            </div>
+            <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
+        </div>
+
+        <div id="weapon-category-selector" class="grid grid-cols-3 md:grid-cols-9 gap-2 mb-12">
+            <button onclick="filterWeapon('shield', '방패')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">방패</span>
+            </button>
+            
+            <button onclick="filterWeapon('sword', '한손검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-amber-500 group-hover:scale-110 transition">
+                    <path d="M472.39 40L352.26 160.13l-45.25-45.25c-12.5-12.5-32.76-12.5-45.25 0l-11.31 11.31c-12.5 12.5-12.5 32.76 0 45.25l45.25 45.25L132.32 335.07c-3.23 3.23-5.26 7.37-5.84 11.81l-15.65 119.34c-1.12 8.52 6.13 15.77 14.65 14.65l119.34-15.65c4.44-.58 8.58-2.62 11.81-5.84l138.38-138.38 45.25 45.25c12.5 12.5 32.76 12.5 45.25 0l11.31-11.31c12.5-12.5 12.5-32.76 0-45.25l-45.25-45.25L472 40z"/>
+                </svg>
+                <span class="text-[10px] font-bold">한손검</span>
+            </button>
+
+            <button onclick="filterWeapon('dagger', '단검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-pen-nib text-xl text-red-500 group-hover:scale-110 transition" style="transform: rotate(180deg);"></i>
+                <span class="text-[10px] font-bold">단검</span>
+            </button>
+
+            <button onclick="filterWeapon('greatsword', '대검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-6 h-6 fill-orange-700 group-hover:scale-110 transition">
+                    <path d="M478.7 33.3c-12.5-12.5-32.7-12.5-45.2 0l-80 80-22.6-22.6c-12.5-12.5-32.8-12.5-45.3 0l-11.3 11.3c-12.5 12.5-12.5 32.8 0 45.3l22.6 22.6L124.7 342.1c-1.5 1.5-2.6 3.4-3.2 5.4l-24 80c-2.3 7.8 4.2 15.1 11.7 13.8l94.5-16c2.8-.5 5.4-1.8 7.5-3.9L383.4 249.2l22.6 22.6c12.5 12.5 32.8 12.5 45.3 0l11.3-11.3c12.5-12.5 12.5-32.8 0-45.3l-22.6-22.6 80-80c12.5-12.5 12.5-32.7 0-45.2l-41.3-41.3z"/>
+                </svg>
+                <span class="text-[10px] font-bold">대검</span>
+            </button>
+
+            <button onclick="filterWeapon('mace', '둔기')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-hammer text-xl text-gray-400 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">둔기</span>
+            </button>
+
+            <button onclick="filterWeapon('spear', '창')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-green-600 group-hover:scale-110 transition" style="transform: rotate(-45deg);">
+                    <path d="M363.3 22.1c-14.7-14.7-38.6-14.7-53.3 0L241 91.1c-7.1 7.1-11.1 16.7-11.1 26.7v36.1L49 334.8c-12.1 12.1-12.1 31.9 0 44l83.1 83.1c12.1 12.1 31.9 12.1 44 0l180.9-180.9h36.1c10 0 19.6-4 26.7-11.1l69-69c14.7-14.7 14.7-38.6 0-53.3L363.3 22.1z"/>
+                </svg>
+                <span class="text-[10px] font-bold">창</span>
+            </button>
+
+            <button onclick="filterWeapon('bow', '활')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 fill-lime-600 group-hover:scale-110 transition">
+                    <path d="M439.1 133.3c-1.3-13.8-13.1-24.3-26.9-23.1-42.6 3.8-101.9 14.8-150.1 63-1.6 1.6-3.1 3.2-4.6 4.9L32.4 20.3C23.1 11 8.1 11-1.3 20.3c-9.4 9.4-9.4 24.6 0 33.9L168.1 223.6c-2.4 2.8-4.7 5.7-6.8 8.8-46.7 66.4-53.6 156-55.5 204.6-.5 13.8 10.3 25.5 24.1 26 13.8.5 25.5-10.3 26-24.1 2-51.2 11.7-118.6 44.5-165.2 10.8-15.4 23.5-29.3 37.8-41.5L414.1 506.6c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L281.4 306.1c10.4-15 22.1-29.1 34.9-41.9 39.5-39.5 88-51.1 121.3-56.5 13.7-2.2 23-14.9 20.8-28.6-2.2-13.7-14.9-23-28.6-20.8-19 3.1-48.4 10.1-77.4 25.9L439.1 133.3z"/>
+                </svg>
+                <span class="text-[10px] font-bold">활</span>
+            </button>
+
+            <button onclick="filterWeapon('crossbow', '석궁')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-crosshairs text-xl text-emerald-700 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">석궁</span>
+            </button>
+
+            <button onclick="filterWeapon('musket', '머스킷')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-gun text-xl text-stone-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">머스킷</span>
+            </button>
+        </div>
+
+        <div id="weapon-list-display" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
+            <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+                <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+                <p class="text-gray-600 italic">상단의 무기 종류를 선택하면 카탈로그가 열립니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="armor-detail" class="page max-w-4xl mx-auto px-6">
+        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Armor Catalog</h2>
+        <div class="item-card">방어구 목록이 준비 중입니다.</div>
+        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    </section>
+
+    <section id="consumables" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Consumables</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="materials" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Materials</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
+    <section id="recipes" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Crafting Recipes</h2><div class="item-card mt-16 text-center">발견된 레시피가 없습니다.</div></section>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('show');
+    }
+
+    function toggleSubmenu(id) {
+        document.getElementById(id).classList.toggle('show');
+    }
+
+    function showPage(pageId, pushToHistory = true) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.classList.remove('active'));
+        
+        const target = document.getElementById(pageId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('show');
+
+            updateActiveStyle(pageId);
+
+            if (pushToHistory && window.location.hash !== '#' + pageId) {
+                history.pushState({ pageId: pageId }, "", "#" + pageId);
+            }
+        }
+    }
+
+    function updateActiveStyle(pageId) {
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-tab'));
+        document.querySelectorAll('.side-btn-single, .side-main-link, .sub-btn').forEach(menu => menu.classList.remove('active-menu'));
+
+        const activeNav = document.getElementById('nav-' + pageId);
+        if (activeNav) activeNav.classList.add('active-tab');
+
+        const activeSide = document.getElementById('menu-' + pageId);
+        if (activeSide) activeSide.classList.add('active-menu');
+
+        if(['weapon-detail', 'armor-detail'].includes(pageId)) {
+            document.getElementById('menu-equip')?.classList.add('active-menu');
+            document.getElementById('nav-equip')?.classList.add('active-tab');
+        }
+    }
+
+    // 카드 호버 효과
+    document.querySelectorAll('.item-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1.2)';
+        });
+        card.addEventListener('mouseleave', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1)';
+        });
+    });
+
+    window.addEventListener('popstate', function(event) {
+        const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
+        showPage(pageId, false);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && document.getElementById(hash)) {
+            showPage(hash, false);
+            updateActiveStyle(hash);
+        } else {
+            showPage('home', false);
+            history.replaceState({ pageId: 'home' }, "", "#home");
+        }
+    });
+
+    function filterRegion(regionId) {
+        const buttons = document.querySelectorAll('.region-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        if (event) event.currentTarget.classList.add('active');
+
+        const monsters = document.querySelectorAll('.monster-item');
+        monsters.forEach(monster => monster.classList.add('hidden'));
+
+        const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
+        selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
+    }
+
+    // 몬스터 상세 정보 데이터베이스
+    const monsterData = {
+        'goblin': {
+            name: '고블린',
+            title: '비겁한 숲의 약탈자',
+            type: '인간형, 고블린',
+            image: './normal/goblin.jpg',
+            desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
+            stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
+            skills: [
+                { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
+                { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
+                { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
+            ],
+            loots: [
+                { name: '낡은 페니 주머니', chance: '100%', desc: '4~6 페니가 들어있음.' }, // 추가
+                { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품 및 기본 환금 아이템.' },
+                { name: '거친 가죽 조각', chance: '40%', desc: '재봉 스킬 재료.' },
+                { name: '이가 빠진 단검', chance: '15%', desc: '야금 스킬 재료 혹은 임시 무기.' }
+            ]
+        },
+        'goblin_warrior': {
+            name: '고블린 병사',
+            title: '단단하게 무장한 전선 보병',
+            type: '인간형, 고블린',
+            image: './normal/goblin_warrior.jpg',
+            desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
+            stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+            skills: [
+                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
+                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
+                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
+            ],
+            loots: [
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '녹슨 철 조각', chance: '30%', desc: '야금 스킬의 주 재료.' },
+            { name: '철검', chance: '5%', desc: '근접 무기.' }
+            ]
+        },
+        'goblin_archer': {
+            name: '고블린 궁수',
+            title: '그늘 속에 숨어든 저격수',
+            type: '인간형, 고블린',
+            image: './normal/goblin_archer.jpg',
+            desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
+            stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
+            skills: [
+                { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
+                { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
+                { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
+            ],
+            loots: [
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' },
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '마비 독 화살 묶음', chance: '20%', desc: '적을 마비시키는 소모성 화살 세트.' }, 
+            { name: '질긴 활', chance: '5%', desc: '원거리 무기.' } 
+            ]
+        },
+        'hobgoblin': {
+            name: '홉고블린',
+            title: '군단 위계의 정점에 선 지배자',
+            type: '인간형, 고블린',
+            image: './normal/Hobgoblin.jpg',
+            desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
+            stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
+            skills: [
+                { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
+                { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
+                { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
+                { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
+                { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
+            ],
+            loots: [
+                { name: '묵직한 페니 주머니', chance: '100%', desc: '30~40 페니가 들어있음.' }, // 추가
+                { name: '지배자의 증표', chance: '100%', desc: '퀘스트 아이템.' },
+                { name: '홉고블린의 견장', chance: '10%', desc: '매력이나 힘 스탯 보너스 장신구.' },
+                { name: '엑스', chance: '5%', desc: '강력한 파괴력을 가진 힘 기반 도끼 무기.' }, // 곤봉에서 교체
+                { name: '방패', chance: '5%', desc: '방어력을 높여주는 방어 보조 장비.' } // 추가
+            ]
+        }
+    };
+
+    function openMonsterModal(id) {
+        const data = monsterData[id];
+        if (!data) return;
+
+        const content = document.getElementById('modal-content');
+        
+        const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
+            <div class="bg-black/30 p-1.5 rounded border border-white/5 text-center flex flex-col justify-center">
+                <p class="text-[8px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+                <p class="text-sm font-bold text-white">${value}</p>
+            </div>
+        `).join('') : '';
+
+        const skillsHtml = data.skills ? data.skills.map(skill => `
+            <div class="bg-black/40 p-3 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group">
+                <p class="text-sm font-bold text-amber-500 mb-1 group-hover:text-amber-400 transition-colors text-left">[${skill.name}]</p>
+                <p class="text-[12px] text-gray-400 leading-snug text-left">${skill.desc}</p>
+            </div>
+        `).join('') : '';
+
+        const lootsHtml = data.loots ? data.loots.map(loot => `
+            <div class="bg-white/5 p-2 rounded border border-white/5 flex flex-col gap-0.5 text-left">
+                <div class="flex justify-between items-center">
+                    <span class="text-[12px] font-bold text-blue-400">${loot.name}</span>
+                    <span class="text-[9px] text-gray-600 font-bold tracking-widest">${loot.chance}</span>
+                </div>
+                <p class="text-[10px] text-gray-500 leading-tight">${loot.desc}</p>
+            </div>
+        `).join('') : '';
+
+        content.innerHTML = `
+            <div class="h-full flex flex-col gap-5 animate-fadeIn text-left">
+                <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                    
+                    <div class="w-full md:w-[220px] shrink-0 flex flex-col gap-3">
+                        <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-[3/4] shadow-2xl">
+                            ${data.image ? `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : `<div class="w-full h-full flex items-center justify-center bg-gray-900"><i class="fa-solid fa-ghost text-4xl text-white/5"></i></div>`}
+                        </div>
+                        <div class="bg-amber-900/10 p-3 rounded-lg border border-amber-900/30">
+                            <h4 class="text-[9px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-2">핵심 능력치</h4>
+                            <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex flex-col w-full">
+                        <div class="mb-4">
+                            <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-3">${data.name}</h2>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-blue-900/40 text-blue-400 text-[8px] px-1.5 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-widest">분류</span>
+                                <p class="text-xs text-gray-400 font-semibold">${data.type || '미분류'}</p>
+                            </div>
+                            <p class="text-lg text-amber-600 italic tracking-[0.2em] font-semibold mb-4">${data.title}</p>
+                        </div>
+
+                        <div class="flex flex-col gap-6">
+                            <p class="text-sm text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-4 py-1 bg-white/5 rounded-r">
+                                ${data.desc}
+                            </p>
+
+                            <div class="flex flex-col gap-3">
+                                <h4 class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-amber-900/50"></span> 고유 기술
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    ${skillsHtml}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-3 pt-2 border-t border-white/5">
+                                <h4 class="text-[10px] text-blue-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-blue-900/50"></span> 전리품 목록
+                                </h4>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                    ${lootsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.2em]">
+                    <span>Archive Log</span>
+                    <span class="cinzel text-amber-900/80 font-bold text-[10px]">REF-${id}</span>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('monster-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMonsterModal() {
+        document.getElementById('monster-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    const weaponData = {
+        'shield': [
+            {
+                id: 'wooden_shield',
+                name: '나무 방패',
+                image: './weapon/shield/wood_shield.jpg',
+                desc: '가벼운 가문비나무 판자를 덧대어 만든 기초적인 방패입니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '취약한 구조', desc: '화염 속성 공격 피격 시, 방패의 내구도가 추가로 5만큼 감소합니다.' }
+                ]
+            },
+            {
+                id: 'spiked_wooden_shield',
+                name: '못질한 나무 방패',
+                image: './weapon/shield/motwood_shield.jpg',
+                desc: '나무 방패 표면에 날카로운 철제 못을 박아 방어와 역습을 동시에 고려했습니다.',
+                stats: { '건강': '+1', '매력': '+1', '속도': '-1' },
+                effects: [
+                    { name: '가시 보복', desc: '근접 공격을 방어(Block)할 때마다 공격자에게 3의 고정 물리 피해를 입힙니다.' }
+                ]
+            },
+            {
+                id: 'water_soaked_wooden_shield',
+                name: '물이 스며든 나무 방패',
+                image: './weapon/shield/waterwood_shield.jpg',
+                desc: '수분을 가득 머금어 일반 목재보다 밀도가 높고 묵직해진 방패입니다.',
+                stats: { '건강': '+2', '속도': '-2' },
+                effects: [
+                    { name: '함습', desc: '화염 속성 공격 피격 시 받는 피해가 5만큼 감소합니다.' },
+                    { name: '과전도', desc: '전격 속성 공격 피격 시 받는 피해가 10만큼 증가하며, 1턴간 [기절] 상태가 됩니다.' }
+                ]
+            }
+        ],
+        'sword': [], 'dagger': [], 'greatsword': [], 'mace': [], 'spear': [], 'bow': [], 'crossbow': [], 'musket': []
+    };
+
+    function getRankColor(rank) {
+        switch (rank) {
+            case 'Common':
+                return 'border-amber-500 text-amber-500';
+            case 'Uncommon':
+                return 'border-lime-500 text-lime-500';
+            case 'Rare':
+                return 'border-sky-500 text-sky-500';
+            case 'Epic':
+                return 'border-violet-500 text-violet-500';
+            case 'Legend':
+                return 'border-orange-500 text-orange-500';
+            default:
+                return 'border-white/10 text-gray-300';
+        }
+    }
+
+// [3번: 필터링 로직] 무기 카테고리 선택 함수
+function filterWeapon(categoryKey, categoryName) {
+    document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
+
+    const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
+    buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
+
+    const display = document.getElementById('weapon-list-display');
+    const items = weaponData[categoryKey] || [];
+
+    if (items.length === 0) {
+        display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">등록된 데이터가 없습니다.</div>`;
+        return;
+    }
+
+    display.innerHTML = items.map(item => `
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20" 
+                onclick="openWeaponModal('${categoryKey}', '${item.id}')">
+            <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+        </button>
+    `).join('');
+}
+
+function openWeaponModal(category, id) {
+    const item = weaponData[category].find(w => w.id === id);
+    if (!item) return;
+
+    const content = document.getElementById('modal-content');
+    
+    const statsHtml = Object.entries(item.stats).map(([key, value]) => `
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center">
+            <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+            <p class="text-sm font-bold text-white">${value}</p>
+        </div>
+    `).join('');
+
+    const effectsHtml = item.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                
+                <div class="w-full md:w-[240px] shrink-0 flex flex-col gap-4">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 aspect-square shadow-2xl overflow-hidden">
+                        <img src="${item.image}" class="w-full h-full object-cover rounded border border-white/5" 
+                             onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gray-900\'><i class=\'fa-solid fa-circle-exclamation text-3xl text-red-900/50\'></i></div>'">
+                    </div>
+                    <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
+                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3">장비 보너스</h4>
+                        <div class="grid grid-cols-2 gap-2">${statsHtml}</div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col w-full">
+                    <div class="w-full mb-6">
+                        <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: SHIELD</p>
+                        <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                            "${item.desc}"
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                            <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                            특수 효과 (SPECIAL TRAITS)
+                        </h4>
+                        <div class="flex flex-col gap-3">
+                            ${effectsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Equip Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ITEM-${id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+</script>
+    <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeMonsterModal()"></div>
+        
+        <div class="relative bg-[#0a0a0a] border border-amber-900/50 w-full max-w-4xl h-[80vh] rounded-lg shadow-2xl overflow-y-auto p-8 flex flex-col no-scrollbar">
+            <button onclick="closeMonsterModal()" class="absolute top-6 right-8 text-3xl text-gray-600 hover:text-amber-500 transition-colors">&times;</button>
+            
+            <div id="modal-content" class="flex-grow"></div>
+        </div>
+    </div>
+</body>
+</html>
