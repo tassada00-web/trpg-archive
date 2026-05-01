@@ -732,6 +732,7 @@
                 id: 'wooden_shield',
                 name: '나무 방패',
                 image: './weapon/shield/wood_shield.jpg',
+                price: '20 페니',
                 desc: '가벼운 가문비나무 판자를 덧대어 만든 기초적인 방패입니다.',
                 stats: { '건강': '+1' },
                 effects: [
@@ -742,6 +743,7 @@
                 id: 'spiked_wooden_shield',
                 name: '못질한 나무 방패',
                 image: './weapon/shield/motwood_shield.jpg',
+                price: '35 페니',
                 desc: '나무 방패 표면에 날카로운 철제 못을 박아 방어와 역습을 동시에 고려했습니다.',
                 stats: { '건강': '+1', '매력': '+1', '속도': '-1' },
                 effects: [
@@ -752,6 +754,7 @@
                 id: 'water_soaked_wooden_shield',
                 name: '물이 스며든 나무 방패',
                 image: './weapon/shield/waterwood_shield.jpg',
+                price: '45 페니',
                 desc: '수분을 가득 머금어 일반 목재보다 밀도가 높고 묵직해진 방패입니다.',
                 stats: { '건강': '+2', '속도': '-2' },
                 effects: [
@@ -765,64 +768,66 @@
                 id: 'iron_sword',
                 name: '철검',
                 image: './weapon/sword/iron_sword.jpg',
-                desc: '균형 잡힌 성능을 가진 기본적인 근접 무기.',
-                stats: { '힘': '+1', '정밀': '+1' },
-                effects: [
-                    { name: '안정된 베기', desc: '공격 실패 시 다음 공격의 명중률이 소폭 증가합니다.' }
-                ]
+                price: '40 페니',
+                desc: '가장 기본적인 형태의 철제 한손검입니다. 특별한 장점은 없지만 안정적인 무기입니다.',
+                stats: { '힘': '+1' },
+                effects: []
             },
             {
                 id: 'balanced_longsword',
                 name: '균형의 롱소드',
                 image: './weapon/sword/longsword.jpg',
-                desc: '무게와 길이가 적절히 조화된 전투용 검.',
-                stats: { '힘': '+2', '속도': '+1', '정밀': '+1' },
+                price: '75 페니',
+                desc: '무게 중심이 잘 잡힌 롱소드입니다. 공격과 방어 전환이 부드럽습니다.',
+                stats: { '힘': '+2', '데미지': '+1' },
                 effects: [
-                    { name: '연속 베기', desc: '연속 공격 시 두 번째 공격부터 피해 +2.' }
+                    { name: '균형', desc: '주사위 판정 결과값이 중간값인 경우 +1 판정을 얻습니다.' }
                 ]
             }
         ],
         'dagger': [
             {
-                id: 'rusty_dagger',
-                name: '녹슨 단검',
+                id: 'dagger',
+                name: '단검',
                 image: './weapon/dagger/rusty_dagger.jpg',
-                desc: '빠르지만 위력이 낮은 단검.',
-                stats: { '속도': '+2', '정밀': '+1', '힘': '-1' },
-                effects: [
-                    { name: '급소 찌르기', desc: '선제 공격 시 추가 피해 +3.' }
-                ]
+                price: '25 페니',
+                desc: '가볍게 숨기거나 빠르게 찌르기 좋은 기본 단검입니다.',
+                stats: { '속도': '+1' },
+                effects: []
             },
             {
                 id: 'assassin_dagger',
-                name: '암살자의 단검',
+                name: '암살자용 단검',
                 image: './weapon/dagger/assassin_dagger.jpg',
-                desc: '은밀한 공격에 특화된 무기.',
-                stats: { '속도': '+3', '정밀': '+2', '힘': '-2' },
+                price: '90 페니',
+                desc: '기습과 급소 공격에 특화된 단검입니다.',
+                stats: { '데미지': '+2' },
                 effects: [
-                    { name: '그림자 일격', desc: '적이 행동 전일 경우 확정 치명타.' }
+                    { name: '그림자 일격', desc: '기습 시 첫 공격 피해가 +2 증가합니다.' }
                 ]
             }
         ],
         'greatsword': [
             {
-                id: 'heavy_greatsword',
-                name: '중형 대검',
+                id: 'two_handed_greatsword',
+                name: '양손 대검',
                 image: './weapon/greatsword/heavy.jpg',
-                desc: '강력하지만 다루기 어려운 대검.',
-                stats: { '힘': '+3', '건강': '+1', '속도': '-2' },
+                price: '95 페니',
+                desc: '양손으로 다루는 묵직한 대검입니다. 강력하지만 행동이 느려집니다.',
+                stats: { '데미지': '+3', '힘': '+1', '속도': '-2' },
                 effects: [
-                    { name: '강타', desc: '공격 시 낮은 확률로 적을 넘어뜨립니다.' }
+                    { name: '강타', desc: '주사위 결과값이 자신이 대성공이거나 적이 대실패인 경우 상대에게 [무너짐]을 부여합니다.' }
                 ]
             },
             {
                 id: 'executioner_blade',
                 name: '처형자의 대검',
                 image: './weapon/greatsword/executioner.jpg',
-                desc: '압도적인 파괴력을 지닌 무기.',
-                stats: { '힘': '+5', '속도': '-3' },
+                price: '130 페니',
+                desc: '처형용으로 제작된 거대한 대검입니다. 치명적인 마무리에 특화되어 있습니다.',
+                stats: { '데미지': '+5', '속도': '-3' },
                 effects: [
-                    { name: '처형', desc: '체력 30% 이하 적에게 피해 +8.' }
+                    { name: '처형', desc: '체력 30% 이하인 적에게 주는 피해가 1.5배가 됩니다.' }
                 ]
             }
         ],
@@ -831,20 +836,22 @@
                 id: 'iron_mace',
                 name: '철제 둔기',
                 image: './weapon/mace/mace.jpg',
-                desc: '방어구 파괴에 유리한 무기.',
-                stats: { '힘': '+2', '건강': '+1', '속도': '-1' },
+                price: '65 페니',
+                desc: '방어구와 뼈를 부수기 위해 만들어진 단순하고 강력한 둔기입니다.',
+                stats: { '힘': '+1', '건강': '+1', '데미지': '+1', '속도': '-1' },
                 effects: [
-                    { name: '방어구 파쇄', desc: '명중 시 대상 방어력 감소.' }
+                    { name: '방어구 파쇄', desc: '적이 가지고 있는 방어력 증가를 -1 부여하고, 방어구 내구도를 감소시킵니다.' }
                 ]
             },
             {
                 id: 'war_hammer',
                 name: '워해머',
                 image: './weapon/mace/hammer.jpg',
-                desc: '강력한 충격을 주는 전투용 둔기.',
-                stats: { '힘': '+4', '건강': '+2', '속도': '-2' },
+                price: '110 페니',
+                desc: '강한 충격으로 적의 균형과 정신을 흔드는 전투 망치입니다.',
+                stats: { '힘': '+2', '건강': '+2', '데미지': '+1', '속도': '-2' },
                 effects: [
-                    { name: '충격파', desc: '공격 시 낮은 확률로 기절 부여.' }
+                    { name: '충격파', desc: '공격 시 주사위 결과값 차이만큼 [현기증]을 부여합니다.' }
                 ]
             }
         ],
@@ -853,8 +860,9 @@
                 id: 'wood_spear',
                 name: '목제 창',
                 image: './weapon/spear/wood.jpg',
-                desc: '기본적인 거리 유지 무기.',
-                stats: { '정밀': '+2', '속도': '+1' },
+                price: '30 페니',
+                desc: '나무 자루 끝에 날을 고정한 기본적인 창입니다.',
+                stats: { '힘': '+1' },
                 effects: [
                     { name: '거리 유지', desc: '근접 공격을 받기 전 선제 공격 가능.' }
                 ]
@@ -863,32 +871,35 @@
                 id: 'hunter_spear',
                 name: '사냥꾼의 창',
                 image: './weapon/spear/hunter.jpg',
-                desc: '짐승 사냥에 특화된 창.',
-                stats: { '정밀': '+3', '속도': '+1', '힘': '+1' },
+                price: '70 페니',
+                desc: '짐승 사냥에 특화된 날렵한 창입니다.',
+                stats: { '힘': '+1', '속도': '+1', '데미지': '+1' },
                 effects: [
-                    { name: '꿰뚫기', desc: '연속 공격 시 피해 누적 증가.' }
+                    { name: '꿰뚫기', desc: '짐승형 적에게 +2 추가 피해를 줍니다.' }
                 ]
             }
         ],
         'bow': [
             {
-                id: 'short_bow',
-                name: '숏보우',
+                id: 'wood_short_bow',
+                name: '우드 숏보우',
                 image: './weapon/bow/short.jpg',
-                desc: '가볍고 빠른 활.',
-                stats: { '정밀': '+2', '속도': '+2', '힘': '-1' },
+                price: '55 페니',
+                desc: '가볍고 빠르게 쏠 수 있는 목제 숏보우입니다.',
+                stats: { '정밀': '+2', '속도': '+1', '힘': '-1' },
                 effects: [
-                    { name: '속사', desc: '연속 공격 시 두 번째 공격 속도 증가.' }
+                    { name: '속사', desc: '정밀 주사위 결과값이 상대의 2배인 경우 추가 공격이 가능합니다.' }
                 ]
             },
             {
                 id: 'long_bow',
                 name: '롱보우',
                 image: './weapon/bow/long.jpg',
+                price: '100 페니',
                 desc: '긴 사거리와 높은 관통력을 가진 활.',
                 stats: { '정밀': '+4', '속도': '-1' },
                 effects: [
-                    { name: '관통 사격', desc: '일부 방어를 무시하고 피해를 줍니다.' }
+                    { name: '관통 사격', desc: '적이 가지고 있는 방어력 증가를 -3으로 계산하여 피해를 줍니다. 단, 0이 최소입니다.' }
                 ]
             }
         ],
@@ -897,8 +908,9 @@
                 id: 'light_crossbow',
                 name: '경량 석궁',
                 image: './weapon/crossbow/light.jpg',
-                desc: '간편하지만 재장전이 필요한 원거리 무기.',
-                stats: { '정밀': '+3', '속도': '-1' },
+                price: '85 페니',
+                desc: '다루기 쉬운 경량 석궁입니다. 정밀한 한 발에 강점이 있습니다.',
+                stats: { '정밀': '+3' },
                 effects: [
                     { name: '정밀 사격', desc: '명중 시 추가 피해 +2.' }
                 ]
@@ -907,10 +919,11 @@
                 id: 'heavy_crossbow',
                 name: '중형 석궁',
                 image: './weapon/crossbow/heavy.jpg',
+                price: '125 페니',
                 desc: '강력한 한 방을 가진 석궁.',
                 stats: { '정밀': '+5', '속도': '-3' },
                 effects: [
-                    { name: '중장 관통', desc: '방어 무시 피해 +5.' }
+                    { name: '관통', desc: '적이 가지고 있는 방어력 증가를 -5로 계산하여 피해를 줍니다. 단, 0이 최소입니다.' }
                 ]
             }
         ],
@@ -997,7 +1010,8 @@ function openWeaponModal(category, id) {
                 <div class="flex-grow flex flex-col w-full">
                     <div class="w-full mb-6">
                         <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
-                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: SHIELD</p>
+                        <p class="text-sm text-amber-500 font-bold mb-2 tracking-widest">PRICE: ${item.price || '가격 미정'}</p>
+                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: ${category.toUpperCase()}</p>
                         <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
                             "${item.desc}"
                         </p>
