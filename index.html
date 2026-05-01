@@ -760,7 +760,161 @@
                 ]
             }
         ],
-        'sword': [], 'dagger': [], 'greatsword': [], 'mace': [], 'spear': [], 'bow': [], 'crossbow': [], 'musket': []
+        'sword': [
+            {
+                id: 'iron_sword',
+                name: '철검',
+                image: './weapon/sword/iron_sword.jpg',
+                desc: '균형 잡힌 성능을 가진 기본적인 근접 무기.',
+                stats: { '힘': '+1', '정밀': '+1' },
+                effects: [
+                    { name: '안정된 베기', desc: '공격 실패 시 다음 공격의 명중률이 소폭 증가합니다.' }
+                ]
+            },
+            {
+                id: 'balanced_longsword',
+                name: '균형의 롱소드',
+                image: './weapon/sword/longsword.jpg',
+                desc: '무게와 길이가 적절히 조화된 전투용 검.',
+                stats: { '힘': '+2', '속도': '+1', '정밀': '+1' },
+                effects: [
+                    { name: '연속 베기', desc: '연속 공격 시 두 번째 공격부터 피해 +2.' }
+                ]
+            }
+        ],
+        'dagger': [
+            {
+                id: 'rusty_dagger',
+                name: '녹슨 단검',
+                image: './weapon/dagger/rusty_dagger.jpg',
+                desc: '빠르지만 위력이 낮은 단검.',
+                stats: { '속도': '+2', '정밀': '+1', '힘': '-1' },
+                effects: [
+                    { name: '급소 찌르기', desc: '선제 공격 시 추가 피해 +3.' }
+                ]
+            },
+            {
+                id: 'assassin_dagger',
+                name: '암살자의 단검',
+                image: './weapon/dagger/assassin_dagger.jpg',
+                desc: '은밀한 공격에 특화된 무기.',
+                stats: { '속도': '+3', '정밀': '+2', '힘': '-2' },
+                effects: [
+                    { name: '그림자 일격', desc: '적이 행동 전일 경우 확정 치명타.' }
+                ]
+            }
+        ],
+        'greatsword': [
+            {
+                id: 'heavy_greatsword',
+                name: '중형 대검',
+                image: './weapon/greatsword/heavy.jpg',
+                desc: '강력하지만 다루기 어려운 대검.',
+                stats: { '힘': '+3', '건강': '+1', '속도': '-2' },
+                effects: [
+                    { name: '강타', desc: '공격 시 낮은 확률로 적을 넘어뜨립니다.' }
+                ]
+            },
+            {
+                id: 'executioner_blade',
+                name: '처형자의 대검',
+                image: './weapon/greatsword/executioner.jpg',
+                desc: '압도적인 파괴력을 지닌 무기.',
+                stats: { '힘': '+5', '속도': '-3' },
+                effects: [
+                    { name: '처형', desc: '체력 30% 이하 적에게 피해 +8.' }
+                ]
+            }
+        ],
+        'mace': [
+            {
+                id: 'iron_mace',
+                name: '철제 둔기',
+                image: './weapon/mace/mace.jpg',
+                desc: '방어구 파괴에 유리한 무기.',
+                stats: { '힘': '+2', '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '방어구 파쇄', desc: '명중 시 대상 방어력 감소.' }
+                ]
+            },
+            {
+                id: 'war_hammer',
+                name: '워해머',
+                image: './weapon/mace/hammer.jpg',
+                desc: '강력한 충격을 주는 전투용 둔기.',
+                stats: { '힘': '+4', '건강': '+2', '속도': '-2' },
+                effects: [
+                    { name: '충격파', desc: '공격 시 낮은 확률로 기절 부여.' }
+                ]
+            }
+        ],
+        'spear': [
+            {
+                id: 'wood_spear',
+                name: '목제 창',
+                image: './weapon/spear/wood.jpg',
+                desc: '기본적인 거리 유지 무기.',
+                stats: { '정밀': '+2', '속도': '+1' },
+                effects: [
+                    { name: '거리 유지', desc: '근접 공격을 받기 전 선제 공격 가능.' }
+                ]
+            },
+            {
+                id: 'hunter_spear',
+                name: '사냥꾼의 창',
+                image: './weapon/spear/hunter.jpg',
+                desc: '짐승 사냥에 특화된 창.',
+                stats: { '정밀': '+3', '속도': '+1', '힘': '+1' },
+                effects: [
+                    { name: '꿰뚫기', desc: '연속 공격 시 피해 누적 증가.' }
+                ]
+            }
+        ],
+        'bow': [
+            {
+                id: 'short_bow',
+                name: '숏보우',
+                image: './weapon/bow/short.jpg',
+                desc: '가볍고 빠른 활.',
+                stats: { '정밀': '+2', '속도': '+2', '힘': '-1' },
+                effects: [
+                    { name: '속사', desc: '연속 공격 시 두 번째 공격 속도 증가.' }
+                ]
+            },
+            {
+                id: 'long_bow',
+                name: '롱보우',
+                image: './weapon/bow/long.jpg',
+                desc: '긴 사거리와 높은 관통력을 가진 활.',
+                stats: { '정밀': '+4', '속도': '-1' },
+                effects: [
+                    { name: '관통 사격', desc: '일부 방어를 무시하고 피해를 줍니다.' }
+                ]
+            }
+        ],
+        'crossbow': [
+            {
+                id: 'light_crossbow',
+                name: '경량 석궁',
+                image: './weapon/crossbow/light.jpg',
+                desc: '간편하지만 재장전이 필요한 원거리 무기.',
+                stats: { '정밀': '+3', '속도': '-1' },
+                effects: [
+                    { name: '정밀 사격', desc: '명중 시 추가 피해 +2.' }
+                ]
+            },
+            {
+                id: 'heavy_crossbow',
+                name: '중형 석궁',
+                image: './weapon/crossbow/heavy.jpg',
+                desc: '강력한 한 방을 가진 석궁.',
+                stats: { '정밀': '+5', '속도': '-3' },
+                effects: [
+                    { name: '중장 관통', desc: '방어 무시 피해 +5.' }
+                ]
+            }
+        ],
+        'musket': []
     };
 
     function getRankColor(rank) {
