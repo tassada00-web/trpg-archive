@@ -412,7 +412,75 @@
     <section id="consumables" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Consumables</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
     <section id="materials" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Materials</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
     <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
-    <section id="recipes" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Crafting Recipes</h2><div class="item-card mt-16 text-center">발견된 레시피가 없습니다.</div></section>
+    <section id="recipes" class="page max-w-5xl mx-auto px-6 text-center">
+        <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Crafting Recipes</h2>
+
+        <div class="grid md:grid-cols-4 gap-6">
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-equipment')">
+                <i class="fa-solid fa-shield-halved text-4xl mb-5 text-blue-500"></i>
+                <h3 class="text-xl font-bold uppercase">장비</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-food')">
+                <i class="fa-solid fa-bowl-food text-4xl mb-5 text-orange-500"></i>
+                <h3 class="text-xl font-bold uppercase">음식</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-medicine')">
+                <i class="fa-solid fa-flask-vial text-4xl mb-5 text-green-500"></i>
+                <h3 class="text-xl font-bold uppercase">약</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-etc')">
+                <i class="fa-solid fa-box-open text-4xl mb-5 text-purple-500"></i>
+                <h3 class="text-xl font-bold uppercase">기타</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="recipe-equipment" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Equipment Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">장비 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-equipment-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-food" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Food Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">음식 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-food-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-medicine" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Medicine Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">약 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-medicine-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-etc" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Etc Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">기타 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-etc-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
 
 <script>
     function toggleSidebar() {
@@ -441,6 +509,11 @@
             if (pageId === 'enemies') {
                 filterRegion('common');
             }
+
+            if (pageId === 'recipe-equipment') renderRecipeList('equipment');
+            if (pageId === 'recipe-food') renderRecipeList('food');
+            if (pageId === 'recipe-medicine') renderRecipeList('medicine');
+            if (pageId === 'recipe-etc') renderRecipeList('etc');
 
             if (pushToHistory && window.location.hash !== '#' + pageId) {
                 history.pushState({ pageId: pageId }, "", "#" + pageId);
@@ -1032,6 +1105,158 @@ function openWeaponModal(category, id) {
             <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
                 <span>Equip Identification Log</span>
                 <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ITEM-${id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+const recipeData = {
+    equipment: [
+        {
+            id: 'wooden_shield_recipe',
+            name: '나무 방패 제작법',
+            type: '장비',
+            result: '나무 방패',
+            desc: '기초적인 목재 방패를 제작하는 방법입니다.',
+            materials: [
+                { name: '목재 조각', amount: '3개' },
+                { name: '가죽 끈', amount: '1개' }
+            ],
+            effects: [
+                { name: '제작 결과', desc: '나무 방패 1개를 제작합니다.' }
+            ]
+        }
+    ],
+
+    food: [
+        {
+            id: 'simple_stew_recipe',
+            name: '간단한 스튜',
+            type: '음식',
+            result: '간단한 스튜',
+            desc: '야영 중 만들 수 있는 기본적인 회복 음식입니다.',
+            materials: [
+                { name: '식재료', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [
+                { name: '포만감', desc: '섭취 시 체력과 스테미나를 소량 회복합니다.' }
+            ]
+        }
+    ],
+
+    medicine: [
+        {
+            id: 'minor_healing_potion_recipe',
+            name: '하급 회복약',
+            type: '약',
+            result: '하급 회복약',
+            desc: '상처를 응급 처치할 수 있는 기본 회복약입니다.',
+            materials: [
+                { name: '약초', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [
+                { name: '응급 회복', desc: '사용 시 체력을 소량 회복합니다.' }
+            ]
+        }
+    ],
+
+    etc: [
+        {
+            id: 'campfire_kit_recipe',
+            name: '야영 불씨 키트',
+            type: '기타',
+            result: '야영 불씨 키트',
+            desc: '야영지에서 불을 피우기 위한 기본 도구입니다.',
+            materials: [
+                { name: '마른 나뭇가지', amount: '2개' },
+                { name: '부싯돌', amount: '1개' }
+            ],
+            effects: [
+                { name: '야영 보조', desc: '야영 활동 시작 시 불 피우기 판정에 보너스를 줍니다.' }
+            ]
+        }
+    ]
+};
+
+function renderRecipeList(category) {
+    const listId = `recipe-${category}-list`;
+    const display = document.getElementById(listId);
+    const items = recipeData[category] || [];
+
+    if (!display) return;
+
+    if (items.length === 0) {
+        display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">등록된 레시피가 없습니다.</div>`;
+        return;
+    }
+
+    display.innerHTML = items.map(item => `
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20"
+                onclick="openRecipeModal('${category}', '${item.id}')">
+            <div class="text-left">
+                <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+                <p class="text-[10px] text-amber-700 mt-1 tracking-widest">RESULT: ${item.result}</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+        </button>
+    `).join('');
+}
+
+function openRecipeModal(category, id) {
+    const item = recipeData[category].find(r => r.id === id);
+    if (!item) return;
+
+    const content = document.getElementById('modal-content');
+
+    const materialsHtml = item.materials.map(mat => `
+        <div class="bg-white/5 p-2 rounded border border-white/5 flex justify-between items-center text-left">
+            <span class="text-[12px] font-bold text-blue-400">${mat.name}</span>
+            <span class="text-[10px] text-gray-500 font-bold">${mat.amount}</span>
+        </div>
+    `).join('');
+
+    const effectsHtml = item.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="mb-4">
+                <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="bg-purple-900/40 text-purple-400 text-[8px] px-1.5 py-0.5 rounded border border-purple-800/50 font-bold uppercase tracking-widest">분류</span>
+                    <p class="text-xs text-gray-400 font-semibold">${item.type}</p>
+                </div>
+                <p class="text-sm text-amber-500 font-bold mb-4 tracking-widest">RESULT: ${item.result}</p>
+                <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                    "${item.desc}"
+                </p>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-blue-900/50"></span>
+                    필요 재료
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">${materialsHtml}</div>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                    제작 효과
+                </h4>
+                <div class="flex flex-col gap-3">${effectsHtml}</div>
+            </div>
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Recipe Archive Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">RC-${item.id.toUpperCase()}</span>
             </div>
         </div>
     `;
