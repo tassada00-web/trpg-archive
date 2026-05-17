@@ -836,28 +836,101 @@
                 ]
             }
         ],
-        'sword': [
-            {
+            'sword': [
+        {
                 id: 'iron_sword',
                 name: '철검',
                 image: './weapon/sword/iron_sword.jpg',
-                price: '40 페니',
-                desc: '가장 기본적인 형태의 철제 한손검입니다. 특별한 장점은 없지만 안정적인 무기입니다.',
+                price: '110 페니',
+                desc: '가장 기본적인 형태의 철제 한손검입니다.',
                 stats: { '힘': '+1' },
                 effects: []
-            },
-            {
+        },
+
+        {
                 id: 'balanced_longsword',
                 name: '균형의 롱소드',
                 image: './weapon/sword/longsword.jpg',
-                price: '75 페니',
-                desc: '무게 중심이 잘 잡힌 롱소드입니다. 공격과 방어 전환이 부드럽습니다.',
+                price: '135 페니',
+                desc: '균형 잡힌 구조로 안정적인 전투가 가능한 롱소드입니다.',
                 stats: { '힘': '+2', '데미지': '+1' },
                 effects: [
                     { name: '균형', desc: '주사위 판정 결과값이 중간값인 경우 +1 판정을 얻습니다.' }
                 ]
-            }
-        ],
+        },
+
+        {
+                id: 'steel_sword',
+                name: '강철검',
+                image: './weapon/sword/steel_sword.jpg',
+                price: '125 페니',
+                desc: '철보다 단단한 강철 재질로 제작된 검입니다.',
+                stats: { '힘': '+2' },
+                effects: [
+                    { name: '견고한 검신', desc: '무기 내구도 감소량이 절반으로 감소합니다.' }
+                ]
+        },
+
+        {
+                id: 'bastard_sword',
+                name: '바스타드 소드',
+                image: './weapon/sword/bastard_sword.jpg',
+                price: '145 페니',
+                desc: '한손과 양손 모두 활용 가능한 긴 검입니다.',
+                stats: { '힘': '+2', '데미지': '+2', '속도': '-1' },
+                effects: [
+                    { name: '전환 자세', desc: '턴 시작 시 공격형 또는 균형형 자세를 선택할 수 있습니다.' }
+                ]
+        },
+
+        {
+                id: 'broad_sword',
+                name: '브로드 소드',
+                image: './weapon/sword/broad_sword.jpg',
+                price: '140 페니',
+                desc: '넓은 검신으로 강한 베기를 중시한 검입니다.',
+                stats: { '힘': '+3', '속도': '-1' },
+                effects: [
+                    { name: '넓은 베기', desc: '공격 성공 시 낮은 확률로 주변 적에게 추가 피해를 줍니다.' }
+                ]
+        },
+
+        {
+                id: 'thin_blade',
+                name: '세검',
+                image: './weapon/sword/thin_blade.jpg',
+                price: '145 페니',
+                desc: '찌르기에 특화된 가늘고 긴 검입니다.',
+                stats: { '정밀': '+3', '속도': '+1', '힘': '-1' },
+                effects: [
+                    { name: '급소 찌르기', desc: '치명타 발생 시 추가 피해 +3.' }
+                ]
+        },
+
+        {
+                id: 'curve_sword',
+                name: '곡도',
+                image: './weapon/sword/curve_sword.jpg',
+                price: '135 페니',
+                desc: '휘어진 날을 이용해 빠른 연속 베기에 특화된 검입니다.',
+                stats: { '속도': '+2', '데미지': '+1' },
+                effects: [
+                    { name: '연속 참격', desc: '같은 적 공격 시 피해가 점차 증가합니다.' }
+                ]
+        },
+
+        {
+                id: 'falchion',
+                name: '팔시온',
+                image: './weapon/sword/falchion.jpg',
+                price: '150 페니',
+                desc: '도검과 도끼의 성향이 혼합된 무거운 검입니다.',
+                stats: { '힘': '+3', '데미지': '+2', '속도': '-2' },
+                effects: [
+                    { name: '절단', desc: '방어 성공 후에도 일부 피해를 관통시킵니다.' }
+                ]
+        }
+    ],
         'dagger': [
             {
                 id: 'dagger',
@@ -1036,13 +1109,42 @@ function filterWeapon(categoryKey, categoryName) {
         return;
     }
 
-    display.innerHTML = items.map(item => `
+    const normalItems = items.filter(i => !i.special);
+    const specialItems = items.filter(i => i.special);
+
+    let html = '';
+
+    // 일반 무기 목록 출력
+    html += normalItems.map(item => `
         <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20" 
                 onclick="openWeaponModal('${categoryKey}', '${item.id}')">
             <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
             <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
         </button>
     `).join('');
+
+    // 특수 무기 섹션 (구분선 + 타이틀 + 목록)
+    if (specialItems.length > 0) {
+        html += `
+            <div class="col-span-full mt-12 mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="h-[1px] bg-red-900/50 flex-grow"></div>
+                    <span class="text-[10px] font-bold text-red-500 tracking-[0.5em] uppercase">SPECIAL WEAPONS</span>
+                    <div class="h-[1px] bg-red-900/50 flex-grow"></div>
+                </div>
+            </div>
+        `;
+
+        html += specialItems.map(item => `
+            <button class="item-card !p-4 flex items-center justify-between group hover:border-red-500 transition-all border border-red-900/30 bg-red-950/10 shadow-[0_0_15px_rgba(153,27,27,0.1)]" 
+                    onclick="openWeaponModal('${categoryKey}', '${item.id}')">
+                <span class="text-base font-bold text-red-400 group-hover:text-red-300 transition-colors">${item.name}</span>
+                <i class="fa-solid fa-chevron-right text-[10px] text-red-900 group-hover:text-red-500 transition-colors"></i>
+            </button>
+        `).join('');
+    }
+
+    display.innerHTML = html;
 }
 
 function openWeaponModal(category, id) {
