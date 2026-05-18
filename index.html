@@ -1294,14 +1294,25 @@ const recipeData = {
             id: 'simple_stew_recipe',
             name: '간단한 스튜',
             type: '음식',
-            result: '간단한 스튜',
-            desc: '야영 중 만들 수 있는 기본적인 회복 음식입니다.',
+            result: '재료 조합에 따른 스튜',
+            desc: '넣은 식재료 2가지에 따라 서로 다른 스튜가 만들어집니다.',
             materials: [
                 { name: '식재료', amount: '2개' },
                 { name: '깨끗한 물', amount: '1개' }
             ],
             effects: [
-                { name: '포만감', desc: '섭취 시 체력과 스테미나를 소량 회복합니다.' }
+                { name: '조리 결과', desc: '선택한 식재료 조합에 따라 서로 다른 스튜가 완성됩니다.' }
+            ],
+            results: [
+                {
+                    id: 'beast_meat_stew',
+                    name: '들짐승 고기 스튜',
+                    ingredients: ['들짐승 고기', '감자'],
+                    desc: '들짐승 고기와 감자를 넣어 끓인 든든한 스튜입니다.',
+                    effects: [
+                        { name: '든든한 식사', desc: '섭취 시 체력을 회복하고, 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }
+                    ]
+                }
             ]
         }
     ],
@@ -1399,6 +1410,27 @@ function openRecipeModal(category, id) {
         </div>
     `).join('');
 
+    let resultsHtml = '';
+    if (item.results) {
+        resultsHtml = `
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-orange-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-orange-900/50"></span>
+                    제작될 수 있는 음식
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    ${item.results.map(res => `
+                        <button onclick="openRecipeResultModal('${category}', '${item.id}', '${res.id}')"
+                                class="bg-white/5 p-3 rounded border border-white/10 text-left hover:border-amber-500 transition-colors flex justify-between items-center group">
+                            <span class="text-sm font-bold text-gray-300 group-hover:text-white">[${res.name}]</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500"></i>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
     content.innerHTML = `
         <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
             <div class="mb-4">
@@ -1426,6 +1458,7 @@ function openRecipeModal(category, id) {
                 </h4>
                 <div class="flex flex-col gap-3">${effectsHtml}</div>
             </div>
+            ${resultsHtml}
             <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
                 <span>Recipe Archive Log</span>
                 <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">RC-${item.id.toUpperCase()}</span>
@@ -1435,6 +1468,74 @@ function openRecipeModal(category, id) {
 
     document.getElementById('monster-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+}
+
+function openRecipeResultModal(category, parentRecipeId, resultId) {
+    const parent = recipeData[category].find(r => r.id === parentRecipeId);
+    if (!parent || !parent.results) return;
+
+    const result = parent.results.find(r => r.id === resultId);
+    if (!result) return;
+
+    const content = document.getElementById('modal-content');
+
+    const ingredientsHtml = result.ingredients.map(name => `
+        <div class="bg-white/5 p-2 rounded border border-white/5 text-left">
+            <span class="text-[12px] font-bold text-blue-400">${name}</span>
+        </div>
+    `).join('');
+
+    const effectsHtml = result.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="mb-4">
+                <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${result.name}</h2>
+
+                <p class="text-sm text-amber-500 font-bold mb-4 tracking-widest">FROM: ${parent.name}</p>
+
+                <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                    "${result.desc}"
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-blue-900/50"></span>
+                    사용 재료
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    ${ingredientsHtml}
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                    음식 효과
+                </h4>
+                <div class="flex flex-col gap-3">
+                    ${effectsHtml}
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                <button onclick="openRecipeModal('${category}', '${parentRecipeId}')"
+                        class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-widest">
+                    ← 간단한 스튜로 돌아가기
+                </button>
+
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">
+                    FOOD-${result.id.toUpperCase()}
+                </span>
+            </div>
+        </div>
+    `;
 }
 </script>
     <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
