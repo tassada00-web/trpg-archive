@@ -1332,6 +1332,366 @@ const recipeData = {
                     ]
                 }
             ]
+        },
+
+        {
+            id: 'skewer_recipe',
+            name: '꼬치구이',
+            type: '음식',
+            result: '주재료에 따른 꼬치구이',
+            desc: '손질한 재료를 가공된 나뭇가지에 꿰어 불에 굽는 기본 야영 요리입니다.',
+            materials: [
+                { name: '주재료 식재료', amount: '1개' },
+                { name: '가공된 나뭇가지', amount: '1개' }
+            ],
+            effects: [
+                { name: '조리 결과', desc: '선택한 주재료에 따라 각기 다른 능력치를 보정해주는 꼬치가 완성됩니다.' }
+            ],
+            results: [
+                {
+                    id: 'meat_skewer',
+                    name: '육류 꼬치구이',
+                    ingredients: ['육류', '가공된 나뭇가지'],
+                    desc: '육류의 풍미가 살아있는 꼬치입니다.',
+                    effects: [{ name: '육류의 힘', desc: '섭취 시 다음 전투 동안 힘 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'bird_skewer',
+                    name: '조류 꼬치구이',
+                    ingredients: ['조류 고기', '가공된 나뭇가지'],
+                    desc: '담백한 조류 고기 꼬치입니다.',
+                    effects: [{ name: '조류의 기민함', desc: '섭취 시 다음 전투 동안 속도 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'mushroom_skewer',
+                    name: '버섯 꼬치구이',
+                    ingredients: ['식용 버섯', '가공된 나뭇가지'],
+                    desc: '향긋한 버섯 꼬치입니다.',
+                    effects: [{ name: '숲의 지혜', desc: '섭취 시 다음 전투 동안 지혜 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'pie_recipe',
+            name: '파이',
+            type: '음식',
+            result: '속재료에 따른 파이',
+            desc: '곡물 반죽 안에 다양한 속재료를 넣고 구워내는 든든한 음식입니다.',
+            materials: [
+                { name: '곡물 가루', amount: '1개' },
+                { name: '속재료 식재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '든든한 한 끼 식사가 되어 최대 능력치를 일시적으로 보정합니다.' }],
+            results: [
+                {
+                    id: 'meat_pie',
+                    name: '고기 파이',
+                    ingredients: ['육류', '곡물 가루'],
+                    desc: '고기가 듬뿍 들어간 파이입니다.',
+                    effects: [{ name: '육중한 포만감', desc: '섭취 시 다음 야영 전까지 최대 HP가 5 증가합니다.' }]
+                },
+                {
+                    id: 'fruit_pie',
+                    name: '과일 파이',
+                    ingredients: ['과일', '곡물 가루'],
+                    desc: '달콤한 과일 파이입니다.',
+                    effects: [{ name: '달콤한 활력', desc: '섭취 시 다음 야영 전까지 최대 스테미나가 5 증가합니다.' }]
+                },
+                {
+                    id: 'seafood_pie',
+                    name: '해산물 파이',
+                    ingredients: ['해산물', '곡물 가루'],
+                    desc: '바다 내음 가득한 파이입니다.',
+                    effects: [{ name: '바다의 집중', desc: '섭취 시 다음 전투 동안 정밀 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'fried_food_recipe',
+            name: '튀김',
+            type: '음식',
+            result: '바삭한 튀김 요리',
+            desc: '재료에 곡물 가루를 입히고 기름에 익히는 바삭한 조리법입니다.',
+            materials: [
+                { name: '식재료', amount: '1개' },
+                { name: '곡물 가루', amount: '1개' },
+                { name: '기름', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '고열량 식단으로 순간적인 판정 보너스를 크게 제공합니다.' }],
+            results: [
+                {
+                    id: 'fried_meat',
+                    name: '고기 튀김',
+                    ingredients: ['육류', '곡물 가루', '기름'],
+                    desc: '고소한 고기 튀김입니다.',
+                    effects: [{ name: '육류의 폭발력', desc: '섭취 후 첫 번째 힘 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'fried_fish',
+                    name: '생선 튀김',
+                    ingredients: ['생선', '곡물 가루', '기름'],
+                    desc: '겉바속촉 생선 튀김입니다.',
+                    effects: [{ name: '유연한 회피', desc: '섭취 후 첫 번째 속도 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'fried_veg',
+                    name: '채소 튀김',
+                    ingredients: ['채소', '곡물 가루', '기름'],
+                    desc: '건강한 채소 튀김입니다.',
+                    effects: [{ name: '식물성 면역', desc: '섭취 후 첫 번째 건강 판정에 +2 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'steamed_dish_recipe',
+            name: '찜 요리',
+            type: '음식',
+            result: '담백한 찜 요리',
+            desc: '재료를 수분과 열로 익혀 본래의 맛과 효능을 살리는 조리법입니다.',
+            materials: [
+                { name: '식재료', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '상태이상을 완화하거나 순수 회복 효율을 높입니다.' }],
+            results: [
+                {
+                    id: 'meat_veg_steam',
+                    name: '고기 채소찜',
+                    ingredients: ['육류', '채소', '깨끗한 물'],
+                    desc: '고기와 채소의 영양 조화가 훌륭한 찜입니다.',
+                    effects: [{ name: '균형 잡힌 회복', desc: '섭취 시 현재 HP와 스테미나를 각각 5씩 즉시 회복합니다.' }]
+                },
+                {
+                    id: 'shellfish_herb_steam',
+                    name: '갑각 허브찜',
+                    ingredients: ['갑각류', '허브', '깨끗한 물'],
+                    desc: '고급스러운 향이 배어든 찜입니다.',
+                    effects: [{ name: '해독의 증기', desc: '섭취 시 현재 보유한 모든 상태이상 스택을 2씩 감소시킵니다.' }]
+                },
+                {
+                    id: 'bulb_steam',
+                    name: '구근 찜',
+                    ingredients: ['구근류(감자 등)', '깨끗한 물'],
+                    desc: '포만감 높은 구근 찜입니다.',
+                    effects: [{ name: '대지의 활력', desc: '섭취 시 즉시 스테미나를 10 회복합니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'fried_rice_recipe',
+            name: '볶음밥',
+            type: '음식',
+            result: '간편한 볶음밥',
+            desc: '곡물 재료를 중심으로 여러 재료를 함께 볶아 만드는 간편한 한 끼입니다.',
+            materials: [
+                { name: '곡물', amount: '1개' },
+                { name: '추가 식재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '다양한 상황에 대처할 수 있는 범용적인 버프를 제공합니다.' }],
+            results: [
+                {
+                    id: 'egg_fried_rice',
+                    name: '알 볶음밥',
+                    ingredients: ['조류알', '곡물'],
+                    desc: '부드러운 알 볶음밥입니다.',
+                    effects: [{ name: '친화력', desc: '섭취 시 다음 마을/NPC 조우 시 매력 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'meat_veg_fried_rice',
+                    name: '고기 채소 볶음밥',
+                    ingredients: ['육류', '채소', '곡물'],
+                    desc: '영양 만점 볶음밥입니다.',
+                    effects: [{ name: '강인함', desc: '섭취 시 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'seafood_fried_rice',
+                    name: '해산물 볶음밥',
+                    ingredients: ['해산물', '곡물'],
+                    desc: '감칠맛 나는 볶음밥입니다.',
+                    effects: [{ name: '관찰력', desc: '섭취 시 다음 지각/수색 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'ration_recipe',
+            name: '건조 비상식량',
+            type: '음식',
+            result: '장기 보관 식량',
+            desc: '장거리 이동과 탐험을 위해 오래 보관할 수 있도록 가공한 식량입니다.',
+            materials: [
+                { name: '식재료', amount: '1개' },
+                { name: '보존제(소금/설탕)', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '휴대성이 뛰어나며 야영 효율을 높여줍니다.' }],
+            results: [
+                {
+                    id: 'salted_jerky',
+                    name: '염장 육포',
+                    ingredients: ['육류', '소금'],
+                    desc: '짭짤한 육포입니다.',
+                    effects: [{ name: '비상 열량', desc: '아이템으로 보유 가능. 사용 시 스테미나를 즉시 15 회복합니다.' }]
+                },
+                {
+                    id: 'dried_fruit',
+                    name: '말린 과일',
+                    ingredients: ['과일', '설탕'],
+                    desc: '당분이 농축된 말린 과일입니다.',
+                    effects: [{ name: '정신 안정', desc: '섭취 시 [두려움] 또는 [공포] 상태이상 스택을 3 감소시킵니다.' }]
+                },
+                {
+                    id: 'nut_dairy_ration',
+                    name: '견과 유제품 식량',
+                    ingredients: ['견과류', '유제품'],
+                    desc: '고열량 비상식량입니다.',
+                    effects: [{ name: '숙면 보조', desc: '다음 야영 시 시간당 스테미나 회복 효율이 2배가 됩니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'salad_recipe',
+            name: '샐러드',
+            type: '음식',
+            result: '신선한 샐러드',
+            desc: '신선한 재료를 섞어 가볍게 먹는 음식입니다.',
+            materials: [{ name: '신선한 식재료', amount: '2개' }],
+            effects: [{ name: '조리 결과', desc: '정신을 맑게 하고 부정적인 신체 효과를 제거합니다.' }],
+            results: [
+                {
+                    id: 'fruit_veg_salad',
+                    name: '과일 채소 샐러드',
+                    ingredients: ['과일', '채소'],
+                    desc: '상큼한 샐러드입니다.',
+                    effects: [{ name: '신선한 환기', desc: '섭취 시 즉시 [구역질] 및 [악취] 상태이상을 해제합니다.' }]
+                },
+                {
+                    id: 'meat_cheese_salad',
+                    name: '고기 치즈 샐러드',
+                    ingredients: ['육류', '치즈'],
+                    desc: '든든한 샐러드입니다.',
+                    effects: [{ name: '사교적 에너지', desc: '섭취 시 1시간 동안 매력 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'herb_egg_salad',
+                    name: '허브 조류알 샐러드',
+                    ingredients: ['허브', '조류알'],
+                    desc: '머리가 맑아지는 샐러드입니다.',
+                    effects: [{ name: '명석함', desc: '섭취 시 다음 전투 동안 지능 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'bread_recipe',
+            name: '빵',
+            type: '음식',
+            result: '구운 빵',
+            desc: '곡물 가루를 반죽하여 구워내는 가장 기본적인 저장성과 휴대성이 좋은 음식입니다.',
+            materials: [
+                { name: '곡물 가루', amount: '1개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '기본적인 회복과 함께 재료에 따른 부가 효과를 얻습니다.' }],
+            results: [
+                {
+                    id: 'plain_bread',
+                    name: '기본 빵',
+                    ingredients: ['곡물 가루', '깨끗한 물'],
+                    desc: '가장 기본적인 빵입니다.',
+                    effects: [{ name: '소박한 한 끼', desc: '섭취 시 스테미나를 5 회복합니다.' }]
+                },
+                {
+                    id: 'fruit_dairy_bread',
+                    name: '유제품 건과일 빵',
+                    ingredients: ['유제품', '말린 과일', '곡물 가루'],
+                    desc: '풍성한 맛의 빵입니다.',
+                    effects: [{ name: '통찰의 간식', desc: '섭취 시 다음 전투 동안 지혜 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'nut_honey_bread',
+                    name: '견과 꿀빵',
+                    ingredients: ['견과류', '꿀', '곡물 가루'],
+                    desc: '달콤하고 고소한 빵입니다.',
+                    effects: [{ name: '달콤한 근력', desc: '섭취 시 다음 전투 동안 힘 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'thick_soup_recipe',
+            name: '포터주/수프',
+            type: '음식',
+            result: '걸쭉한 수프',
+            desc: '재료를 오래 끓여 걸쭉하게 만든 수프입니다.',
+            materials: [
+                { name: '깨끗한 물', amount: '1개' },
+                { name: '식재료', amount: '2개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '체온을 높이고 신체 기능을 정상화합니다.' }],
+            results: [
+                {
+                    id: 'bulb_cream_soup',
+                    name: '구근 크림수프',
+                    ingredients: ['구근류', '유제품', '깨끗한 물'],
+                    desc: '따뜻한 크림 수프입니다.',
+                    effects: [{ name: '면역력 강화', desc: '섭취 시 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'bean_veg_soup',
+                    name: '콩 채소수프',
+                    ingredients: ['콩류', '채소', '깨끗한 물'],
+                    desc: '담백한 채소 수프입니다.',
+                    effects: [{ name: '해독 수프', desc: '섭취 시 [독] 상태이상 중첩을 1 감소시킵니다.' }]
+                },
+                {
+                    id: 'cheese_grain_soup',
+                    name: '치즈 곡물수프',
+                    ingredients: ['치즈', '곡물', '깨끗한 물'],
+                    desc: '든든한 곡물 수프입니다.',
+                    effects: [{ name: '에너지 비축', desc: '섭취 시 1시간 동안 최대 스테미나가 10 증가합니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'infusion_recipe',
+            name: '우려낸 차',
+            type: '음식',
+            result: '안정의 음료',
+            desc: '물을 데우고 재료를 우려내어 몸과 정신을 안정시키는 음료입니다.',
+            materials: [
+                { name: '깨끗한 물', amount: '1개' },
+                { name: '차 재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '정신적 상태이상을 치유하거나 마법적 감각을 날카롭게 합니다.' }],
+            results: [
+                {
+                    id: 'herb_honey_tea',
+                    name: '허브 꿀차',
+                    ingredients: ['허브', '꿀', '깨끗한 물'],
+                    desc: '달콤한 허브차입니다.',
+                    effects: [{ name: '정신 정화', desc: '섭취 시 [광기] 또는 [욕정] 상태이상 수치를 3 감소시킵니다.' }]
+                },
+                {
+                    id: 'flower_tea',
+                    name: '꽃차',
+                    ingredients: ['꽃', '깨끗한 물'],
+                    desc: '향긋한 꽃차입니다.',
+                    effects: [{ name: '매혹적인 향기', desc: '섭취 시 다음 매력 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'magic_plant_tea',
+                    name: '마법 식물차',
+                    ingredients: ['마법 식물 파편', '깨끗한 물'],
+                    desc: '마력이 깃든 차입니다.',
+                    effects: [{ name: '마력 공명', desc: '섭취 시 다음 마법 판정(지능)에 +1 보너스를 얻습니다.' }]
+                }
+            ]
         }
     ],
 
