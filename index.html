@@ -409,7 +409,10 @@
         <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
     </section>
 
-    <section id="consumables" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Consumables</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="consumables" class="page max-w-5xl mx-auto px-6">
+        <h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest mb-16">Consumables</h2>
+        <div id="consumables-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
     <section id="materials" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Materials</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
     <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
     <section id="recipes" class="page max-w-5xl mx-auto px-6 text-center">
@@ -417,22 +420,18 @@
 
         <div class="grid md:grid-cols-4 gap-6">
             <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-equipment')">
-                <i class="fa-solid fa-shield-halved text-4xl mb-5 text-blue-500"></i>
                 <h3 class="text-xl font-bold uppercase">장비</h3>
             </div>
 
             <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-food')">
-                <i class="fa-solid fa-bowl-food text-4xl mb-5 text-orange-500"></i>
                 <h3 class="text-xl font-bold uppercase">음식</h3>
             </div>
 
             <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-medicine')">
-                <i class="fa-solid fa-flask-vial text-4xl mb-5 text-green-500"></i>
                 <h3 class="text-xl font-bold uppercase">약</h3>
             </div>
 
             <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-etc')">
-                <i class="fa-solid fa-box-open text-4xl mb-5 text-purple-500"></i>
                 <h3 class="text-xl font-bold uppercase">기타</h3>
             </div>
         </div>
@@ -509,6 +508,8 @@
             if (pageId === 'enemies') {
                 filterRegion('common');
             }
+
+            if (pageId === 'consumables') renderConsumables();
 
             if (pageId === 'recipe-equipment') renderRecipeList('equipment');
             if (pageId === 'recipe-food') renderRecipeList('food');
@@ -1115,6 +1116,40 @@
         ],
         'musket': []
     };
+
+    const consumableData = [
+        { id: 'healing_potion', name: '붉은 회복 물약', icon: 'fa-flask', color: 'text-red-500', desc: '체력을 회복시키는 가장 기본적인 물약입니다.', effects: ['HP +20 회복'] },
+        { id: 'stamina_drink', name: '스테미나 드링크', icon: 'fa-bolt', color: 'text-yellow-500', desc: '지친 몸에 활력을 불어넣는 음료입니다.', effects: ['SP +15 회복'] },
+        { id: 'antidote', name: '해독제', icon: 'fa-vial', color: 'text-green-500', desc: '몸에 퍼진 독 성분을 제거합니다.', effects: ['[독] 상태 제거'] },
+        { id: 'fire_bomb', name: '화염병', icon: 'fa-fire', color: 'text-orange-500', desc: '투척 시 화염 지대를 생성합니다.', effects: ['범위 화염 피해'] },
+        { id: 'smoke_bomb', name: '연막탄', icon: 'fa-smog', color: 'text-gray-400', desc: '시야를 차단하는 연막을 퍼뜨립니다.', effects: ['적 명중률 감소'] },
+        { id: 'bandage', name: '응급 붕대', icon: 'fa-bandage', color: 'text-red-300', desc: '출혈을 임시로 봉합합니다.', effects: ['출혈 상태 완화'] },
+        { id: 'holy_water', name: '정화수', icon: 'fa-droplet', color: 'text-blue-400', desc: '저주와 오염을 약하게 정화합니다.', effects: ['약한 저주 제거'] },
+        { id: 'torch', name: '횃불', icon: 'fa-fire-alt', color: 'text-amber-600', desc: '어두운 지역을 밝히는 기본 장비입니다.', effects: ['암흑 지역 시야 확보'] },
+        { id: 'throwing_dagger', name: '투척용 단검', icon: 'fa-shuriken', color: 'text-gray-500', desc: '빠르게 던질 수 있는 소형 단검입니다.', effects: ['원거리 소량 피해'] },
+        { id: 'mana_shard', name: '마나 파편', icon: 'fa-gem', color: 'text-purple-500', desc: '미약한 마력이 담긴 결정 조각입니다.', effects: ['마법 사용 보조'] }
+    ];
+
+    function renderConsumables() {
+        const display = document.getElementById('consumables-list');
+        if (!display) return;
+
+        display.innerHTML = consumableData.map(item => `
+            <div class="item-card flex flex-col items-center p-8 text-center group" onclick="openConsumableModal('${item.id}')">
+                <i class="fa-solid ${item.icon} text-4xl mb-4 ${item.color} group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-white mb-2">${item.name}</h3>
+                <p class="text-xs text-gray-400 italic mb-4">"${item.desc}"</p>
+                <div class="w-full pt-3 border-t border-white/5">
+                    ${item.effects.map(eff => `<span class="text-xs font-bold text-amber-600">${eff}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function openConsumableModal(id) {
+        // 향후 상세 모달 구현 시 사용
+        console.log("Consumable Selected:", id);
+    }
 
     function getRankColor(rank) {
         switch (rank) {
