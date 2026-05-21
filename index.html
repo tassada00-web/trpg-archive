@@ -6,121 +6,7 @@
     <title>ETERNAL CITY - TRPG 도감</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Cinzel:wght@700&display=swap');
-        
-        body { 
-            font-family: 'Pretendard', sans-serif; 
-            background-color: #0d0d0d; 
-            color: #d1d5db; 
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        .cinzel { font-family: 'Cinzel', serif; }
-
-        .hero-section {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7), #0d0d0d),
-                        url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .page { display: none; min-height: 100vh; padding-top: 100px; padding-bottom: 80px; }
-        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        nav {
-            background-color: rgba(10, 10, 10, 0.98);
-            border-bottom: 1px solid rgba(120, 53, 15, 0.5);
-            backdrop-filter: blur(10px);
-            height: 70px;
-        }
-
-        #sidebar {
-            position: fixed;
-            left: -280px;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: #111;
-            border-right: 1px solid #333;
-            transition: left 0.3s ease;
-            z-index: 200;
-            padding-top: 80px;
-            overflow-y: auto;
-        }
-        #sidebar.open { left: 0; }
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 150;
-        }
-        .sidebar-overlay.show { display: block; }
-
-        .side-btn-container { display: flex; align-items: center; border-bottom: 1px solid #222; transition: 0.2s; }
-        .side-btn-container:hover { background: #1a1a1a; }
-        .side-main-link { flex-grow: 1; padding: 15px 10px 15px 25px; display: flex; align-items: center; cursor: pointer; color: #d1d5db; }
-        .side-toggle { padding: 15px 25px 15px 10px; cursor: pointer; color: #555; transition: 0.2s; }
-        .side-toggle:hover { color: #f59e0b; }
-
-        .side-btn-single { width: 100%; padding: 15px 25px; display: flex; align-items: center; border-bottom: 1px solid #222; cursor: pointer; color: #d1d5db; }
-        .side-btn-single:hover { background: #1a1a1a; color: #f59e0b; }
-
-        .active-menu { color: #f59e0b !important; font-weight: bold; }
-        .active-tab { color: #f59e0b !important; border-bottom: 2px solid #f59e0b; }
-
-        .submenu { background: #0a0a0a; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .submenu.show { max-height: 600px; }
-        .sub-btn { width: 100%; padding: 12px 25px 12px 55px; text-align: left; font-size: 13px; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.2s; }
-        .sub-btn:hover { color: #f59e0b; background: #151515; }
-
-        .item-card { background: rgba(20, 20, 20, 0.8); border: 1px solid #444; padding: 2.5rem 1.5rem; border-radius: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .item-card:hover { border-color: #f59e0b; transform: translateY(-8px); background: rgba(30, 30, 30, 0.9); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
-        .item-card i { transition: transform 0.3s ease; }
-        .item-card:hover i { transform: scale(1.2); }
-
-        /* 커스텀 SVG 아이콘: 무기(검), 방패 */
-        .icon-sword {
-            display: inline-block;
-            width: 2.5rem;
-            height: 2.5rem;
-            background-color: #f59e0b;
-            margin-bottom: 1rem;
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-            -webkit-mask-size: contain;
-            mask-size: contain;
-            transition: transform 0.3s ease;
-        }
-        .item-card:hover .icon-sword { transform: scale(1.2); }
-
-/* 모달 내부 스크롤바 숨기기 (기능은 작동) */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-/* 전리품 등 내부 스크롤이 필요한 곳도 숨기고 싶다면 */
-.custom-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -299,21 +185,6 @@
 </div>
 </div>
 </section>
-
-<style>
-    .region-btn {
-        background: #1a1a1a;
-        border: 1px solid #444;
-        color: #888;
-        padding: 10px 5px;
-        border-radius: 4px;
-        font-size: 12px;
-        transition: 0.2s;
-    }
-    .region-btn:hover { border-color: #f59e0b; color: #fff; }
-    .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
-    .monster-item.hidden { display: none; }
-</style>
 
     <section id="equip" class="page max-w-5xl mx-auto px-6 text-center">
         <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Equipment</h2>
