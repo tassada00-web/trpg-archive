@@ -553,6 +553,21 @@
     window.addEventListener('popstate', function(event) {
         const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
         showPage(pageId, false);
+
+        if (event.state && event.state.modal) {
+            const s = event.state;
+            if (s.modal === 'monster') openMonsterModal(s.id, false);
+            else if (s.modal === 'weapon') openWeaponModal(s.category, s.id, false);
+            else if (s.modal === 'recipe') openRecipeModal(s.category, s.id, false);
+            else if (s.modal === 'recipe-result') openRecipeResultModal(s.category, s.parentId, s.resultId, false);
+            else if (s.modal === 'consumable') openConsumableModal(s.id, false);
+        } else {
+            const modal = document.getElementById('monster-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
     });
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -704,9 +719,11 @@
         }
     };
 
-    function openMonsterModal(id) {
+    function openMonsterModal(id, pushHistory = true) {
         const data = monsterData[id];
         if (!data) return;
+
+        if (pushHistory) history.pushState({ modal: 'monster', id: id }, "");
 
         const content = document.getElementById('modal-content');
         
@@ -796,6 +813,10 @@
     }
 
     function closeMonsterModal() {
+        if (history.state && history.state.modal) {
+            history.back();
+            return;
+        }
         document.getElementById('monster-modal').classList.add('hidden');
         document.body.style.overflow = 'auto';
     }
@@ -1146,7 +1167,8 @@
         `).join('');
     }
 
-    function openConsumableModal(id) {
+    function openConsumableModal(id, pushHistory = true) {
+        if (pushHistory) history.pushState({ modal: 'consumable', id: id }, "");
         // 향후 상세 모달 구현 시 사용
         console.log("Consumable Selected:", id);
     }
@@ -1222,9 +1244,11 @@ function filterWeapon(categoryKey, categoryName) {
     display.innerHTML = html;
 }
 
-function openWeaponModal(category, id) {
+function openWeaponModal(category, id, pushHistory = true) {
     const item = weaponData[category].find(w => w.id === id);
     if (!item) return;
+
+    if (pushHistory) history.pushState({ modal: 'weapon', category: category, id: id }, "");
 
     const content = document.getElementById('modal-content');
     
@@ -1803,9 +1827,11 @@ function renderRecipeList(category) {
     `).join('');
 }
 
-function openRecipeModal(category, id) {
+function openRecipeModal(category, id, pushHistory = true) {
     const item = recipeData[category].find(r => r.id === id);
     if (!item) return;
+
+    if (pushHistory) history.pushState({ modal: 'recipe', category: category, id: id }, "");
 
     const content = document.getElementById('modal-content');
 
@@ -1883,12 +1909,14 @@ function openRecipeModal(category, id) {
     document.body.style.overflow = 'hidden';
 }
 
-function openRecipeResultModal(category, parentRecipeId, resultId) {
+function openRecipeResultModal(category, parentRecipeId, resultId, pushHistory = true) {
     const parent = recipeData[category].find(r => r.id === parentRecipeId);
     if (!parent || !parent.results) return;
 
     const result = parent.results.find(r => r.id === resultId);
     if (!result) return;
+
+    if (pushHistory) history.pushState({ modal: 'recipe-result', category: category, parentId: parentRecipeId, resultId: resultId }, "");
 
     const content = document.getElementById('modal-content');
 
