@@ -1213,7 +1213,7 @@ const recipeData = {
                 { name: '원목', amount: '1개' }
             ],
             effects: [
-                { name: '제작 결과', desc: '철검 1개를 제작합니다.' },
+                { name: '제작 결과', desc: '[철검] 1개를 제작합니다.' },
                 { name: '대성공 보너스', desc: '제작 판정이 대성공일 경우, 철검 대신 [균형의 롱소드]가 제작됩니다.' }
             ]
         }
@@ -1674,6 +1674,26 @@ const recipeData = {
     ]
 };
 
+const archiveLinkTargets = {
+    '철검': { type: 'weapon', category: 'sword', id: 'iron_sword' },
+    '균형의 롱소드': { type: 'weapon', category: 'sword', id: 'balanced_longsword' }
+};
+
+function renderArchiveLinks(text) {
+    return text.replace(/\[([^\]]+)\]/g, (match, label) => {
+        const target = archiveLinkTargets[label];
+        if (!target) return match;
+
+        if (target.type === 'weapon') {
+            return `<button type="button"
+                            onclick="openWeaponModal('${target.category}', '${target.id}')"
+                            class="inline-flex align-baseline text-amber-400 hover:text-amber-200 underline decoration-amber-700/60 underline-offset-2 transition-colors font-bold">[${label}]</button>`;
+        }
+
+        return match;
+    });
+}
+
 function renderRecipeList(category) {
     const listId = `recipe-${category}-list`;
     const display = document.getElementById(listId);
@@ -1716,7 +1736,7 @@ function openRecipeModal(category, id, pushHistory = true) {
     const effectsHtml = item.effects.map(eff => `
         <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
             <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
-            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${renderArchiveLinks(eff.desc)}</p>
         </div>
     `).join('');
 
