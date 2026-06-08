@@ -266,6 +266,8 @@
             </button>
         </div>
 
+        <div id="weapon-category-description" class="hidden mb-8"></div>
+
         <div id="weapon-list-display" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
             <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
                 <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
@@ -274,10 +276,15 @@
         </div>
     </section>
 
-    <section id="armor-detail" class="page max-w-4xl mx-auto px-6">
-        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Armor Catalog</h2>
-        <div class="item-card">방어구 목록이 준비 중입니다.</div>
-        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    <section id="armor-detail" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Armor Catalog</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">방어구별 리턴과 리스크</p>
+            </div>
+            <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
+        </div>
+        <div id="armor-catalog-list" class="grid md:grid-cols-2 gap-4"></div>
     </section>
 
     <section id="consumables" class="page max-w-5xl mx-auto px-6">
@@ -381,6 +388,7 @@
             }
 
             if (pageId === 'consumables') renderConsumables();
+            if (pageId === 'armor-detail') renderArmorCatalog();
 
             if (pageId === 'recipe-equipment') renderRecipeList('equipment');
             if (pageId === 'recipe-food') renderRecipeList('food');
@@ -1009,6 +1017,236 @@
         'musket': []
     };
 
+    const weaponCatalogDescriptions = {
+        shield: {
+            title: '방패',
+            english: 'Shield',
+            returns: [
+                '원거리 피해 시 힘 1.5배 다이스 적용',
+                '모든 받는 피해 0으로 판정'
+            ],
+            risks: [
+                '움직임 민첩 -1 패널티',
+                '오버 피해량만큼 내구도 감소'
+            ]
+        },
+        sword: {
+            title: '한손검',
+            english: 'Short Sword',
+            traits: [
+                '리스크도 리턴도 없는 순수한 실력의 지표입니다.'
+            ]
+        },
+        dagger: {
+            title: '단검',
+            english: 'Dagger',
+            returns: [
+                '기습/배후 공격 시 [정밀] 판정 보너스 N 부여',
+                '치명타 시 [출혈] 스택 N 부여'
+            ],
+            risks: [
+                '정면 대결 시, [방패]나 [판금 갑옷] 착용 적에게 데미지 N 감소'
+            ]
+        },
+        greatsword: {
+            title: '대검',
+            english: 'Greatsword',
+            returns: [
+                '근접 성공 시 [힘] 스탯의 N배 데미지 적용',
+                '적 장비 내구도 N 추가 감소'
+            ],
+            risks: [
+                '공격 시마다 [스테미나(SP)] 소모량 N 증가',
+                '착용 중 [속도] 스탯 N 패널티'
+            ]
+        },
+        mace: {
+            title: '둔기',
+            english: 'Blunt',
+            returns: [
+                '명중 시 적에게 [현기증] 스택 N 부여',
+                '중갑 및 기계 적에게 최종 데미지 N배 적용'
+            ],
+            risks: [
+                '비금속 방어구 대상 공격 시 데미지 N 감소'
+            ]
+        },
+        spear: {
+            title: '창',
+            english: 'Spear',
+            returns: [
+                '긴 사거리로 선제 공격 판정 N 부여',
+                '상대가 근접 범위 이동 시 자동 추가 공격 N회'
+            ],
+            risks: [
+                '밀착 상태 시 공격 판정 및 데미지 N 감소',
+                '좁은 지형 사용 시 [속도] 패널티 N 부여'
+            ]
+        },
+        bow: {
+            title: '활',
+            english: 'Bow',
+            returns: [
+                '사격 시 소음 미발생',
+                '[속도] 판정 성공 시 턴당 N회 사격 가능'
+            ],
+            risks: [
+                '인벤토리 내 [화살] 상시 필요',
+                '[힘] 부족 시 명중률 및 데미지 N 감소'
+            ]
+        },
+        crossbow: {
+            title: '석궁',
+            english: 'Crossbow',
+            returns: [
+                '사용자 스탯 무관 최소 데미지 N 보장',
+                '장갑 관통 (물리 방어력 N 무시)'
+            ],
+            risks: [
+                '주사위 N 이하 시 기구 결함 발생',
+                'N턴 동안 사용 불가 혹은 내구도 N 큰 하락'
+            ]
+        },
+        musket: {
+            title: '머스킷',
+            english: 'Musket',
+            returns: [
+                '탄환 데미지 대폭 증가 (방관 추가)',
+                '회피 실패 시 [골절] 및 [출혈] 부여'
+            ],
+            risks: [
+                '매 사격 후 장전 행동 필수',
+                '장전 중인 턴에는 [회피] 불가 판정'
+            ]
+        }
+    };
+
+    const armorCatalogDescriptions = [
+        {
+            title: '가죽 장비',
+            english: 'Leather Armor',
+            traits: [
+                '리턴과 리스크가 없는 기본적인 방어구입니다.'
+            ]
+        },
+        {
+            title: '판금 갑옷',
+            english: 'Plate Armor',
+            returns: [
+                '받는 물리 피해 고정 감소'
+            ],
+            risks: [
+                '속도(Speed) 스탯 감소'
+            ]
+        },
+        {
+            title: '직물 의복',
+            english: 'Woven Garment',
+            returns: [
+                '주문 사용 횟수 증가'
+            ],
+            risks: [
+                '내구도가 낮아 파손이 매우 쉬움'
+            ]
+        },
+        {
+            title: '방호 외투',
+            english: 'Hazard Coat',
+            returns: [
+                '건강 및 매력 관련 상태이상 스택 축적량 반감'
+            ],
+            risks: [
+                '물리 방어력 하락 및 화염 피해 추가'
+            ]
+        },
+        {
+            title: '사슬 갑옷',
+            english: 'Chainmail',
+            returns: [
+                '[출혈] 상태이상 스택 축적 반감'
+            ],
+            risks: [
+                '타격/둔기류 피격 시 내구도 크게 감소'
+            ]
+        },
+        {
+            title: '장식용 의복',
+            english: 'Ornamental Attire',
+            returns: [
+                '매력 판정 보너스 제공'
+            ],
+            risks: [
+                '적 어그로 증가 및 물리 보호 기능 전무'
+            ]
+        }
+    ];
+
+    function renderEquipmentRuleList(rules, dotClass) {
+        return `
+            <ul class="space-y-2">
+                ${rules.map(rule => `
+                    <li class="flex gap-2 text-xs leading-relaxed text-gray-300">
+                        <span class="mt-[0.45rem] h-1.5 w-1.5 rounded-full ${dotClass} shrink-0"></span>
+                        <span>${rule}</span>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+    }
+
+    function renderEquipmentCatalogSection(label, rules, labelClass, dotClass, spanClass = '') {
+        if (!rules || rules.length === 0) return '';
+
+        return `
+            <div class="bg-black/25 rounded-lg border border-white/5 p-4 ${spanClass}">
+                <h4 class="text-[10px] font-bold ${labelClass} tracking-[0.3em] mb-3">${label}</h4>
+                ${renderEquipmentRuleList(rules, dotClass)}
+            </div>
+        `;
+    }
+
+    function renderEquipmentCatalogCard(data, extraClass = '') {
+        const hasTraitOnly = data.traits && !data.returns && !data.risks;
+
+        return `
+            <div class="item-card !p-6 ${extraClass}">
+                <div class="mb-5">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-[0.35em] mb-2">${data.english}</p>
+                    <h3 class="text-2xl font-bold text-white">${data.title}</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    ${renderEquipmentCatalogSection('특징', data.traits, 'text-amber-400', 'bg-amber-500', hasTraitOnly ? 'md:col-span-2' : '')}
+                    ${renderEquipmentCatalogSection('RETURN', data.returns, 'text-emerald-400', 'bg-emerald-500')}
+                    ${renderEquipmentCatalogSection('RISK', data.risks, 'text-red-400', 'bg-red-500')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderWeaponCatalogDescription(categoryKey) {
+        const display = document.getElementById('weapon-category-description');
+        const data = weaponCatalogDescriptions[categoryKey];
+        if (!display) return;
+
+        if (!data) {
+            display.classList.add('hidden');
+            display.innerHTML = '';
+            return;
+        }
+
+        display.classList.remove('hidden');
+        display.innerHTML = renderEquipmentCatalogCard(data, 'border-amber-900/40 bg-amber-950/10');
+    }
+
+    function renderArmorCatalog() {
+        const display = document.getElementById('armor-catalog-list');
+        if (!display) return;
+
+        display.innerHTML = armorCatalogDescriptions
+            .map(item => renderEquipmentCatalogCard(item))
+            .join('');
+    }
+
     const consumableData = [
         { id: 'healing_potion', name: '붉은 회복 물약', icon: 'fa-flask', color: 'text-red-500', desc: '체력을 회복시키는 가장 기본적인 물약입니다.', effects: ['HP +20 회복'] },
         { id: 'stamina_drink', name: '스테미나 드링크', icon: 'fa-bolt', color: 'text-yellow-500', desc: '지친 몸에 활력을 불어넣는 음료입니다.', effects: ['SP +15 회복'] },
@@ -1063,10 +1301,12 @@
 // [3번: 필터링 로직] 무기 카테고리 선택 함수
 function filterWeapon(categoryKey, categoryName) {
     document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
+    renderWeaponCatalogDescription(categoryKey);
 
     const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
     buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
-    if (event && event.currentTarget) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
+    const currentEvent = typeof event !== 'undefined' ? event : null;
+    if (currentEvent && currentEvent.currentTarget) currentEvent.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
 
     const display = document.getElementById('weapon-list-display');
     const items = weaponData[categoryKey] || [];
