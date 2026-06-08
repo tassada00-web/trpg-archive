@@ -1323,9 +1323,9 @@ function filterWeapon(categoryKey, categoryName) {
 
     // 일반 무기 목록 출력
     html += normalItems.map(item => `
-        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20" 
+        <button class="item-card !p-4 h-14 w-full flex items-center justify-between gap-3 group hover:border-amber-500 transition-all border border-white/5 bg-black/20"
                 onclick="openWeaponModal('${categoryKey}', '${item.id}')">
-            <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+            <span class="min-w-0 truncate text-left text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
             <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
         </button>
     `).join('');
@@ -1343,9 +1343,9 @@ function filterWeapon(categoryKey, categoryName) {
         `;
 
         html += specialItems.map(item => `
-            <button class="item-card !p-4 flex items-center justify-between group hover:border-red-500 transition-all border border-red-900/30 bg-red-950/10 shadow-[0_0_15px_rgba(153,27,27,0.1)]" 
+            <button class="item-card !p-4 h-14 w-full flex items-center justify-between gap-3 group hover:border-red-500 transition-all border border-red-900/30 bg-red-950/10 shadow-[0_0_15px_rgba(153,27,27,0.1)]"
                     onclick="openWeaponModal('${categoryKey}', '${item.id}')">
-                <span class="text-base font-bold text-red-400 group-hover:text-red-300 transition-colors">${item.name}</span>
+                <span class="min-w-0 truncate text-left text-base font-bold text-red-400 group-hover:text-red-300 transition-colors">${item.name}</span>
                 <i class="fa-solid fa-chevron-right text-[10px] text-red-900 group-hover:text-red-500 transition-colors"></i>
             </button>
         `).join('');
