@@ -510,6 +510,7 @@
             const s = event.state;
             if (s.modal === 'monster') openMonsterModal(s.id, false);
             else if (s.modal === 'weapon') openWeaponModal(s.category, s.id, false);
+            else if (s.modal === 'armor') openArmorModal(s.category, s.id, false);
             else if (s.modal === 'recipe') openRecipeModal(s.category, s.id, false);
             else if (s.modal === 'recipe-result') openRecipeResultModal(s.category, s.parentId, s.resultId, false);
             else if (s.modal === 'consumable') openConsumableModal(s.id, false);
@@ -1344,8 +1345,212 @@
     const armorData = {
         head: [],
         outer: [],
-        top: [],
-        bottom: [],
+        top: [
+            {
+                id: 'cloth_shirt',
+                name: '천 셔츠',
+                image: './armor/top/cloth_shirt.jpg',
+                price: '가격 미정',
+                desc: '가장 기본적인 상의입니다. 평상복이나 초반 기본 장비로 사용됩니다.',
+                stats: {},
+                effects: [
+                    { name: '특징', desc: '리스크와 리턴이 없는 기본 상의입니다.' }
+                ]
+            },
+            {
+                id: 'heavy_work_top',
+                name: '두꺼운 작업복 상의',
+                image: './armor/top/heavy_work_top.jpg',
+                price: '가격 미정',
+                desc: '육체노동과 채집 활동을 위해 질긴 천을 덧댄 작업복 상의입니다.',
+                stats: { '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '작업 보호', desc: '약한 물리 피해를 1만큼 감소시키고, 파밍 관련 행동 시 필요한 능력치를 +1로 계산합니다.' },
+                    { name: '둔한 움직임', desc: '전투 중 판정 성공값이 1 감소합니다.' }
+                ]
+            },
+            {
+                id: 'leather_vest',
+                name: '가죽 조끼',
+                image: './armor/top/leather_vest.jpg',
+                price: '가격 미정',
+                desc: '가볍게 몸통을 보호하는 가죽 방어구입니다. 금속 방어구보다 움직임이 자유롭습니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '가벼운 방호', desc: '베기/찌르기 피해를 1만큼 감소시킵니다.' },
+                    { name: '화염 취약', desc: '화염 속성 피격 시 내구도가 추가로 감소합니다.' }
+                ]
+            },
+            {
+                id: 'chain_shirt',
+                name: '사슬 셔츠',
+                image: './armor/top/chain_shirt.jpg',
+                price: '가격 미정',
+                desc: '상의 안쪽에 걸쳐 몸통을 보호하는 사슬 방어구입니다.',
+                stats: { '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '출혈 완화', desc: '[출혈] 상태이상 스택 축적량을 반감합니다.' },
+                    { name: '타격 취약', desc: '둔기/타격류 피격 시 내구도가 크게 감소합니다.' }
+                ]
+            },
+            {
+                id: 'breastplate',
+                name: '흉갑',
+                image: './armor/top/breastplate.jpg',
+                price: '가격 미정',
+                desc: '가슴과 복부를 중심으로 보호하는 금속 방어구입니다.',
+                stats: { '건강': '+2', '속도': '-1' },
+                effects: [
+                    { name: '중심 방호', desc: '받는 물리 피해를 2만큼 고정 감소시킵니다.' },
+                    { name: '금속 소음', desc: '은밀 행동 판정에 -1 패널티를 받습니다.' }
+                ]
+            },
+            {
+                id: 'plate_top',
+                name: '판금 상의',
+                image: './armor/top/plate_top.jpg',
+                price: '가격 미정',
+                desc: '상체 대부분을 덮는 무거운 중갑 상의입니다.',
+                stats: { '건강': '+3', '속도': '-2' },
+                effects: [
+                    { name: '중갑 방호', desc: '받는 물리 피해를 3만큼 고정 감소시킵니다.' },
+                    { name: '스테미나 부담', desc: '전투 중 스테미나(SP) 소모량이 1 증가합니다.' }
+                ]
+            },
+            {
+                id: 'hazard_top',
+                name: '방호 상의',
+                image: './armor/top/hazard_top.jpg',
+                price: '가격 미정',
+                desc: '독, 병, 오염 같은 위험 환경에 대응하기 위한 방호 상의입니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '상태 방호', desc: '건강 관련 상태이상 스택 축적량을 반감합니다.' },
+                    { name: '얇은 장갑', desc: '물리 방어 성능이 낮아 물리 피해 고정 감소를 제공하지 않습니다.' }
+                ]
+            },
+            {
+                id: 'ornamental_top',
+                name: '장식용 상의',
+                image: './armor/top/ornamental_top.jpg',
+                price: '가격 미정',
+                desc: '귀족적이거나 무대 의상에 가까운 장식용 상의입니다.',
+                stats: { '매력': '+2' },
+                effects: [
+                    { name: '화려한 인상', desc: '매력 판정에 +2 보너스를 얻습니다.' },
+                    { name: '눈에 띄는 복장', desc: '물리 보호 기능이 없으며 적 어그로가 증가합니다.' }
+                ]
+            }
+        ],
+        bottom: [
+            {
+                id: 'cloth_pants',
+                name: '천 바지',
+                image: './armor/bottom/cloth_pants.jpg',
+                price: '가격 미정',
+                desc: '가장 기본적인 하의입니다. 평상복이나 초반 기본 장비로 사용됩니다.',
+                stats: {},
+                effects: [
+                    { name: '특징', desc: '리스크와 리턴이 없는 기본 하의입니다.' }
+                ]
+            },
+            {
+                id: 'work_pants',
+                name: '질긴 작업복 바지',
+                image: './armor/bottom/work_pants.jpg',
+                price: '가격 미정',
+                desc: '거친 환경에서 입기 좋게 보강된 튼튼한 작업복 바지입니다.',
+                stats: { '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '거친 지형 보호', desc: '넘어짐/찰과상 등 약한 피해를 1만큼 감소시킵니다.' },
+                    { name: '둔한 착용감', desc: '속도 판정에 부담을 줍니다.' }
+                ]
+            },
+            {
+                id: 'leather_pants',
+                name: '가죽 바지',
+                image: './armor/bottom/leather_pants.jpg',
+                price: '가격 미정',
+                desc: '기동성을 유지하면서 하체를 보호하는 가벼운 가죽 하의입니다.',
+                stats: { '속도': '+1' },
+                effects: [
+                    { name: '가벼운 하체 방호', desc: '하체 피격 시 베기/찌르기 피해를 1만큼 감소시킵니다.' },
+                    { name: '화염 취약', desc: '화염 속성 피격 시 내구도가 추가로 감소합니다.' }
+                ]
+            },
+            {
+                id: 'chain_leggings',
+                name: '사슬 하의',
+                image: './armor/bottom/chain_leggings.jpg',
+                price: '가격 미정',
+                desc: '허벅지와 무릎 주변을 보호하는 사슬 방어구입니다.',
+                stats: { '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '출혈 완화', desc: '[출혈] 상태이상 스택 축적량을 반감합니다.' },
+                    { name: '소음과 타격 취약', desc: '둔기/타격류 피격 시 내구도가 크게 감소하며, 은밀 행동 판정에 -1 패널티를 받습니다.' }
+                ]
+            },
+            {
+                id: 'iron_greaves',
+                name: '철제 각반',
+                image: './armor/bottom/iron_greaves.jpg',
+                price: '가격 미정',
+                desc: '다리 일부를 금속판으로 보호하는 하의 장비입니다.',
+                stats: { '건강': '+1', '속도': '-1' },
+                effects: [
+                    { name: '다리 보호', desc: '다리 부상 및 [넘어짐] 저항 판정에 +1 보너스를 얻습니다.' },
+                    { name: '무게 부담', desc: '속도 판정에 부담을 줍니다.' }
+                ]
+            },
+            {
+                id: 'plate_legs',
+                name: '판금 하의',
+                image: './armor/bottom/plate_legs.jpg',
+                price: '가격 미정',
+                desc: '하체를 넓게 감싸는 무거운 중갑 하의입니다.',
+                stats: { '건강': '+2', '속도': '-2' },
+                effects: [
+                    { name: '중갑 하체 방호', desc: '받는 물리 피해를 2만큼 고정 감소시킵니다.' },
+                    { name: '회피 방해', desc: '회피 판정에 -1 패널티를 받습니다.' }
+                ]
+            },
+            {
+                id: 'hazard_pants',
+                name: '방호 하의',
+                image: './armor/bottom/hazard_pants.jpg',
+                price: '가격 미정',
+                desc: '독성 지대와 오염 지대 이동을 고려한 방호 하의입니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '환경 방호', desc: '지형/오염 관련 상태이상 스택 축적량을 반감합니다.' },
+                    { name: '얇은 장갑', desc: '물리 방어 성능이 낮아 물리 피해 고정 감소를 제공하지 않습니다.' }
+                ]
+            },
+            {
+                id: 'riding_pants',
+                name: '승마용 바지',
+                image: './armor/bottom/riding_pants.jpg',
+                price: '가격 미정',
+                desc: '이동과 탑승을 고려해 활동성을 높인 하의입니다.',
+                stats: { '속도': '+1' },
+                effects: [
+                    { name: '탑승 보조', desc: '탑승/이동 관련 판정에 +1 보너스를 얻습니다.' },
+                    { name: '낮은 방호', desc: '직접적인 물리 보호 성능이 낮습니다.' }
+                ]
+            },
+            {
+                id: 'ornamental_pants',
+                name: '장식용 하의',
+                image: './armor/bottom/ornamental_pants.jpg',
+                price: '가격 미정',
+                desc: '예식이나 사교 활동을 위한 장식용 하의입니다.',
+                stats: { '매력': '+1' },
+                effects: [
+                    { name: '정돈된 인상', desc: '매력 판정에 +1 보너스를 얻습니다.' },
+                    { name: '방호 부재', desc: '물리 보호 기능이 거의 없습니다.' }
+                ]
+            }
+        ],
         shoes: [],
         gloves: [],
         ring: [],
@@ -1446,7 +1651,8 @@
         }
 
         display.innerHTML = items.map(item => `
-            <button class="item-card !p-4 h-14 w-full flex items-center justify-between gap-3 group hover:border-amber-500 transition-all border border-white/5 bg-black/20">
+            <button class="item-card !p-4 h-14 w-full flex items-center justify-between gap-3 group hover:border-amber-500 transition-all border border-white/5 bg-black/20"
+                    onclick="openArmorModal('${categoryKey}', '${item.id}')">
                 <span class="min-w-0 truncate text-left text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
                 <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
             </button>
@@ -1621,6 +1827,80 @@ function openWeaponModal(category, id, pushHistory = true) {
             <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
                 <span>Equip Identification Log</span>
                 <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ITEM-${id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function openArmorModal(category, id, pushHistory = true) {
+    const item = (armorData[category] || []).find(a => a.id === id);
+    if (!item) return;
+
+    if (pushHistory) history.pushState({ modal: 'armor', category: category, id: id }, "");
+
+    const content = document.getElementById('modal-content');
+    const statsEntries = Object.entries(item.stats || {});
+
+    const statsHtml = statsEntries.length > 0 ? statsEntries.map(([key, value]) => `
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center">
+            <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+            <p class="text-sm font-bold text-white">${value}</p>
+        </div>
+    `).join('') : `
+        <div class="col-span-2 bg-black/30 p-3 rounded border border-white/5 text-center">
+            <p class="text-xs text-gray-500 font-bold">보너스 없음</p>
+        </div>
+    `;
+
+    const effectsHtml = (item.effects || []).map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+
+                <div class="w-full md:w-[240px] shrink-0 flex flex-col gap-4">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 aspect-square shadow-2xl overflow-hidden">
+                        ${renderCatalogImage(item.image, item.name)}
+                    </div>
+                    <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
+                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3">장비 보너스</h4>
+                        <div class="grid grid-cols-2 gap-2">${statsHtml}</div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col w-full">
+                    <div class="w-full mb-6">
+                        <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                        <p class="text-sm text-amber-500 font-bold mb-2 tracking-widest">PRICE: ${item.price || '가격 미정'}</p>
+                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: ${category.toUpperCase()}</p>
+                        <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                            "${item.desc}"
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                            <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                            방어구 효과 (ARMOR TRAITS)
+                        </h4>
+                        <div class="flex flex-col gap-3">
+                            ${effectsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Armor Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ARMOR-${id.toUpperCase()}</span>
             </div>
         </div>
     `;
