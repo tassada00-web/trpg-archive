@@ -187,33 +187,33 @@
 </section>
 
     <section id="equip" class="page max-w-5xl mx-auto px-6">
-        <div class="text-center mb-14">
-            <p class="text-amber-700 text-xs font-bold tracking-[0.5em] uppercase mb-4">Equipment Gate</p>
-            <h2 class="cinzel text-5xl text-white mb-4 uppercase tracking-widest">Equipment</h2>
-            <p class="text-sm text-gray-500 leading-relaxed">장비 도감은 무기와 방어구 카탈로그로 나뉩니다. 확인할 장비 분류를 선택해주세요.</p>
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Equipment Catalog</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">분류를 선택해주세요</p>
+            </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-10">
-            <button type="button" class="item-card flex flex-col items-center p-12 text-center" onclick="showPage('weapon-detail')">
-                <div class="flex items-center gap-3 mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-14 h-14" style="transition: transform 0.3s ease;">
+        <div id="equipment-category-selector" class="grid grid-cols-2 gap-2 mb-12">
+            <button type="button" onclick="showPage('weapon-detail')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-5 h-5 group-hover:scale-110 transition">
                         <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
                     </svg>
-                    <i class="fa-solid fa-gun text-4xl text-stone-500"></i>
+                    <i class="fa-solid fa-gun text-xl text-stone-500 group-hover:scale-110 transition"></i>
                 </div>
-                <p class="text-[10px] text-amber-600 font-bold tracking-[0.4em] uppercase mb-3">Weapons</p>
-                <h3 class="text-2xl font-bold uppercase text-white mb-4">무기 카탈로그</h3>
-                <p class="text-xs text-gray-500 leading-relaxed mb-6">검, 방패, 활, 화기처럼 공격과 전투 운용에 직접 연결되는 장비 목록입니다.</p>
-                <span class="text-[10px] text-amber-500 font-bold tracking-[0.25em] uppercase">무기 종류 선택하기 →</span>
+                <span class="text-[10px] font-bold">무기</span>
             </button>
 
-            <button type="button" class="item-card flex flex-col items-center p-12 text-center" onclick="showPage('armor-detail')">
-                <i class="fa-solid fa-shield text-6xl mb-6 text-blue-500"></i>
-                <p class="text-[10px] text-blue-400 font-bold tracking-[0.4em] uppercase mb-3">Armor</p>
-                <h3 class="text-2xl font-bold uppercase text-white mb-4">방어구 카탈로그</h3>
-                <p class="text-xs text-gray-500 leading-relaxed mb-6">가죽, 판금, 직물, 외투처럼 방어와 상태이상 대응에 연결되는 장비 목록입니다.</p>
-                <span class="text-[10px] text-blue-400 font-bold tracking-[0.25em] uppercase">방어구 종류 보기 →</span>
+            <button type="button" onclick="showPage('armor-detail')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">방어구</span>
             </button>
+        </div>
+
+        <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+            <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+            <p class="text-gray-600 italic">상단의 장비 분류를 선택하면 해당 카탈로그가 열립니다.</p>
         </div>
     </section>
 
@@ -295,11 +295,69 @@
         <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
             <div>
                 <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Armor Catalog</h2>
-                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">방어구별 리턴과 리스크</p>
+                <p id="selected-armor-category-name" class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">종류를 선택해주세요</p>
             </div>
             <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
         </div>
-        <div id="armor-catalog-list" class="grid md:grid-cols-2 gap-4"></div>
+
+        <div id="armor-category-selector" class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-12">
+            <button onclick="filterArmor('head', '머리')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-helmet-safety text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">머리</span>
+            </button>
+
+            <button onclick="filterArmor('outer', '외투')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-user-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">외투</span>
+            </button>
+
+            <button onclick="filterArmor('top', '상의')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shirt text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">상의</span>
+            </button>
+
+            <button onclick="filterArmor('bottom', '하의')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-person text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">하의</span>
+            </button>
+
+            <button onclick="filterArmor('shoes', '신발')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shoe-prints text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">신발</span>
+            </button>
+
+            <button onclick="filterArmor('gloves', '장갑')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-hand text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">장갑</span>
+            </button>
+
+            <button onclick="filterArmor('ring', '반지')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-ring text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">반지</span>
+            </button>
+
+            <button onclick="filterArmor('necklace', '목걸이')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-gem text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">목걸이</span>
+            </button>
+
+            <button onclick="filterArmor('earring', '귀걸이')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-circle-dot text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">귀걸이</span>
+            </button>
+
+            <button onclick="filterArmor('bracelet', '팔찌')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-link text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">팔찌</span>
+            </button>
+        </div>
+
+        <div id="armor-list-display" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
+            <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+                <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+                <p class="text-gray-600 italic">상단의 방어구 부위를 선택하면 카탈로그가 열립니다.</p>
+            </div>
+        </div>
     </section>
 
     <section id="consumables" class="page max-w-5xl mx-auto px-6">
@@ -1283,6 +1341,19 @@
         }
     ];
 
+    const armorData = {
+        head: [],
+        outer: [],
+        top: [],
+        bottom: [],
+        shoes: [],
+        gloves: [],
+        ring: [],
+        necklace: [],
+        earring: [],
+        bracelet: []
+    };
+
     function renderEquipmentRuleList(rules, dotClass) {
         return `
             <ul class="space-y-2">
@@ -1341,12 +1412,45 @@
     }
 
     function renderArmorCatalog() {
-        const display = document.getElementById('armor-catalog-list');
+        const display = document.getElementById('armor-list-display');
         if (!display) return;
 
-        display.innerHTML = armorCatalogDescriptions
-            .map(item => renderEquipmentCatalogCard(item))
-            .join('');
+        const selectedName = document.getElementById('selected-armor-category-name');
+        if (selectedName) selectedName.innerText = '종류를 선택해주세요';
+
+        const buttons = document.querySelectorAll('#armor-category-selector .item-card');
+        buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
+
+        display.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+                <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+                <p class="text-gray-600 italic">상단의 방어구 부위를 선택하면 카탈로그가 열립니다.</p>
+            </div>
+        `;
+    }
+
+    function filterArmor(categoryKey, categoryName) {
+        document.getElementById('selected-armor-category-name').innerText = categoryName + " (Catalog)";
+
+        const buttons = document.querySelectorAll('#armor-category-selector .item-card');
+        buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
+        const currentEvent = typeof event !== 'undefined' ? event : null;
+        if (currentEvent && currentEvent.currentTarget) currentEvent.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
+
+        const display = document.getElementById('armor-list-display');
+        const items = armorData[categoryKey] || [];
+
+        if (items.length === 0) {
+            display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">${categoryName} 카탈로그는 준비 중입니다.</div>`;
+            return;
+        }
+
+        display.innerHTML = items.map(item => `
+            <button class="item-card !p-4 h-14 w-full flex items-center justify-between gap-3 group hover:border-amber-500 transition-all border border-white/5 bg-black/20">
+                <span class="min-w-0 truncate text-left text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+                <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+            </button>
+        `).join('');
     }
 
     const consumableData = [
