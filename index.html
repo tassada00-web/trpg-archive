@@ -231,6 +231,55 @@
     <p class="text-xs text-gray-400 italic font-medium">"견인된 사냥감을 단계적으로 고정해 완전 구속으로 몰아가는 집행자입니다."</p>
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
+
+<div class="item-card monster-item twisted" onclick="openMonsterModal('poju')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">포주</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"낙인 찍힌 대상을 부하에게 넘기는 포주."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item twisted" onclick="openMonsterModal('poju_buha')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">포주의 부하</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"낙인 대상만 집중적으로 다루는 부하."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item common" onclick="openMonsterModal('milmaesang')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">밀매상</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"최음제로 대상을 약화시키는 밀매상."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item common" onclick="openMonsterModal('gilgeori_maechunbu')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">길거리 매춘부</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"유혹으로 접근해 강제로 다루는 길거리 매춘부."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item common" onclick="openMonsterModal('talak_gyeongbibyeong')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">타락 경비병</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"권력을 남용해 대상을 다루는 타락 경비병."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item common" onclick="openMonsterModal('pokryokbae')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">폭력배</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"직접적인 폭력으로 대상을 다루는 폭력배."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 </section>
 
@@ -829,6 +878,107 @@
                 { name: '홉고블린 완장', chance: '20%', desc: '계급 장식.' },
                 { name: '강화 철제 족쇄', chance: '10%', desc: '제작 재료.' },
                 { name: '낙인 파편', chance: '5%', desc: '희귀 재료.' }
+            ]
+        },
+        'poju': {
+            name: '포주',
+            title: '낙인 계열 포주',
+            type: '인간형, 포주',
+            image: '',
+            desc: '트위스타드와 바란 지역에서 활동하는 낙인 포주. 여성 캐릭터를 표적으로 삼아 부하에게 넘긴다.',
+            stats: { '힘': 8, '건강': 7, '속도': 6, '정밀': 7, '지능': 8, '지혜': 6, '매력': 10 },
+            skills: [
+                { name: '끌고와!', desc: '<span class="text-orange-400">힘 vs 힘.</span> 성공 시 피해 + <span class="text-red-400">[음욕]</span> +1.' },
+                { name: '최종 상품 포장해!', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[음욕]</span> +2 + <span class="text-yellow-400">[구속]</span>.' },
+                { name: '패시브: 포장 완성', desc: '낙인 대상의 [음욕] 이 최대 한계점에 도달하면 구속구로 전투 동안 영구 고정.' }
+            ],
+            loots: [
+                { name: '포주 표식', chance: '100%', desc: '낙인 증표.' }
+            ]
+        },
+        'poju_buha': {
+            name: '포주의 부하',
+            title: '낙인 대상 집중 실행형',
+            type: '인간형, 포주 부하',
+            image: '',
+            desc: '포주가 낙인 찍은 대상을 집중적으로 다루는 부하.',
+            stats: { '힘': 10, '건강': 8, '속도': 7, '정밀': 6, '지능': 5, '지혜': 5, '매력': 6 },
+            skills: [
+                { name: '목덜미 물고 끌기', desc: '성공 시 피해 + <span class="text-red-400">[음욕]</span> +1.' },
+                { name: '척추 꺾는 후배위', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' },
+                { name: '약한 년 깔아뭉개기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2 + <span class="text-yellow-400">[두려움]</span> +1.' },
+                { name: '바닥에 처박아 짓이기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' }
+            ],
+            loots: [
+                { name: '부하의 손톱', chance: '100%', desc: '기본 전리품.' }
+            ]
+        },
+        'milmaesang': {
+            name: '밀매상',
+            title: '약물 밀매자',
+            type: '인간형, 밀매상',
+            image: '',
+            desc: '최음제를 사용해 대상을 약화시키는 밀매상.',
+            stats: { '힘': 5, '건강': 6, '속도': 8, '정밀': 9, '지능': 7, '지혜': 6, '매력': 8 },
+            skills: [
+                { name: '최음제 강제 주입', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2.' },
+                { name: '약물에 녹아내리는 유린', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2 + 2턴 저항 판정 불리.' },
+                { name: '연막 속 음란 강간', desc: '성공 시 <span class="text-slate-300">[실명]</span> + 매 턴 <span class="text-red-400">[음욕]</span> +1.' },
+                { name: '도주용 실명 가루', desc: '성공 시 <span class="text-slate-300">[실명]</span>.' }
+            ],
+            loots: [
+                { name: '최음제 잔여물', chance: '100%', desc: '연금 재료.' }
+            ]
+        },
+        'gilgeori_maechunbu': {
+            name: '길거리 매춘부',
+            title: '유혹 후 기습',
+            type: '인간형, 매춘부',
+            image: '',
+            desc: '유혹으로 접근해 강제로 다루는 길거리 매춘부.',
+            stats: { '힘': 6, '건강': 7, '속도': 9, '정밀': 7, '지능': 6, '지혜': 5, '매력': 9 },
+            skills: [
+                { name: '달콤한 유혹 끌어들이기', desc: '성공 시 다음 공격이 <span class="text-yellow-400">[구속]</span> 판정으로 전환.' },
+                { name: '기습 육체 포옹', desc: '성공 시 <span class="text-yellow-400">[구속]</span> + <span class="text-red-400">[음욕]</span> +2.' },
+                { name: '승마위로 빨아먹기', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2.' },
+                { name: '야수 후배위 강간', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2.' }
+            ],
+            loots: [
+                { name: '유혹의 장신구', chance: '100%', desc: '기본 전리품.' }
+            ]
+        },
+        'talak_gyeongbibyeong': {
+            name: '타락 경비병',
+            title: '공권력 남용',
+            type: '인간형, 경비병',
+            image: '',
+            desc: '권력을 남용해 대상을 다루는 타락 경비병.',
+            stats: { '힘': 9, '건강': 9, '속도': 6, '정밀': 7, '지능': 5, '지혜': 6, '매력': 7 },
+            skills: [
+                { name: '불법 검문 & 협박', desc: '성공 시 <span class="text-yellow-400">[구속]</span> + 압박.' },
+                { name: '제압 후 무자비 폭행', desc: '성공 시 피해 + <span class="text-red-400">[음욕]</span> +2.' },
+                { name: '검문 후 후배위 강간', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2 + <span class="text-yellow-400">[구속]</span>.' },
+                { name: '방패로 짓누르는 정상위', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2, 추가 제압.' }
+            ],
+            loots: [
+                { name: '경비병 휘장', chance: '100%', desc: '토벌 증표.' }
+            ]
+        },
+        'pokryeokbae': {
+            name: '폭력배',
+            title: '잔인한 근접 강제형',
+            type: '인간형, 폭력배',
+            image: '',
+            desc: '직접적인 폭력으로 대상을 다루는 폭력배.',
+            stats: { '힘': 11, '건강': 9, '속도': 7, '정밀': 6, '지능': 4, '지혜': 5, '매력': 5 },
+            skills: [
+                { name: '목덜미 물고 끌기', desc: '성공 시 피해 + <span class="text-red-400">[음욕]</span> +1.' },
+                { name: '척추 꺾는 후배위', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' },
+                { name: '약한 년 깔아뭉개기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2 + <span class="text-yellow-400">[두려움]</span> +1.' },
+                { name: '바닥에 처박아 짓이기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' }
+            ],
+            loots: [
+                { name: '폭력배의 주먹', chance: '100%', desc: '기본 전리품.' }
             ]
         }
     };
