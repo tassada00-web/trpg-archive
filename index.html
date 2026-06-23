@@ -539,6 +539,8 @@
         document.getElementById(id).classList.toggle('show');
     }
 
+    let currentMonsterRegion = 'common';
+
     function showPage(pageId, pushToHistory = true) {
         const pages = document.querySelectorAll('.page');
         pages.forEach(p => p.classList.remove('active'));
@@ -554,7 +556,7 @@
             updateActiveStyle(pageId);
 
             if (pageId === 'enemies') {
-                filterRegion('common');
+                filterRegion(currentMonsterRegion);
             }
 
             if (pageId === 'consumables') renderConsumables();
@@ -631,6 +633,8 @@
     });
 
     function filterRegion(regionId, clickedButton = null) {
+        currentMonsterRegion = regionId;
+
         const buttons = document.querySelectorAll('.region-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
         if (clickedButton) {
