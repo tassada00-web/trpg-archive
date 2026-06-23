@@ -124,3 +124,119 @@ nav {
 .region-btn:hover { border-color: #f59e0b; color: #fff; }
 .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
 .monster-item.hidden { display: none; }
+
+.monster-group-control {
+    background: #111;
+    border: 1px solid #333;
+    color: #888;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    transition: 0.2s;
+}
+.monster-group-control:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.monster-list-grouped {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.monster-group.hidden {
+    display: none;
+}
+
+.monster-group-toggle {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(18, 18, 18, 0.92);
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #d1d5db;
+    text-align: left;
+    transition: 0.2s;
+}
+.monster-group-toggle:hover {
+    border-color: #f59e0b;
+    background: rgba(28, 28, 28, 0.95);
+}
+
+.monster-group-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.monster-group-title {
+    color: #f87171;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.monster-group-desc {
+    color: #777;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.monster-group-count {
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.monster-group-icon {
+    color: #777;
+    transition: transform 0.2s ease;
+}
+
+.monster-group-panel {
+    margin-top: 16px;
+}
+
+.monster-group-panel.hidden {
+    display: none;
+}
+
+.monster-group.collapsed .monster-group-panel {
+    display: none;
+}
+
+.monster-group.collapsed .monster-group-icon {
+    transform: rotate(-90deg);
+}
+
+.monster-empty-state {
+    border: 1px dashed #333;
+    border-radius: 8px;
+    padding: 42px 20px;
+    color: #777;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+@media (max-width: 640px) {
+    .monster-group-toggle {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .monster-group-icon {
+        display: none;
+    }
+}

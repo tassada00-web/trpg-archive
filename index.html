@@ -135,6 +135,11 @@
         <button onclick="filterRegion('jungle', this)" class="region-btn">에이델린 원시림</button>
     </div>
 
+    <div class="flex justify-end gap-2 mb-4">
+        <button type="button" onclick="setAllMonsterGroups(false)" class="monster-group-control">전체 접기</button>
+        <button type="button" onclick="setAllMonsterGroups(true)" class="monster-group-control">전체 펼치기</button>
+    </div>
+
     <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div class="item-card monster-item common" onclick="openMonsterModal('goblin')">
         <div class="flex justify-between items-center mb-4">
@@ -281,6 +286,10 @@
 </div>
 
 </div>
+
+    <div id="monster-empty-state" class="monster-empty-state hidden">
+        이 지역에는 아직 등록된 몬스터가 없습니다.
+    </div>
 </section>
 
     <section id="equip" class="page max-w-5xl mx-auto px-6">
@@ -622,6 +631,8 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => {
+        initMonsterGroups();
+
         const hash = window.location.hash.substring(1);
         if (hash && document.getElementById(hash)) {
             showPage(hash, false);
@@ -648,6 +659,123 @@
 
         const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
         selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
+
+        updateMonsterGroups();
+    }
+
+    const monsterGroupMeta = {
+        goblin: { label: '고블린 계열', desc: '무리 전술과 조잡한 장비를 쓰는 기본 위협군' },
+        undead: { label: '언데드 계열', desc: '전장의 기억과 장비에 묶인 망자들' },
+        norriton: { label: '노리튼 변종', desc: '타락한 노리튼 지역에서 변질된 특수 개체' },
+        humanoid: { label: '인간형 계열', desc: '도시와 외곽에서 마주치는 조직형 위협' },
+        other: { label: '기타 계열', desc: '분류가 확정되지 않은 개체' }
+    };
+
+    function getMonsterIdFromCard(card) {
+        const onclick = card.getAttribute('onclick') || '';
+        return onclick.match(/openMonsterModal\('([^']+)'\)/)?.[1] || '';
+    }
+
+    function getMonsterGroupKey(data = {}) {
+        const type = data.type || '';
+        if (type.includes('노리튼')) return 'norriton';
+        if (type.includes('언데드')) return 'undead';
+        if (type.includes('고블린')) return 'goblin';
+        if (type.includes('인간형')) return 'humanoid';
+        return 'other';
+    }
+
+    function initMonsterGroups() {
+        const list = document.getElementById('monster-list');
+        if (!list || list.dataset.grouped === 'true') return;
+
+        const cards = Array.from(list.querySelectorAll(':scope > .monster-item'));
+        if (cards.length === 0) return;
+
+        list.dataset.grouped = 'true';
+        list.className = 'monster-list-grouped';
+        list.innerHTML = '';
+
+        const groupMap = new Map();
+
+        cards.forEach(card => {
+            const id = getMonsterIdFromCard(card);
+            const key = getMonsterGroupKey(monsterData[id]);
+
+            if (!groupMap.has(key)) {
+                const meta = monsterGroupMeta[key] || monsterGroupMeta.other;
+                const section = document.createElement('section');
+                section.className = 'monster-group';
+                section.dataset.group = key;
+
+                section.innerHTML = `
+                    <button type="button" class="monster-group-toggle" aria-expanded="true">
+                        <span class="monster-group-main">
+                            <span class="monster-group-title">${meta.label}</span>
+                            <span class="monster-group-desc">${meta.desc}</span>
+                        </span>
+                        <span class="monster-group-count">0</span>
+                        <i class="fa-solid fa-chevron-down monster-group-icon"></i>
+                    </button>
+                    <div class="monster-group-panel grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                `;
+
+                section.querySelector('.monster-group-toggle').addEventListener('click', () => {
+                    toggleMonsterGroup(section);
+                });
+
+                list.appendChild(section);
+                groupMap.set(key, section);
+            }
+
+            groupMap.get(key).querySelector('.monster-group-panel').appendChild(card);
+        });
+
+        Array.from(groupMap.values()).forEach((section, index) => {
+            setMonsterGroupOpen(section, index === 0);
+        });
+
+        updateMonsterGroups();
+    }
+
+    function setMonsterGroupOpen(section, isOpen) {
+        section.classList.toggle('collapsed', !isOpen);
+        section.querySelector('.monster-group-toggle')?.setAttribute('aria-expanded', String(isOpen));
+        section.querySelector('.monster-group-panel')?.classList.toggle('hidden', !isOpen);
+    }
+
+    function toggleMonsterGroup(section) {
+        setMonsterGroupOpen(section, section.classList.contains('collapsed'));
+    }
+
+    function setAllMonsterGroups(isOpen) {
+        document.querySelectorAll('.monster-group:not(.hidden)').forEach(section => {
+            setMonsterGroupOpen(section, isOpen);
+        });
+    }
+
+    function updateMonsterGroups() {
+        const groups = Array.from(document.querySelectorAll('.monster-group'));
+        let hasOpenVisibleGroup = false;
+        let firstVisibleGroup = null;
+
+        groups.forEach(section => {
+            const visibleCards = Array.from(section.querySelectorAll('.monster-item'))
+                .filter(card => !card.classList.contains('hidden'));
+            const isVisible = visibleCards.length > 0;
+
+            section.classList.toggle('hidden', !isVisible);
+            section.querySelector('.monster-group-count').textContent = `${visibleCards.length}종`;
+
+            if (isVisible && !firstVisibleGroup) firstVisibleGroup = section;
+            if (isVisible && !section.classList.contains('collapsed')) hasOpenVisibleGroup = true;
+        });
+
+        document.getElementById('monster-empty-state')?.classList.toggle('hidden', !!firstVisibleGroup);
+
+        if (firstVisibleGroup && !hasOpenVisibleGroup) {
+            setMonsterGroupOpen(firstVisibleGroup, true);
+        }
     }
 
     // 몬스터 상세 정보 데이터베이스
