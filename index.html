@@ -631,8 +631,22 @@
         document.getElementById(id).classList.toggle('show');
     }
 
+    const monsterRegionIds = ['norriton', 'araon', 'twisted', 'baran', 'dotrey', 'karaz-dum', 'asksz', 'arcana', 'jungle'];
     let currentMonsterRegion = 'norriton';
     let currentMonsterCatalogMode = 'normal';
+
+    function parsePageHash() {
+        const [pageId, regionId] = window.location.hash.substring(1).split('/');
+        return {
+            pageId: pageId || 'home',
+            regionId: monsterRegionIds.includes(regionId) ? regionId : null
+        };
+    }
+
+    function getPageHash(pageId) {
+        if (pageId === 'enemies') return `#enemies/${currentMonsterRegion}`;
+        return `#${pageId}`;
+    }
 
     function showPage(pageId, pushToHistory = true) {
         const pages = document.querySelectorAll('.page');
@@ -649,7 +663,7 @@
             updateActiveStyle(pageId);
 
             if (pageId === 'enemies') {
-                filterRegion(currentMonsterRegion);
+                filterRegion(currentMonsterRegion, null, false);
             }
 
             if (pageId === 'consumables') renderConsumables();
@@ -659,8 +673,9 @@
             if (pageId === 'recipe-medicine') renderRecipeList('medicine');
             if (pageId === 'recipe-etc') renderRecipeList('etc');
 
-            if (pushToHistory && window.location.hash !== '#' + pageId) {
-                history.pushState({ pageId: pageId }, "", "#" + pageId);
+            const nextHash = getPageHash(pageId);
+            if (pushToHistory && window.location.hash !== nextHash) {
+                history.pushState({ pageId: pageId, regionId: pageId === 'enemies' ? currentMonsterRegion : null }, "", nextHash);
             }
         }
     }
@@ -694,7 +709,10 @@
     });
 
     window.addEventListener('popstate', function(event) {
-        const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
+        const hashState = parsePageHash();
+        const pageId = (event.state && event.state.pageId) || hashState.pageId || 'home';
+        const regionId = (event.state && event.state.regionId) || hashState.regionId;
+        if (pageId === 'enemies' && regionId) currentMonsterRegion = regionId;
         showPage(pageId, false);
 
         if (event.state && event.state.modal) {
@@ -717,17 +735,22 @@
     window.addEventListener('DOMContentLoaded', () => {
         initMonsterGroups();
 
-        const hash = window.location.hash.substring(1);
-        if (hash && document.getElementById(hash)) {
-            showPage(hash, false);
-            updateActiveStyle(hash);
+        const hashState = parsePageHash();
+        if (hashState.pageId === 'enemies' && hashState.regionId) {
+            currentMonsterRegion = hashState.regionId;
+        }
+
+        if (hashState.pageId && document.getElementById(hashState.pageId)) {
+            showPage(hashState.pageId, false);
+            updateActiveStyle(hashState.pageId);
         } else {
             showPage('home', false);
             history.replaceState({ pageId: 'home' }, "", "#home");
         }
     });
 
-    function filterRegion(regionId, clickedButton = null) {
+    function filterRegion(regionId, clickedButton = null, updateHash = true) {
+        if (!monsterRegionIds.includes(regionId)) regionId = 'norriton';
         currentMonsterRegion = regionId;
 
         const buttons = document.querySelectorAll('.region-btn');
@@ -749,6 +772,13 @@
         });
 
         updateMonsterGroups();
+
+        if (updateHash && document.getElementById('enemies')?.classList.contains('active')) {
+            const nextHash = getPageHash('enemies');
+            if (window.location.hash !== nextHash) {
+                history.replaceState({ pageId: 'enemies', regionId: currentMonsterRegion }, "", nextHash);
+            }
+        }
     }
 
     function setMonsterCatalogMode(mode) {
