@@ -125,6 +125,82 @@ nav {
 .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
 .monster-item.hidden { display: none; }
 
+.monster-catalog-mode {
+    position: relative;
+    width: min(260px, 100%);
+    margin: 0 auto 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 4px;
+    border: 1px solid #333;
+    border-radius: 999px;
+    background: #101010;
+    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.55);
+}
+
+.monster-catalog-mode::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    border-radius: 999px;
+    background: #f59e0b;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+    transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.boss-catalog-active .monster-catalog-mode::before {
+    transform: translateX(100%);
+    background: #ef4444;
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
+}
+
+.monster-mode-btn {
+    position: relative;
+    z-index: 1;
+    min-height: 34px;
+    border-radius: 999px;
+    color: #888;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    transition: color 0.2s ease;
+}
+
+.monster-mode-btn.active {
+    color: #080808;
+}
+
+#monster-catalog-title {
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.boss-catalog-active #monster-catalog-title {
+    color: #fff7ed;
+    text-shadow:
+        0 0 8px rgba(251, 146, 60, 0.95),
+        0 -5px 16px rgba(239, 68, 68, 0.72),
+        0 5px 24px rgba(127, 29, 29, 0.85);
+    animation: bossTitleFlame 1.35s ease-in-out infinite alternate;
+}
+
+@keyframes bossTitleFlame {
+    from {
+        text-shadow:
+            0 0 7px rgba(251, 146, 60, 0.82),
+            0 -4px 13px rgba(239, 68, 68, 0.62),
+            0 5px 22px rgba(127, 29, 29, 0.78);
+    }
+    to {
+        text-shadow:
+            0 0 12px rgba(253, 186, 116, 1),
+            0 -8px 22px rgba(220, 38, 38, 0.82),
+            0 6px 30px rgba(127, 29, 29, 0.95);
+    }
+}
+
 .monster-group-control {
     background: #111;
     border: 1px solid #333;
