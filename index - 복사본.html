@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETERNAL CITY - TRPG 도감</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Cinzel:wght@700&display=swap');
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #0d0d0d; 
+            color: #d1d5db; 
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; }
+
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), #0d0d0d),
+                        url('https://images.unsplash.com/photo-1519791883288-dc8bd696e667?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page { display: none; min-height: 100vh; padding-top: 100px; padding-bottom: 80px; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        nav {
+            background-color: rgba(10, 10, 10, 0.98);
+            border-bottom: 1px solid rgba(120, 53, 15, 0.5);
+            backdrop-filter: blur(10px);
+            height: 70px;
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: #111;
+            border-right: 1px solid #333;
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding-top: 80px;
+            overflow-y: auto;
+        }
+        #sidebar.open { left: 0; }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        .side-btn-container { display: flex; align-items: center; border-bottom: 1px solid #222; transition: 0.2s; }
+        .side-btn-container:hover { background: #1a1a1a; }
+        .side-main-link { flex-grow: 1; padding: 15px 10px 15px 25px; display: flex; align-items: center; cursor: pointer; color: #d1d5db; }
+        .side-toggle { padding: 15px 25px 15px 10px; cursor: pointer; color: #555; transition: 0.2s; }
+        .side-toggle:hover { color: #f59e0b; }
+
+        .side-btn-single { width: 100%; padding: 15px 25px; display: flex; align-items: center; border-bottom: 1px solid #222; cursor: pointer; color: #d1d5db; }
+        .side-btn-single:hover { background: #1a1a1a; color: #f59e0b; }
+
+        .active-menu { color: #f59e0b !important; font-weight: bold; }
+        .active-tab { color: #f59e0b !important; border-bottom: 2px solid #f59e0b; }
+
+        .submenu { background: #0a0a0a; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .submenu.show { max-height: 600px; }
+        .sub-btn { width: 100%; padding: 12px 25px 12px 55px; text-align: left; font-size: 13px; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.2s; }
+        .sub-btn:hover { color: #f59e0b; background: #151515; }
+
+        .item-card { background: rgba(20, 20, 20, 0.8); border: 1px solid #444; padding: 2.5rem 1.5rem; border-radius: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .item-card:hover { border-color: #f59e0b; transform: translateY(-8px); background: rgba(30, 30, 30, 0.9); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        .item-card i { transition: transform 0.3s ease; }
+        .item-card:hover i { transform: scale(1.2); }
+
+        /* 커스텀 SVG 아이콘: 무기(검), 방패 */
+        .icon-sword {
+            display: inline-block;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #f59e0b;
+            margin-bottom: 1rem;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14.5 2.5l7 7-1.5 1.5-1-1-9 9-1 3-3 1 1-3 9-9-1-1 1.5-1.5zM4 16l1 1-2 3-2-1 3-3z'/%3E%3C/svg%3E");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            transition: transform 0.3s ease;
+        }
+        .item-card:hover .icon-sword { transform: scale(1.2); }
+
+/* 모달 내부 스크롤바 숨기기 (기능은 작동) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* 전리품 등 내부 스크롤이 필요한 곳도 숨기고 싶다면 */
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    
+    <aside id="sidebar">
+        <div class="px-6 py-4 text-amber-600 font-bold cinzel border-b border-amber-900/30 tracking-widest uppercase text-left">Archive Menu</div>
+        
+        <div id="menu-enemies" class="side-btn-single" onclick="showPage('enemies')">
+            <i class="fa-solid fa-skull mr-4 w-6 text-center text-red-700"></i>적 (Enemies)
+        </div>
+        
+        <div class="side-btn-container">
+            <div id="menu-equip" class="side-main-link" onclick="showPage('equip')">
+                <i class="fa-solid fa-shield mr-4 w-6 text-center text-blue-700"></i>장비 (Equip)
+            </div>
+            <div class="side-toggle" onclick="toggleSubmenu('sub-equip')">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </div>
+        <div id="sub-equip" class="submenu">
+            <div id="menu-weapon-detail" class="sub-btn" onclick="showPage('weapon-detail')">ㄴ 무기 도감</div>
+            <div id="menu-armor-detail" class="sub-btn" onclick="showPage('armor-detail')">ㄴ 방어구 도감</div>
+        </div>
+
+        <div id="menu-consumables" class="side-btn-single" onclick="showPage('consumables')">
+            <i class="fa-solid fa-flask mr-4 w-6 text-center text-green-700"></i>소모품 (Consumable)
+        </div>
+
+        <div id="menu-materials" class="side-btn-single" onclick="showPage('materials')">
+            <i class="fa-solid fa-gem mr-4 w-6 text-center text-purple-700"></i>재료 (Material)
+        </div>
+
+        <div id="menu-npc" class="side-btn-single" onclick="showPage('npc')">
+            <i class="fa-solid fa-users mr-4 w-6 text-center text-yellow-600"></i>NPC
+        </div>
+
+        <div id="menu-recipes" class="side-btn-single" onclick="showPage('recipes')">
+            <i class="fa-solid fa-scroll mr-4 w-6 text-center text-orange-600"></i>레시피 (Recipe)
+        </div>
+    </aside>
+
+    <nav class="fixed top-0 w-full z-[100] px-6 flex justify-between items-center text-left">
+        <div class="flex items-center">
+            <button onclick="toggleSidebar()" class="text-white text-2xl mr-6 hover:text-amber-500 transition"><i class="fa-solid fa-bars"></i></button>
+            <button onclick="showPage('home')" class="font-bold text-2xl text-amber-600 cinzel tracking-widest uppercase">TRPG Encyclopedia</button>
+        </div>
+        <div class="hidden md:flex space-x-6 text-xs font-semibold text-gray-400 uppercase">
+            <button id="nav-enemies" onclick="showPage('enemies')" class="nav-link hover:text-amber-500 transition px-1 py-2">적</button>
+            <button id="nav-equip" onclick="showPage('equip')" class="nav-link hover:text-amber-500 transition px-1 py-2">장비</button>
+            <button id="nav-consumables" onclick="showPage('consumables')" class="nav-link hover:text-amber-500 transition px-1 py-2">소모품</button>
+            <button id="nav-materials" onclick="showPage('materials')" class="nav-link hover:text-amber-500 transition px-1 py-2">재료</button>
+            <button id="nav-npc" onclick="showPage('npc')" class="nav-link hover:text-amber-500 transition px-1 py-2">NPC</button>
+            <button id="nav-recipes" onclick="showPage('recipes')" class="nav-link hover:text-amber-500 transition px-1 py-2">레시피</button>
+        </div>
+    </nav>
+
+    <section id="home" class="page active !p-0">
+        <div class="hero-section text-center">
+            <h1 class="cinzel text-5xl md:text-8xl text-white font-bold mb-4 tracking-[0.1em] drop-shadow-2xl">TRPG 도감</h1>
+            <p class="text-amber-600 text-lg md:text-2xl mb-16 tracking-[0.4em] font-light uppercase italic">The Great Archive of Eternal City</p>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl w-full px-6">
+
+                <!-- 적 -->
+                <button onclick="showPage('enemies')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-skull text-4xl mb-4 text-red-700"></i>
+                    <span class="font-bold text-lg">적 (Enemies)</span>
+                </button>
+
+                <!-- 장비 - fa-shield (무료 버전 지원) + 검 SVG 아이콘 -->
+                <button onclick="showPage('equip')" class="item-card flex flex-col items-center">
+                    <div class="flex items-center gap-2 mb-4">
+                        <!-- 검 SVG (무료 Font Awesome에 없어서 직접 그림) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-9 h-9" style="transition: transform 0.3s ease;">
+                            <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                        </svg>
+                        <!-- 방패 아이콘 -->
+                        <i class="fa-solid fa-shield text-4xl text-blue-500"></i>
+                    </div>
+                    <span class="font-bold text-lg">장비 (Equip)</span>
+                </button>
+
+                <!-- 소모품 -->
+                <button onclick="showPage('consumables')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-flask text-4xl mb-4 text-green-700"></i>
+                    <span class="font-bold text-lg">소모품 (Consumable)</span>
+                </button>
+
+                <!-- 재료 -->
+                <button onclick="showPage('materials')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-gem text-4xl mb-4 text-purple-700"></i>
+                    <span class="font-bold text-lg">재료 (Material)</span>
+                </button>
+
+                <!-- NPC - fa-users-rectangle → fa-users (무료 버전 지원) -->
+                <button onclick="showPage('npc')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-users text-4xl mb-4 text-yellow-600"></i>
+                    <span class="font-bold text-lg">NPC</span>
+                </button>
+
+                <!-- 레시피 -->
+                <button onclick="showPage('recipes')" class="item-card flex flex-col items-center">
+                    <i class="fa-solid fa-scroll text-4xl mb-4 text-orange-600"></i>
+                    <span class="font-bold text-lg">레시피 (Recipe)</span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+<section id="enemies" class="page max-w-6xl mx-auto px-6">
+    <h2 class="cinzel text-5xl text-white mb-2 text-center uppercase">Enemies</h2>
+    <p class="text-amber-700 mb-8 text-center tracking-widest uppercase italic">중앙 대륙의 위협적 생명체들</p>
+    
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
+        <button onclick="filterRegion('common', this)" class="region-btn active">공통</button>
+        <button onclick="filterRegion('norriton', this)" class="region-btn">타락한 노리튼</button>
+        <button onclick="filterRegion('araon', this)" class="region-btn">고요한 아라온</button>
+        <button onclick="filterRegion('twisted', this)" class="region-btn">악독한 트위스타드</button>
+        <button onclick="filterRegion('baran', this)" class="region-btn">잊혀진 바란</button>
+        <button onclick="filterRegion('dotrey', this)" class="region-btn">혹한의 도트레이</button>
+        <button onclick="filterRegion('karaz-dum', this)" class="region-btn">폐허의 카라즈-둠</button>
+        <button onclick="filterRegion('asksz', this)" class="region-btn">고행의 아스키즈</button>
+        <button onclick="filterRegion('arcana', this)" class="region-btn">무너진 아르카나</button>
+        <button onclick="filterRegion('jungle', this)" class="region-btn">에이델린 원시림</button>
+    </div>
+
+    <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"비겁하고 교활하며, 무리지어 다니는 것을 좋아합니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin_warrior')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 병사</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item common" onclick="openMonsterModal('goblin_archer')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 궁수</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"멀리서 독이 묻은 화살을 날려 모험가를 괴롭힙니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+<div class="item-card monster-item common" onclick="openMonsterModal('hobgoblin')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">홉고블린</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"고블린 무리를 통솔하는 거구의 지배자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item norriton" onclick="openMonsterModal('norriton_chain_hobgoblin_puller')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">노리튼 사슬 홉고블린 - [견인형]</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"사슬 갈고리로 후열을 끌어내 전열을 무너뜨리는 약탈자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item norriton" onclick="openMonsterModal('norriton_chain_hobgoblin_binder')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">노리튼 사슬 홉고블린 - [구속형]</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"견인된 사냥감을 단계적으로 고정해 완전 구속으로 몰아가는 집행자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+</div>
+</section>
+
+<style>
+    .region-btn {
+        background: #1a1a1a;
+        border: 1px solid #444;
+        color: #888;
+        padding: 10px 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: 0.2s;
+    }
+    .region-btn:hover { border-color: #f59e0b; color: #fff; }
+    .region-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; font-weight: bold; }
+    .monster-item.hidden { display: none; }
+</style>
+
+    <section id="equip" class="page max-w-5xl mx-auto px-6 text-center">
+        <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Equipment</h2>
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('weapon-detail')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="w-14 h-14 mb-6" style="transition: transform 0.3s ease;">
+                    <path d="M6.293 17.293l-2 2a1 1 0 101.414 1.414l2-2a1 1 0 00-1.414-1.414zM20.485 3.515a1 1 0 00-1.414 0L14 8.586l-1.293-1.293a1 1 0 00-1.414 1.414L12.586 10l-6.293 6.293a1 1 0 000 1.414l1 1a1 1 0 001.414 0L15 12.414l1.293 1.293a1 1 0 001.414-1.414L16.414 11l4.071-4.071a1 1 0 000-1.414z"/>
+                </svg>
+                <h3 class="text-2xl font-bold uppercase">무기 도감 (Weapons)</h3>
+            </div>
+            <div class="item-card flex flex-col items-center p-12" onclick="showPage('armor-detail')">
+                <i class="fa-solid fa-shield text-5xl mb-6 text-blue-500"></i>
+                <h3 class="text-2xl font-bold uppercase">방어구 도감 (Armor)</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="weapon-detail" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Weapon Catalog</h2>
+                <p id="selected-category-name" class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">종류를 선택해주세요</p>
+            </div>
+            <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
+        </div>
+
+        <div id="weapon-category-selector" class="grid grid-cols-3 md:grid-cols-9 gap-2 mb-12">
+            <button onclick="filterWeapon('shield', '방패')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">방패</span>
+            </button>
+            
+            <button onclick="filterWeapon('sword', '한손검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-amber-500 group-hover:scale-110 transition">
+                    <path d="M472.39 40L352.26 160.13l-45.25-45.25c-12.5-12.5-32.76-12.5-45.25 0l-11.31 11.31c-12.5 12.5-12.5 32.76 0 45.25l45.25 45.25L132.32 335.07c-3.23 3.23-5.26 7.37-5.84 11.81l-15.65 119.34c-1.12 8.52 6.13 15.77 14.65 14.65l119.34-15.65c4.44-.58 8.58-2.62 11.81-5.84l138.38-138.38 45.25 45.25c12.5 12.5 32.76 12.5 45.25 0l11.31-11.31c12.5-12.5 12.5-32.76 0-45.25l-45.25-45.25L472 40z"/>
+                </svg>
+                <span class="text-[10px] font-bold">한손검</span>
+            </button>
+
+            <button onclick="filterWeapon('dagger', '단검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-pen-nib text-xl text-red-500 group-hover:scale-110 transition" style="transform: rotate(180deg);"></i>
+                <span class="text-[10px] font-bold">단검</span>
+            </button>
+
+            <button onclick="filterWeapon('greatsword', '대검')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-6 h-6 fill-orange-700 group-hover:scale-110 transition">
+                    <path d="M478.7 33.3c-12.5-12.5-32.7-12.5-45.2 0l-80 80-22.6-22.6c-12.5-12.5-32.8-12.5-45.3 0l-11.3 11.3c-12.5 12.5-12.5 32.8 0 45.3l22.6 22.6L124.7 342.1c-1.5 1.5-2.6 3.4-3.2 5.4l-24 80c-2.3 7.8 4.2 15.1 11.7 13.8l94.5-16c2.8-.5 5.4-1.8 7.5-3.9L383.4 249.2l22.6 22.6c12.5 12.5 32.8 12.5 45.3 0l11.3-11.3c12.5-12.5 12.5-32.8 0-45.3l-22.6-22.6 80-80c12.5-12.5 12.5-32.7 0-45.2l-41.3-41.3z"/>
+                </svg>
+                <span class="text-[10px] font-bold">대검</span>
+            </button>
+
+            <button onclick="filterWeapon('mace', '둔기')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-hammer text-xl text-gray-400 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">둔기</span>
+            </button>
+
+            <button onclick="filterWeapon('spear', '창')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-green-600 group-hover:scale-110 transition" style="transform: rotate(-45deg);">
+                    <path d="M363.3 22.1c-14.7-14.7-38.6-14.7-53.3 0L241 91.1c-7.1 7.1-11.1 16.7-11.1 26.7v36.1L49 334.8c-12.1 12.1-12.1 31.9 0 44l83.1 83.1c12.1 12.1 31.9 12.1 44 0l180.9-180.9h36.1c10 0 19.6-4 26.7-11.1l69-69c14.7-14.7 14.7-38.6 0-53.3L363.3 22.1z"/>
+                </svg>
+                <span class="text-[10px] font-bold">창</span>
+            </button>
+
+            <button onclick="filterWeapon('bow', '활')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 fill-lime-600 group-hover:scale-110 transition">
+                    <path d="M439.1 133.3c-1.3-13.8-13.1-24.3-26.9-23.1-42.6 3.8-101.9 14.8-150.1 63-1.6 1.6-3.1 3.2-4.6 4.9L32.4 20.3C23.1 11 8.1 11-1.3 20.3c-9.4 9.4-9.4 24.6 0 33.9L168.1 223.6c-2.4 2.8-4.7 5.7-6.8 8.8-46.7 66.4-53.6 156-55.5 204.6-.5 13.8 10.3 25.5 24.1 26 13.8.5 25.5-10.3 26-24.1 2-51.2 11.7-118.6 44.5-165.2 10.8-15.4 23.5-29.3 37.8-41.5L414.1 506.6c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L281.4 306.1c10.4-15 22.1-29.1 34.9-41.9 39.5-39.5 88-51.1 121.3-56.5 13.7-2.2 23-14.9 20.8-28.6-2.2-13.7-14.9-23-28.6-20.8-19 3.1-48.4 10.1-77.4 25.9L439.1 133.3z"/>
+                </svg>
+                <span class="text-[10px] font-bold">활</span>
+            </button>
+
+            <button onclick="filterWeapon('crossbow', '석궁')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-crosshairs text-xl text-emerald-700 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">석궁</span>
+            </button>
+
+            <button onclick="filterWeapon('musket', '머스킷')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-gun text-xl text-stone-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">머스킷</span>
+            </button>
+        </div>
+
+        <div id="weapon-list-display" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
+            <div class="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-white/5 rounded-xl">
+                <i class="fa-solid fa-arrow-up text-amber-900/30 text-4xl mb-4"></i>
+                <p class="text-gray-600 italic">상단의 무기 종류를 선택하면 카탈로그가 열립니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="armor-detail" class="page max-w-4xl mx-auto px-6">
+        <h2 class="cinzel text-4xl text-white mb-10 border-b border-amber-900/30 pb-6 uppercase font-bold">Armor Catalog</h2>
+        <div class="item-card">방어구 목록이 준비 중입니다.</div>
+        <button onclick="showPage('equip')" class="text-amber-500 hover:underline mt-8 block text-left">← 장비 메뉴로 돌아가기</button>
+    </section>
+
+    <section id="consumables" class="page max-w-5xl mx-auto px-6">
+        <h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest mb-16">Consumables</h2>
+        <div id="consumables-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+    <section id="materials" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Materials</h2><div class="item-card mt-16 text-center">데이터를 기다리는 중...</div></section>
+    <section id="npc" class="page max-w-5xl mx-auto px-6"><h2 class="cinzel text-5xl text-white text-center uppercase tracking-widest">Non-Player Characters</h2><div class="item-card mt-16 text-center">기록된 인물이 없습니다.</div></section>
+    <section id="recipes" class="page max-w-5xl mx-auto px-6 text-center">
+        <h2 class="cinzel text-5xl text-white mb-16 uppercase tracking-widest">Crafting Recipes</h2>
+
+        <div class="grid md:grid-cols-4 gap-6">
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-equipment')">
+                <h3 class="text-xl font-bold uppercase">장비</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-food')">
+                <h3 class="text-xl font-bold uppercase">음식</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-medicine')">
+                <h3 class="text-xl font-bold uppercase">약</h3>
+            </div>
+
+            <div class="item-card flex flex-col items-center p-10" onclick="showPage('recipe-etc')">
+                <h3 class="text-xl font-bold uppercase">기타</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="recipe-equipment" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Equipment Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">장비 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-equipment-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-food" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Food Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">음식 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-food-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-medicine" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Medicine Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">약 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-medicine-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="recipe-etc" class="page max-w-5xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-10 border-b border-amber-900/30 pb-6">
+            <div>
+                <h2 class="cinzel text-4xl text-white uppercase font-bold tracking-widest">Etc Recipes</h2>
+                <p class="text-amber-600 text-sm mt-2 tracking-widest italic font-medium">기타 제작 레시피</p>
+            </div>
+            <button onclick="showPage('recipes')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold">← BACK TO RECIPES</button>
+        </div>
+        <div id="recipe-etc-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('show');
+    }
+
+    function toggleSubmenu(id) {
+        document.getElementById(id).classList.toggle('show');
+    }
+
+    function showPage(pageId, pushToHistory = true) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.classList.remove('active'));
+        
+        const target = document.getElementById(pageId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('show');
+
+            updateActiveStyle(pageId);
+
+            if (pageId === 'enemies') {
+                filterRegion('common');
+            }
+
+            if (pageId === 'consumables') renderConsumables();
+
+            if (pageId === 'recipe-equipment') renderRecipeList('equipment');
+            if (pageId === 'recipe-food') renderRecipeList('food');
+            if (pageId === 'recipe-medicine') renderRecipeList('medicine');
+            if (pageId === 'recipe-etc') renderRecipeList('etc');
+
+            if (pushToHistory && window.location.hash !== '#' + pageId) {
+                history.pushState({ pageId: pageId }, "", "#" + pageId);
+            }
+        }
+    }
+
+    function updateActiveStyle(pageId) {
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-tab'));
+        document.querySelectorAll('.side-btn-single, .side-main-link, .sub-btn').forEach(menu => menu.classList.remove('active-menu'));
+
+        const activeNav = document.getElementById('nav-' + pageId);
+        if (activeNav) activeNav.classList.add('active-tab');
+
+        const activeSide = document.getElementById('menu-' + pageId);
+        if (activeSide) activeSide.classList.add('active-menu');
+
+        if(['weapon-detail', 'armor-detail'].includes(pageId)) {
+            document.getElementById('menu-equip')?.classList.add('active-menu');
+            document.getElementById('nav-equip')?.classList.add('active-tab');
+        }
+    }
+
+    // 카드 호버 효과
+    document.querySelectorAll('.item-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1.2)';
+        });
+        card.addEventListener('mouseleave', () => {
+            const svg = card.querySelector('svg');
+            if (svg) svg.style.transform = 'scale(1)';
+        });
+    });
+
+    window.addEventListener('popstate', function(event) {
+        const pageId = (event.state && event.state.pageId) || window.location.hash.substring(1) || 'home';
+        showPage(pageId, false);
+
+        if (event.state && event.state.modal) {
+            const s = event.state;
+            if (s.modal === 'monster') openMonsterModal(s.id, false);
+            else if (s.modal === 'weapon') openWeaponModal(s.category, s.id, false);
+            else if (s.modal === 'recipe') openRecipeModal(s.category, s.id, false);
+            else if (s.modal === 'recipe-result') openRecipeResultModal(s.category, s.parentId, s.resultId, false);
+            else if (s.modal === 'consumable') openConsumableModal(s.id, false);
+        } else {
+            const modal = document.getElementById('monster-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && document.getElementById(hash)) {
+            showPage(hash, false);
+            updateActiveStyle(hash);
+        } else {
+            showPage('home', false);
+            history.replaceState({ pageId: 'home' }, "", "#home");
+        }
+    });
+
+    function filterRegion(regionId, clickedButton = null) {
+        const buttons = document.querySelectorAll('.region-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        if (clickedButton) {
+            clickedButton.classList.add('active');
+        } else {
+            document.querySelector(`.region-btn[onclick="filterRegion('${regionId}', this)"]`)?.classList.add('active');
+        }
+
+        const monsters = document.querySelectorAll('.monster-item');
+        monsters.forEach(monster => monster.classList.add('hidden'));
+
+        const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
+        selectedMonsters.forEach(monster => monster.classList.remove('hidden'));
+    }
+
+    // 몬스터 상세 정보 데이터베이스
+    const monsterData = {
+        'goblin': {
+            name: '고블린',
+            title: '비겁한 숲의 약탈자',
+            type: '인간형, 고블린',
+            image: './normal/goblin.jpg',
+            desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
+            stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
+            skills: [
+                { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
+                { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
+                { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
+            ],
+            loots: [
+                { name: '낡은 페니 주머니', chance: '100%', desc: '4~6 페니가 들어있음.' }, // 추가
+                { name: '고블린의 귀', chance: '100%', desc: '토벌 증거품 및 기본 환금 아이템.' },
+                { name: '거친 가죽 조각', chance: '40%', desc: '재봉 스킬 재료.' },
+                { name: '이가 빠진 단검', chance: '15%', desc: '야금 스킬 재료 혹은 임시 무기.' }
+            ]
+        },
+        'goblin_warrior': {
+            name: '고블린 병사',
+            title: '단단하게 무장한 전선 보병',
+            type: '인간형, 고블린',
+            image: './normal/goblin_warrior.jpg',
+            desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
+            stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+            skills: [
+                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
+                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
+                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
+            ],
+            loots: [
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '녹슨 철 조각', chance: '30%', desc: '야금 스킬의 주 재료.' },
+            { name: '철검', chance: '5%', desc: '근접 무기.' }
+            ]
+        },
+        'goblin_archer': {
+            name: '고블린 궁수',
+            title: '그늘 속에 숨어든 저격수',
+            type: '인간형, 고블린',
+            image: './normal/goblin_archer.jpg',
+            desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
+            stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
+            skills: [
+                { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
+                { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
+                { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
+            ],
+            loots: [
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' },
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '마비 독 화살 묶음', chance: '20%', desc: '적을 마비시키는 소모성 화살 세트.' }, 
+            { name: '질긴 활', chance: '5%', desc: '원거리 무기.' } 
+            ]
+        },
+        'hobgoblin': {
+            name: '홉고블린',
+            title: '군단 위계의 정점에 선 지배자',
+            type: '인간형, 고블린',
+            image: './normal/Hobgoblin.jpg',
+            desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
+            stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
+            skills: [
+                { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
+                { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
+                { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
+                { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
+                { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
+            ],
+            loots: [
+                { name: '묵직한 페니 주머니', chance: '100%', desc: '30~40 페니가 들어있음.' }, // 추가
+                { name: '지배자의 증표', chance: '100%', desc: '퀘스트 아이템.' },
+                { name: '홉고블린의 견장', chance: '10%', desc: '매력이나 힘 스탯 보너스 장신구.' },
+                { name: '엑스', chance: '5%', desc: '강력한 파괴력을 가진 힘 기반 도끼 무기.' }, // 곤봉에서 교체
+                { name: '방패', chance: '5%', desc: '방어력을 높여주는 방어 보조 장비.' } // 추가
+            ]
+        },
+        'norriton_chain_hobgoblin_puller': {
+            name: '노리튼 사슬 홉고블린 - [견인형]',
+            title: '사슬로 전열을 무너뜨리는 약탈자',
+            type: '인간형, 고블린, 노리튼',
+            image: './norriton/chainhobgoblin.jpg',
+            desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
+            stats: { '힘': 12, '건강': 10, '속도': 8, '정밀': 12, '지능': 7, '지혜': 6, '매력': 9 },
+            skills: [
+                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀(12) 판정.</span> 원거리 유저를 앞으로 견인. 성공 시 <span class="text-yellow-400">[이동 불가]</span> 및 <span class="text-amber-400">[연계 트리거]</span> 생성.' },
+                { name: '방어구 강제 해체', desc: '<span class="text-orange-400">정밀(12) vs 속도.</span> 성공 시 방어구 내구도 <span class="text-red-400">-10</span>.' },
+                { name: '전리품 감별 애무', desc: '<span class="text-orange-400">매력(9) vs 지능.</span> 실패 시 유저 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 다음 저항 판정 패널티.' }
+            ],
+            loots: [
+                { name: '노리튼 사슬 조각', chance: '100%', desc: '견인형이 사용하던 사슬 잔해.' },
+                { name: '갈고리 사슬', chance: '25%', desc: '제작 재료.' },
+                { name: '약탈 표식', chance: '15%', desc: '노리튼 약탈대 증표.' },
+                { name: '강화 사슬 고리', chance: '5%', desc: '희귀 재료.' }
+            ]
+        },
+        'norriton_chain_hobgoblin_binder': {
+            name: '노리튼 사슬 홉고블린 - [구속형]',
+            title: '사냥감을 형틀처럼 고정하는 집행자',
+            type: '인간형, 고블린, 노리튼',
+            image: './norriton/chainhobgoblin.jpg',
+            desc: '견인형이 끌어온 대상을 붙잡아 단계적으로 구속하는 개체. 팔 고정 → 다리 고정을 거쳐 완전 구속 상태를 만든다.',
+            stats: { '힘': 14, '건강': 12, '속도': 5, '정밀': 9, '지능': 8, '지혜': 7, '매력': 11 },
+            skills: [
+                { name: '인간 형틀 고정', desc: '<span class="text-orange-400">힘(14) vs 힘.</span> 1회 성공 시 <span class="text-yellow-400">[팔 고정]</span>. 이후 추가 성공 시 <span class="text-yellow-400">[다리 고정]</span> → <span class="text-red-400">[완전 구속]</span>. 탈출은 아군 도움으로만 가능.' },
+                { name: '자비 없는 복종 타격', desc: '<span class="text-orange-400">힘(14) vs 건강.</span> 실패 시 <span class="text-yellow-400">[기절]</span> 1턴 및 감도 상승.' },
+                { name: '공포의 집단 유린', desc: '<span class="text-orange-400">매력(11) vs 지혜.</span> 실패 시 매 턴 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+4</span> 및 <span class="text-purple-400">[두려움]</span> 부여.' },
+                { name: '정복자의 낙인 주입', desc: '<span class="text-orange-400">매력(11) vs 건강.</span> 실패 시 즉시 <span class="text-pink-400">[절정]</span> 및 <span class="text-purple-400">[광기]</span> <span class="text-white">+3</span>.' }
+            ],
+            loots: [
+                { name: '노리튼 구속 장치', chance: '100%', desc: '구속형 장비 잔해.' },
+                { name: '홉고블린 완장', chance: '20%', desc: '계급 장식.' },
+                { name: '강화 철제 족쇄', chance: '10%', desc: '제작 재료.' },
+                { name: '낙인 파편', chance: '5%', desc: '희귀 재료.' }
+            ]
+        }
+    };
+
+    function openMonsterModal(id, pushHistory = true) {
+        const data = monsterData[id];
+        if (!data) return;
+
+        if (pushHistory) history.pushState({ modal: 'monster', id: id }, "");
+
+        const content = document.getElementById('modal-content');
+        
+        const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
+            <div class="bg-black/30 p-1.5 rounded border border-white/5 text-center flex flex-col justify-center">
+                <p class="text-[8px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+                <p class="text-sm font-bold text-white">${value}</p>
+            </div>
+        `).join('') : '';
+
+        const skillsHtml = data.skills ? data.skills.map(skill => `
+            <div class="bg-black/40 p-3 rounded-lg border border-white/10 hover:border-amber-500/50 transition-all group">
+                <p class="text-sm font-bold text-amber-500 mb-1 group-hover:text-amber-400 transition-colors text-left">[${skill.name}]</p>
+                <p class="text-[12px] text-gray-400 leading-snug text-left">${skill.desc}</p>
+            </div>
+        `).join('') : '';
+
+        const lootsHtml = data.loots ? data.loots.map(loot => `
+            <div class="bg-white/5 p-2 rounded border border-white/5 flex flex-col gap-0.5 text-left">
+                <div class="flex justify-between items-center">
+                    <span class="text-[12px] font-bold text-blue-400">${loot.name}</span>
+                    <span class="text-[9px] text-gray-600 font-bold tracking-widest">${loot.chance}</span>
+                </div>
+                <p class="text-[10px] text-gray-500 leading-tight">${loot.desc}</p>
+            </div>
+        `).join('') : '';
+
+        content.innerHTML = `
+            <div class="h-full flex flex-col gap-5 animate-fadeIn text-left">
+                <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                    
+                    <div class="w-full md:w-[220px] shrink-0 flex flex-col gap-3">
+                        <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-square shadow-2xl">
+                            ${data.image ? `<img src="${data.image}" class="w-full h-full object-cover rounded border border-white/5">` : `<div class="w-full h-full flex items-center justify-center bg-gray-900"><i class="fa-solid fa-ghost text-4xl text-white/5"></i></div>`}
+                        </div>
+                        <div class="bg-amber-900/10 p-3 rounded-lg border border-amber-900/30">
+                            <h4 class="text-[9px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-2">핵심 능력치</h4>
+                            <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex flex-col w-full">
+                        <div class="mb-4">
+                            <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-3">${data.name}</h2>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-blue-900/40 text-blue-400 text-[8px] px-1.5 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-widest">분류</span>
+                                <p class="text-xs text-gray-400 font-semibold">${data.type || '미분류'}</p>
+                            </div>
+                            <p class="text-lg text-amber-600 italic tracking-[0.2em] font-semibold mb-4">${data.title}</p>
+                        </div>
+
+                        <div class="flex flex-col gap-6">
+                            <p class="text-sm text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-4 py-1 bg-white/5 rounded-r">
+                                ${data.desc}
+                            </p>
+
+                            <div class="flex flex-col gap-3">
+                                <h4 class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-amber-900/50"></span> 고유 기술
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    ${skillsHtml}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-3 pt-2 border-t border-white/5">
+                                <h4 class="text-[10px] text-blue-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-blue-900/50"></span> 전리품 목록
+                                </h4>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                    ${lootsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.2em]">
+                    <span>Archive Log</span>
+                    <span class="cinzel text-amber-900/80 font-bold text-[10px]">REF-${id}</span>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('monster-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMonsterModal() {
+        if (history.state && history.state.modal) {
+            history.back();
+            return;
+        }
+        document.getElementById('monster-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    const weaponData = {
+        'shield': [
+            {
+                id: 'wooden_shield',
+                name: '나무 방패',
+                image: './weapon/shield/wood_shield.jpg',
+                price: '20 페니',
+                desc: '가벼운 가문비나무 판자를 덧대어 만든 기초적인 방패입니다.',
+                stats: { '건강': '+1' },
+                effects: [
+                    { name: '취약한 구조', desc: '화염 속성 공격 피격 시, 방패의 내구도가 추가로 5만큼 감소합니다.' }
+                ]
+            },
+            {
+                id: 'spiked_wooden_shield',
+                name: '못질한 나무 방패',
+                image: './weapon/shield/motwood_shield.jpg',
+                price: '35 페니',
+                desc: '나무 방패 표면에 날카로운 철제 못을 박아 방어와 역습을 동시에 고려했습니다.',
+                stats: { '건강': '+1', '매력': '+1', '속도': '-1' },
+                effects: [
+                    { name: '가시 보복', desc: '근접 공격을 방어(Block)할 때마다 공격자에게 3의 고정 물리 피해를 입힙니다.' }
+                ]
+            },
+            {
+                id: 'water_soaked_wooden_shield',
+                name: '물이 스며든 나무 방패',
+                image: './weapon/shield/waterwood_shield.jpg',
+                price: '45 페니',
+                desc: '수분을 가득 머금어 일반 목재보다 밀도가 높고 묵직해진 방패입니다.',
+                stats: { '건강': '+2', '속도': '-2' },
+                effects: [
+                    { name: '함습', desc: '화염 속성 공격 피격 시 받는 피해가 5만큼 감소합니다.' },
+                    { name: '과전도', desc: '전격 속성 공격 피격 시 받는 피해가 10만큼 증가하며, 1턴간 [기절] 상태가 됩니다.' }
+                ]
+            }
+        ],
+            'sword': [
+        {
+                id: 'iron_sword',
+                name: '철검',
+                image: './weapon/sword/iron_sword.jpg',
+                price: '110 페니',
+                desc: '가장 기본적인 형태의 철제 한손검입니다.',
+                stats: { '힘': '+1' },
+                effects: []
+        },
+
+        {
+                id: 'balanced_longsword',
+                name: '균형의 롱소드',
+                special: true,
+                image: './weapon/sword/longsword.jpg',
+                price: '알 수 없음',
+                desc: '균형 잡힌 구조로 안정적인 전투가 가능한 롱소드입니다.',
+                stats: { '힘': '+2', '데미지': '+1' },
+                effects: [
+                    { name: '균형', desc: '주사위 판정 결과값이 중간값인 경우 +1 판정을 얻습니다.' }
+                ]
+        },
+
+        {
+                id: 'steel_sword',
+                name: '강철검',
+                image: './weapon/sword/steel_sword.jpg',
+                price: '125 페니',
+                desc: '철보다 단단한 강철 재질로 제작된 검입니다.',
+                stats: { '힘': '+2' },
+                effects: [
+                    { name: '견고한 검신', desc: '무기 내구도 감소량이 절반으로 감소합니다.' }
+                ]
+        },
+
+        {
+                id: 'bastard_sword',
+                name: '바스타드 소드',
+                image: './weapon/sword/bastard_sword.jpg',
+                price: '145 페니',
+                desc: '한손과 양손 모두 활용 가능한 긴 검입니다.',
+                stats: { '힘': '+2', '데미지': '+2', '속도': '-1' },
+                effects: [
+                    { name: '전환 자세', desc: '턴 시작 시 공격형 또는 균형형 자세를 선택할 수 있습니다.' }
+                ]
+        },
+
+        {
+                id: 'broad_sword',
+                name: '브로드 소드',
+                image: './weapon/sword/broad_sword.jpg',
+                price: '140 페니',
+                desc: '넓은 검신으로 강한 베기를 중시한 검입니다.',
+                stats: { '힘': '+3', '속도': '-1' },
+                effects: [
+                    { name: '넓은 베기', desc: '공격 성공 시 낮은 확률로 주변 적에게 추가 피해를 줍니다.' }
+                ]
+        },
+
+        {
+                id: 'thin_blade',
+                name: '세검',
+                image: './weapon/sword/thin_blade.jpg',
+                price: '145 페니',
+                desc: '찌르기에 특화된 가늘고 긴 검입니다.',
+                stats: { '정밀': '+3', '속도': '+1', '힘': '-1' },
+                effects: [
+                    { name: '급소 찌르기', desc: '공격 성공 시 정밀 주사위를 굴립니다. 결과값이 대성공이거나, 상대 속도 결과값의 2배 이상일 경우 추가 피해 +2를 부여합니다.' }
+                ]
+        },
+
+        {
+                id: 'curve_sword',
+                name: '곡도',
+                image: './weapon/sword/curve_sword.jpg',
+                price: '135 페니',
+                desc: '휘어진 날을 이용해 빠른 연속 베기에 특화된 검입니다.',
+                stats: { '속도': '+2', '데미지': '+1' },
+                effects: [
+                    { name: '연속 참격', desc: '같은 적 공격 시 피해가 점차 증가합니다.' }
+                ]
+        },
+
+        {
+                id: 'falchion',
+                name: '팔시온',
+                image: './weapon/sword/falchion.jpg',
+                price: '150 페니',
+                desc: '도검과 도끼의 성향이 혼합된 무거운 검입니다.',
+                stats: { '힘': '+3', '데미지': '+2', '속도': '-2' },
+                effects: [
+                    { name: '절단', desc: '방어 성공 후에도 일부 피해를 관통시킵니다.' }
+                ]
+        },
+
+        {
+                id: 'silver_sword',
+                name: '은검',
+                special: true,
+                image: './weapon/sword/silver_sword.jpg',
+                price: '알 수 없음',
+                desc: '신성한 은으로 도금되어 불사자와 악령에게 치명적인 일격을 가합니다.',
+                stats: { '힘': '+1', '정밀': '+1', '지혜': '+1' },
+                effects: [
+                    { name: '은의 정화', desc: '언데드, 악령, 저주받은 적에게 추가 피해 +3' }
+                ]
+        },
+
+        {
+                id: 'rune_engraved_sword',
+                name: '룬 각인검',
+                special: true,
+                image: './weapon/sword/rune_sword.jpg',
+                price: '알 수 없음',
+                desc: '검신에 새겨진 마법 룬이 사용자의 마력과 공명하여 위력을 발휘합니다.',
+                stats: { '힘': '+1', '지능': '+2', '데미지': '+1' },
+                effects: [
+                    { name: '룬 공명', desc: '마법 판정 성공 후 다음 근접 공격 피해 +2' }
+                ]
+        },
+
+        {
+                id: 'chain_hook_sword',
+                name: '사슬 갈고리검',
+                special: true,
+                image: './weapon/sword/chain_hook_sword.jpg',
+                price: '알 수 없음',
+                desc: '변칙적인 기동이 가능하도록 사슬과 갈고리가 장착된 특수 제작 검입니다.',
+                stats: { '힘': '+1', '정밀': '+2', '속도': '-1' },
+                effects: [
+                    { name: '갈고리 견인', desc: '정밀 판정 성공 시 근거리 적을 1칸 끌어옴' }
+                ]
+        }
+    ],
+        'dagger': [
+            {
+                id: 'dagger',
+                name: '단검',
+                image: './weapon/dagger/rusty_dagger.jpg',
+                price: '25 페니',
+                desc: '가볍게 숨기거나 빠르게 찌르기 좋은 기본 단검입니다.',
+                stats: { '속도': '+1' },
+                effects: []
+            },
+            {
+                id: 'assassin_dagger',
+                name: '암살자용 단검',
+                image: './weapon/dagger/assassin_dagger.jpg',
+                price: '90 페니',
+                desc: '기습과 급소 공격에 특화된 단검입니다.',
+                stats: { '데미지': '+2' },
+                effects: [
+                    { name: '그림자 일격', desc: '기습 시 첫 공격 피해가 +2 증가합니다.' }
+                ]
+            }
+        ],
+        'greatsword': [
+            {
+                id: 'two_handed_greatsword',
+                name: '양손 대검',
+                image: './weapon/greatsword/heavy.jpg',
+                price: '95 페니',
+                desc: '양손으로 다루는 묵직한 대검입니다. 강력하지만 행동이 느려집니다.',
+                stats: { '데미지': '+3', '힘': '+1', '속도': '-2' },
+                effects: [
+                    { name: '강타', desc: '주사위 결과값이 자신이 대성공이거나 적이 대실패인 경우 상대에게 [무너짐]을 부여합니다.' }
+                ]
+            },
+            {
+                id: 'executioner_blade',
+                name: '처형자의 대검',
+                image: './weapon/greatsword/executioner.jpg',
+                price: '130 페니',
+                desc: '처형용으로 제작된 거대한 대검입니다. 치명적인 마무리에 특화되어 있습니다.',
+                stats: { '데미지': '+5', '속도': '-3' },
+                effects: [
+                    { name: '처형', desc: '체력 30% 이하인 적에게 주는 피해가 1.5배가 됩니다.' }
+                ]
+            }
+        ],
+        'mace': [
+            {
+                id: 'iron_mace',
+                name: '철제 둔기',
+                image: './weapon/mace/mace.jpg',
+                price: '65 페니',
+                desc: '방어구와 뼈를 부수기 위해 만들어진 단순하고 강력한 둔기입니다.',
+                stats: { '힘': '+1', '건강': '+1', '데미지': '+1', '속도': '-1' },
+                effects: [
+                    { name: '방어구 파쇄', desc: '적이 가지고 있는 방어력 증가를 -1 부여하고, 방어구 내구도를 감소시킵니다.' }
+                ]
+            },
+            {
+                id: 'war_hammer',
+                name: '워해머',
+                image: './weapon/mace/hammer.jpg',
+                price: '110 페니',
+                desc: '강한 충격으로 적의 균형과 정신을 흔드는 전투 망치입니다.',
+                stats: { '힘': '+2', '건강': '+2', '데미지': '+1', '속도': '-2' },
+                effects: [
+                    { name: '충격파', desc: '공격 시 주사위 결과값 차이만큼 [현기증]을 부여합니다.' }
+                ]
+            }
+        ],
+        'spear': [
+            {
+                id: 'wood_spear',
+                name: '목제 창',
+                image: './weapon/spear/wood.jpg',
+                price: '30 페니',
+                desc: '나무 자루 끝에 날을 고정한 기본적인 창입니다.',
+                stats: { '힘': '+1' },
+                effects: [
+                    { name: '거리 유지', desc: '근접 공격을 받기 전 선제 공격 가능.' }
+                ]
+            },
+            {
+                id: 'hunter_spear',
+                name: '사냥꾼의 창',
+                image: './weapon/spear/hunter.jpg',
+                price: '70 페니',
+                desc: '짐승 사냥에 특화된 날렵한 창입니다.',
+                stats: { '힘': '+1', '속도': '+1', '데미지': '+1' },
+                effects: [
+                    { name: '꿰뚫기', desc: '짐승형 적에게 +2 추가 피해를 줍니다.' }
+                ]
+            }
+        ],
+        'bow': [
+            {
+                id: 'wood_short_bow',
+                name: '우드 숏보우',
+                image: './weapon/bow/short.jpg',
+                price: '55 페니',
+                desc: '가볍고 빠르게 쏠 수 있는 목제 숏보우입니다.',
+                stats: { '정밀': '+2', '속도': '+1', '힘': '-1' },
+                effects: [
+                    { name: '속사', desc: '정밀 주사위 결과값이 상대의 2배인 경우 추가 공격이 가능합니다.' }
+                ]
+            },
+            {
+                id: 'long_bow',
+                name: '롱보우',
+                image: './weapon/bow/long.jpg',
+                price: '100 페니',
+                desc: '긴 사거리와 높은 관통력을 가진 활.',
+                stats: { '정밀': '+4', '속도': '-1' },
+                effects: [
+                    { name: '관통 사격', desc: '적이 가지고 있는 방어력 증가를 -3으로 계산하여 피해를 줍니다. 단, 0이 최소입니다.' }
+                ]
+            }
+        ],
+        'crossbow': [
+            {
+                id: 'light_crossbow',
+                name: '경량 석궁',
+                image: './weapon/crossbow/light.jpg',
+                price: '85 페니',
+                desc: '다루기 쉬운 경량 석궁입니다. 정밀한 한 발에 강점이 있습니다.',
+                stats: { '정밀': '+3' },
+                effects: [
+                    { name: '정밀 사격', desc: '명중 시 추가 피해 +2.' }
+                ]
+            },
+            {
+                id: 'heavy_crossbow',
+                name: '중형 석궁',
+                image: './weapon/crossbow/heavy.jpg',
+                price: '125 페니',
+                desc: '강력한 한 방을 가진 석궁.',
+                stats: { '정밀': '+5', '속도': '-3' },
+                effects: [
+                    { name: '관통', desc: '적이 가지고 있는 방어력 증가를 -5로 계산하여 피해를 줍니다. 단, 0이 최소입니다.' }
+                ]
+            }
+        ],
+        'musket': []
+    };
+
+    const consumableData = [
+        { id: 'healing_potion', name: '붉은 회복 물약', icon: 'fa-flask', color: 'text-red-500', desc: '체력을 회복시키는 가장 기본적인 물약입니다.', effects: ['HP +20 회복'] },
+        { id: 'stamina_drink', name: '스테미나 드링크', icon: 'fa-bolt', color: 'text-yellow-500', desc: '지친 몸에 활력을 불어넣는 음료입니다.', effects: ['SP +15 회복'] },
+        { id: 'antidote', name: '해독제', icon: 'fa-vial', color: 'text-green-500', desc: '몸에 퍼진 독 성분을 제거합니다.', effects: ['[독] 상태 제거'] },
+        { id: 'fire_bomb', name: '화염병', icon: 'fa-fire', color: 'text-orange-500', desc: '투척 시 화염 지대를 생성합니다.', effects: ['범위 화염 피해'] },
+        { id: 'smoke_bomb', name: '연막탄', icon: 'fa-smog', color: 'text-gray-400', desc: '시야를 차단하는 연막을 퍼뜨립니다.', effects: ['적 명중률 감소'] },
+        { id: 'bandage', name: '응급 붕대', icon: 'fa-bandage', color: 'text-red-300', desc: '출혈을 임시로 봉합합니다.', effects: ['출혈 상태 완화'] },
+        { id: 'holy_water', name: '정화수', icon: 'fa-droplet', color: 'text-blue-400', desc: '저주와 오염을 약하게 정화합니다.', effects: ['약한 저주 제거'] },
+        { id: 'torch', name: '횃불', icon: 'fa-fire-alt', color: 'text-amber-600', desc: '어두운 지역을 밝히는 기본 장비입니다.', effects: ['암흑 지역 시야 확보'] },
+        { id: 'throwing_dagger', name: '투척용 단검', icon: 'fa-shuriken', color: 'text-gray-500', desc: '빠르게 던질 수 있는 소형 단검입니다.', effects: ['원거리 소량 피해'] },
+        { id: 'mana_shard', name: '마나 파편', icon: 'fa-gem', color: 'text-purple-500', desc: '미약한 마력이 담긴 결정 조각입니다.', effects: ['마법 사용 보조'] }
+    ];
+
+    function renderConsumables() {
+        const display = document.getElementById('consumables-list');
+        if (!display) return;
+
+        display.innerHTML = consumableData.map(item => `
+            <div class="item-card flex flex-col items-center p-8 text-center group" onclick="openConsumableModal('${item.id}')">
+                <i class="fa-solid ${item.icon} text-4xl mb-4 ${item.color} group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-white mb-2">${item.name}</h3>
+                <p class="text-xs text-gray-400 italic mb-4">"${item.desc}"</p>
+                <div class="w-full pt-3 border-t border-white/5">
+                    ${item.effects.map(eff => `<span class="text-xs font-bold text-amber-600">${eff}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function openConsumableModal(id, pushHistory = true) {
+        if (pushHistory) history.pushState({ modal: 'consumable', id: id }, "");
+        // 향후 상세 모달 구현 시 사용
+        console.log("Consumable Selected:", id);
+    }
+
+    function getRankColor(rank) {
+        switch (rank) {
+            case 'Common':
+                return 'border-amber-500 text-amber-500';
+            case 'Uncommon':
+                return 'border-lime-500 text-lime-500';
+            case 'Rare':
+                return 'border-sky-500 text-sky-500';
+            case 'Epic':
+                return 'border-violet-500 text-violet-500';
+            case 'Legend':
+                return 'border-orange-500 text-orange-500';
+            default:
+                return 'border-white/10 text-gray-300';
+        }
+    }
+
+// [3번: 필터링 로직] 무기 카테고리 선택 함수
+function filterWeapon(categoryKey, categoryName) {
+    document.getElementById('selected-category-name').innerText = categoryName + " (Catalog)";
+
+    const buttons = document.querySelectorAll('#weapon-category-selector .item-card');
+    buttons.forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-900/20'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('border-amber-500', 'bg-amber-900/20');
+
+    const display = document.getElementById('weapon-list-display');
+    const items = weaponData[categoryKey] || [];
+
+    if (items.length === 0) {
+        display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">등록된 데이터가 없습니다.</div>`;
+        return;
+    }
+
+    const normalItems = items.filter(i => !i.special);
+    const specialItems = items.filter(i => i.special);
+
+    let html = '';
+
+    // 일반 무기 목록 출력
+    html += normalItems.map(item => `
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20" 
+                onclick="openWeaponModal('${categoryKey}', '${item.id}')">
+            <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+        </button>
+    `).join('');
+
+    // 특수 무기 섹션 (구분선 + 타이틀 + 목록)
+    if (specialItems.length > 0) {
+        html += `
+            <div class="col-span-full mt-12 mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="h-[1px] bg-red-900/50 flex-grow"></div>
+                    <span class="text-[10px] font-bold text-red-500 tracking-[0.5em] uppercase">SPECIAL WEAPONS</span>
+                    <div class="h-[1px] bg-red-900/50 flex-grow"></div>
+                </div>
+            </div>
+        `;
+
+        html += specialItems.map(item => `
+            <button class="item-card !p-4 flex items-center justify-between group hover:border-red-500 transition-all border border-red-900/30 bg-red-950/10 shadow-[0_0_15px_rgba(153,27,27,0.1)]" 
+                    onclick="openWeaponModal('${categoryKey}', '${item.id}')">
+                <span class="text-base font-bold text-red-400 group-hover:text-red-300 transition-colors">${item.name}</span>
+                <i class="fa-solid fa-chevron-right text-[10px] text-red-900 group-hover:text-red-500 transition-colors"></i>
+            </button>
+        `).join('');
+    }
+
+    display.innerHTML = html;
+}
+
+function openWeaponModal(category, id, pushHistory = true) {
+    const item = weaponData[category].find(w => w.id === id);
+    if (!item) return;
+
+    if (pushHistory) history.pushState({ modal: 'weapon', category: category, id: id }, "");
+
+    const content = document.getElementById('modal-content');
+    
+    const statsHtml = Object.entries(item.stats).map(([key, value]) => `
+        <div class="bg-black/30 p-2 rounded border border-white/5 text-center">
+            <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+            <p class="text-sm font-bold text-white">${value}</p>
+        </div>
+    `).join('');
+
+    const effectsHtml = item.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                
+                <div class="w-full md:w-[240px] shrink-0 flex flex-col gap-4">
+                    <div class="bg-black/60 rounded-lg border border-gray-800 p-2 aspect-square shadow-2xl overflow-hidden">
+                        <img src="${item.image}" class="w-full h-full object-cover rounded border border-white/5" 
+                             onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gray-900\'><i class=\'fa-solid fa-circle-exclamation text-3xl text-red-900/50\'></i></div>'">
+                    </div>
+                    <div class="bg-amber-900/10 p-4 rounded-lg border border-amber-900/30">
+                        <h4 class="text-[10px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-3">장비 보너스</h4>
+                        <div class="grid grid-cols-2 gap-2">${statsHtml}</div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col w-full">
+                    <div class="w-full mb-6">
+                        <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                        <p class="text-sm text-amber-500 font-bold mb-2 tracking-widest">PRICE: ${item.price || '가격 미정'}</p>
+                        <p class="text-sm text-gray-500 font-semibold mb-4 tracking-widest">TYPE: ${category.toUpperCase()}</p>
+                        <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                            "${item.desc}"
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                        <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                            <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                            특수 효과 (SPECIAL TRAITS)
+                        </h4>
+                        <div class="flex flex-col gap-3">
+                            ${effectsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Equip Identification Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">EC-ITEM-${id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+const recipeData = {
+    equipment: [
+        {
+            id: 'wooden_shield_recipe',
+            name: '나무 방패 제작법',
+            type: '장비',
+            result: '나무 방패',
+            desc: '기초적인 목재 방패를 제작하는 방법입니다.',
+            materials: [
+                { name: '목재 조각', amount: '3개' },
+                { name: '가죽 끈', amount: '1개' }
+            ],
+            effects: [
+                { name: '제작 결과', desc: '나무 방패 1개를 제작합니다.' }
+            ]
+        },
+
+        {
+            id: 'iron_sword_recipe',
+            name: '철검 제작법',
+            type: '장비',
+            result: '철검',
+            desc: '철 주괴를 중심으로 제작하는 기본 한손검 레시피입니다.',
+            materials: [
+                { name: '철 주괴', amount: '2개' },
+                { name: '원목', amount: '1개' }
+            ],
+            effects: [
+                { name: '제작 결과', desc: '철검 1개를 제작합니다.' },
+                { name: '대성공 보너스', desc: '제작 판정이 대성공일 경우, 철검 대신 [균형의 롱소드]가 제작됩니다.' }
+            ]
+        }
+    ],
+
+    food: [
+        {
+            id: 'simple_stew_recipe',
+            name: '간단한 스튜',
+            type: '음식',
+            result: '재료 조합에 따른 스튜',
+            desc: '넣은 식재료 2가지에 따라 서로 다른 스튜가 만들어집니다.',
+            materials: [
+                { name: '식재료', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [
+                { name: '조리 결과', desc: '선택한 식재료 조합에 따라 서로 다른 스튜가 완성됩니다.' }
+            ],
+            results: [
+                {
+                    id: 'meat_stew',
+                    name: '육류 스튜',
+                    ingredients: ['육류 관련 재료', '육류 관련 재료', '깨끗한 물'],
+                    desc: '육류 관련 재료 2가지를 넣어 힘이 오르는 스튜가 만들어집니다.',
+                    effects: [
+                        { name: '육류의 힘', desc: '섭취 시 다음 전투 동안 힘 판정에 +1 보너스를 얻습니다.' }
+                    ]
+                },
+                {
+                    id: 'vegetable_stew',
+                    name: '채소 스튜',
+                    ingredients: ['채소 관련 재료', '채소 관련 재료', '깨끗한 물'],
+                    desc: '채소 관련 재료 2가지를 넣어 건강이 오르는 스튜가 만들어집니다.',
+                    effects: [
+                        { name: '채소의 활력', desc: '섭취 시 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }
+                    ]
+                },
+                {
+                    id: 'fish_stew',
+                    name: '생선 스튜',
+                    ingredients: ['생선 관련 재료', '생선 관련 재료', '깨끗한 물'],
+                    desc: '생선 관련 재료 2가지를 넣어 정밀이 오르는 스튜가 만들어집니다.',
+                    effects: [
+                        { name: '생선의 집중', desc: '섭취 시 다음 전투 동안 정밀 판정에 +1 보너스를 얻습니다.' }
+                    ]
+                }
+            ]
+        },
+
+        {
+            id: 'skewer_recipe',
+            name: '꼬치구이',
+            type: '음식',
+            result: '주재료에 따른 꼬치구이',
+            desc: '손질한 재료를 가공된 나뭇가지에 꿰어 불에 굽는 기본 야영 요리입니다.',
+            materials: [
+                { name: '주재료 식재료', amount: '1개' },
+                { name: '가공된 나뭇가지', amount: '1개' }
+            ],
+            effects: [
+                { name: '조리 결과', desc: '선택한 주재료에 따라 각기 다른 능력치를 보정해주는 꼬치가 완성됩니다.' }
+            ],
+            results: [
+                {
+                    id: 'meat_skewer',
+                    name: '육류 꼬치구이',
+                    ingredients: ['육류', '가공된 나뭇가지'],
+                    desc: '육류의 풍미가 살아있는 꼬치입니다.',
+                    effects: [{ name: '육류의 힘', desc: '섭취 시 다음 전투 동안 힘 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'bird_skewer',
+                    name: '조류 꼬치구이',
+                    ingredients: ['조류 고기', '가공된 나뭇가지'],
+                    desc: '담백한 조류 고기 꼬치입니다.',
+                    effects: [{ name: '조류의 기민함', desc: '섭취 시 다음 전투 동안 속도 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'mushroom_skewer',
+                    name: '버섯 꼬치구이',
+                    ingredients: ['식용 버섯', '가공된 나뭇가지'],
+                    desc: '향긋한 버섯 꼬치입니다.',
+                    effects: [{ name: '숲의 지혜', desc: '섭취 시 다음 전투 동안 지혜 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'pie_recipe',
+            name: '파이',
+            type: '음식',
+            result: '속재료에 따른 파이',
+            desc: '곡물 반죽 안에 다양한 속재료를 넣고 구워내는 든든한 음식입니다.',
+            materials: [
+                { name: '곡물 가루', amount: '1개' },
+                { name: '속재료 식재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '든든한 한 끼 식사가 되어 최대 능력치를 일시적으로 보정합니다.' }],
+            results: [
+                {
+                    id: 'meat_pie',
+                    name: '고기 파이',
+                    ingredients: ['육류', '곡물 가루'],
+                    desc: '고기가 듬뿍 들어간 파이입니다.',
+                    effects: [{ name: '육중한 포만감', desc: '섭취 시 다음 야영 전까지 최대 HP가 5 증가합니다.' }]
+                },
+                {
+                    id: 'fruit_pie',
+                    name: '과일 파이',
+                    ingredients: ['과일', '곡물 가루'],
+                    desc: '달콤한 과일 파이입니다.',
+                    effects: [{ name: '달콤한 활력', desc: '섭취 시 다음 야영 전까지 최대 스테미나가 5 증가합니다.' }]
+                },
+                {
+                    id: 'seafood_pie',
+                    name: '해산물 파이',
+                    ingredients: ['해산물', '곡물 가루'],
+                    desc: '바다 내음 가득한 파이입니다.',
+                    effects: [{ name: '바다의 집중', desc: '섭취 시 다음 전투 동안 정밀 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'fried_food_recipe',
+            name: '튀김',
+            type: '음식',
+            result: '바삭한 튀김 요리',
+            desc: '재료에 곡물 가루를 입히고 기름에 익히는 바삭한 조리법입니다.',
+            materials: [
+                { name: '식재료', amount: '1개' },
+                { name: '곡물 가루', amount: '1개' },
+                { name: '기름', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '고열량 식단으로 순간적인 판정 보너스를 크게 제공합니다.' }],
+            results: [
+                {
+                    id: 'fried_meat',
+                    name: '고기 튀김',
+                    ingredients: ['육류', '곡물 가루', '기름'],
+                    desc: '고소한 고기 튀김입니다.',
+                    effects: [{ name: '육류의 폭발력', desc: '섭취 후 첫 번째 힘 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'fried_fish',
+                    name: '생선 튀김',
+                    ingredients: ['생선', '곡물 가루', '기름'],
+                    desc: '겉바속촉 생선 튀김입니다.',
+                    effects: [{ name: '유연한 회피', desc: '섭취 후 첫 번째 속도 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'fried_veg',
+                    name: '채소 튀김',
+                    ingredients: ['채소', '곡물 가루', '기름'],
+                    desc: '건강한 채소 튀김입니다.',
+                    effects: [{ name: '식물성 면역', desc: '섭취 후 첫 번째 건강 판정에 +2 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'steamed_dish_recipe',
+            name: '찜 요리',
+            type: '음식',
+            result: '담백한 찜 요리',
+            desc: '재료를 수분과 열로 익혀 본래의 맛과 효능을 살리는 조리법입니다.',
+            materials: [
+                { name: '식재료', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '상태이상을 완화하거나 순수 회복 효율을 높입니다.' }],
+            results: [
+                {
+                    id: 'meat_veg_steam',
+                    name: '고기 채소찜',
+                    ingredients: ['육류', '채소', '깨끗한 물'],
+                    desc: '고기와 채소의 영양 조화가 훌륭한 찜입니다.',
+                    effects: [{ name: '균형 잡힌 회복', desc: '섭취 시 현재 HP와 스테미나를 각각 5씩 즉시 회복합니다.' }]
+                },
+                {
+                    id: 'shellfish_herb_steam',
+                    name: '갑각 허브찜',
+                    ingredients: ['갑각류', '허브', '깨끗한 물'],
+                    desc: '고급스러운 향이 배어든 찜입니다.',
+                    effects: [{ name: '해독의 증기', desc: '섭취 시 현재 보유한 모든 상태이상 스택을 2씩 감소시킵니다.' }]
+                },
+                {
+                    id: 'bulb_steam',
+                    name: '구근 찜',
+                    ingredients: ['구근류(감자 등)', '깨끗한 물'],
+                    desc: '포만감 높은 구근 찜입니다.',
+                    effects: [{ name: '대지의 활력', desc: '섭취 시 즉시 스테미나를 10 회복합니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'fried_rice_recipe',
+            name: '볶음밥',
+            type: '음식',
+            result: '간편한 볶음밥',
+            desc: '곡물 재료를 중심으로 여러 재료를 함께 볶아 만드는 간편한 한 끼입니다.',
+            materials: [
+                { name: '곡물', amount: '1개' },
+                { name: '추가 식재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '다양한 상황에 대처할 수 있는 범용적인 버프를 제공합니다.' }],
+            results: [
+                {
+                    id: 'egg_fried_rice',
+                    name: '알 볶음밥',
+                    ingredients: ['조류알', '곡물'],
+                    desc: '부드러운 알 볶음밥입니다.',
+                    effects: [{ name: '친화력', desc: '섭취 시 다음 마을/NPC 조우 시 매력 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'meat_veg_fried_rice',
+                    name: '고기 채소 볶음밥',
+                    ingredients: ['육류', '채소', '곡물'],
+                    desc: '영양 만점 볶음밥입니다.',
+                    effects: [{ name: '강인함', desc: '섭취 시 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'seafood_fried_rice',
+                    name: '해산물 볶음밥',
+                    ingredients: ['해산물', '곡물'],
+                    desc: '감칠맛 나는 볶음밥입니다.',
+                    effects: [{ name: '관찰력', desc: '섭취 시 다음 지각/수색 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'ration_recipe',
+            name: '건조 비상식량',
+            type: '음식',
+            result: '장기 보관 식량',
+            desc: '장거리 이동과 탐험을 위해 오래 보관할 수 있도록 가공한 식량입니다.',
+            materials: [
+                { name: '식재료', amount: '1개' },
+                { name: '보존제(소금/설탕)', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '휴대성이 뛰어나며 야영 효율을 높여줍니다.' }],
+            results: [
+                {
+                    id: 'salted_jerky',
+                    name: '염장 육포',
+                    ingredients: ['육류', '소금'],
+                    desc: '짭짤한 육포입니다.',
+                    effects: [{ name: '비상 열량', desc: '아이템으로 보유 가능. 사용 시 스테미나를 즉시 15 회복합니다.' }]
+                },
+                {
+                    id: 'dried_fruit',
+                    name: '말린 과일',
+                    ingredients: ['과일', '설탕'],
+                    desc: '당분이 농축된 말린 과일입니다.',
+                    effects: [{ name: '정신 안정', desc: '섭취 시 [두려움] 또는 [공포] 상태이상 스택을 3 감소시킵니다.' }]
+                },
+                {
+                    id: 'nut_dairy_ration',
+                    name: '견과 유제품 식량',
+                    ingredients: ['견과류', '유제품'],
+                    desc: '고열량 비상식량입니다.',
+                    effects: [{ name: '숙면 보조', desc: '다음 야영 시 시간당 스테미나 회복 효율이 2배가 됩니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'salad_recipe',
+            name: '샐러드',
+            type: '음식',
+            result: '신선한 샐러드',
+            desc: '신선한 재료를 섞어 가볍게 먹는 음식입니다.',
+            materials: [{ name: '신선한 식재료', amount: '2개' }],
+            effects: [{ name: '조리 결과', desc: '정신을 맑게 하고 부정적인 신체 효과를 제거합니다.' }],
+            results: [
+                {
+                    id: 'fruit_veg_salad',
+                    name: '과일 채소 샐러드',
+                    ingredients: ['과일', '채소'],
+                    desc: '상큼한 샐러드입니다.',
+                    effects: [{ name: '신선한 환기', desc: '섭취 시 즉시 [구역질] 및 [악취] 상태이상을 해제합니다.' }]
+                },
+                {
+                    id: 'meat_cheese_salad',
+                    name: '고기 치즈 샐러드',
+                    ingredients: ['육류', '치즈'],
+                    desc: '든든한 샐러드입니다.',
+                    effects: [{ name: '사교적 에너지', desc: '섭취 시 1시간 동안 매력 판정에 +2 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'herb_egg_salad',
+                    name: '허브 조류알 샐러드',
+                    ingredients: ['허브', '조류알'],
+                    desc: '머리가 맑아지는 샐러드입니다.',
+                    effects: [{ name: '명석함', desc: '섭취 시 다음 전투 동안 지능 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'bread_recipe',
+            name: '빵',
+            type: '음식',
+            result: '구운 빵',
+            desc: '곡물 가루를 반죽하여 구워내는 가장 기본적인 저장성과 휴대성이 좋은 음식입니다.',
+            materials: [
+                { name: '곡물 가루', amount: '1개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '기본적인 회복과 함께 재료에 따른 부가 효과를 얻습니다.' }],
+            results: [
+                {
+                    id: 'plain_bread',
+                    name: '기본 빵',
+                    ingredients: ['곡물 가루', '깨끗한 물'],
+                    desc: '가장 기본적인 빵입니다.',
+                    effects: [{ name: '소박한 한 끼', desc: '섭취 시 스테미나를 5 회복합니다.' }]
+                },
+                {
+                    id: 'fruit_dairy_bread',
+                    name: '유제품 건과일 빵',
+                    ingredients: ['유제품', '말린 과일', '곡물 가루'],
+                    desc: '풍성한 맛의 빵입니다.',
+                    effects: [{ name: '통찰의 간식', desc: '섭취 시 다음 전투 동안 지혜 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'nut_honey_bread',
+                    name: '견과 꿀빵',
+                    ingredients: ['견과류', '꿀', '곡물 가루'],
+                    desc: '달콤하고 고소한 빵입니다.',
+                    effects: [{ name: '달콤한 근력', desc: '섭취 시 다음 전투 동안 힘 판정에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'thick_soup_recipe',
+            name: '포터주/수프',
+            type: '음식',
+            result: '걸쭉한 수프',
+            desc: '재료를 오래 끓여 걸쭉하게 만든 수프입니다.',
+            materials: [
+                { name: '깨끗한 물', amount: '1개' },
+                { name: '식재료', amount: '2개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '체온을 높이고 신체 기능을 정상화합니다.' }],
+            results: [
+                {
+                    id: 'bulb_cream_soup',
+                    name: '구근 크림수프',
+                    ingredients: ['구근류', '유제품', '깨끗한 물'],
+                    desc: '따뜻한 크림 수프입니다.',
+                    effects: [{ name: '면역력 강화', desc: '섭취 시 다음 전투 동안 건강 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'bean_veg_soup',
+                    name: '콩 채소수프',
+                    ingredients: ['콩류', '채소', '깨끗한 물'],
+                    desc: '담백한 채소 수프입니다.',
+                    effects: [{ name: '해독 수프', desc: '섭취 시 [독] 상태이상 중첩을 1 감소시킵니다.' }]
+                },
+                {
+                    id: 'cheese_grain_soup',
+                    name: '치즈 곡물수프',
+                    ingredients: ['치즈', '곡물', '깨끗한 물'],
+                    desc: '든든한 곡물 수프입니다.',
+                    effects: [{ name: '에너지 비축', desc: '섭취 시 1시간 동안 최대 스테미나가 10 증가합니다.' }]
+                }
+            ]
+        },
+
+        {
+            id: 'infusion_recipe',
+            name: '우려낸 차',
+            type: '음식',
+            result: '안정의 음료',
+            desc: '물을 데우고 재료를 우려내어 몸과 정신을 안정시키는 음료입니다.',
+            materials: [
+                { name: '깨끗한 물', amount: '1개' },
+                { name: '차 재료', amount: '1개' }
+            ],
+            effects: [{ name: '조리 결과', desc: '정신적 상태이상을 치유하거나 마법적 감각을 날카롭게 합니다.' }],
+            results: [
+                {
+                    id: 'herb_honey_tea',
+                    name: '허브 꿀차',
+                    ingredients: ['허브', '꿀', '깨끗한 물'],
+                    desc: '달콤한 허브차입니다.',
+                    effects: [{ name: '정신 정화', desc: '섭취 시 [광기] 또는 [욕정] 상태이상 수치를 3 감소시킵니다.' }]
+                },
+                {
+                    id: 'flower_tea',
+                    name: '꽃차',
+                    ingredients: ['꽃', '깨끗한 물'],
+                    desc: '향긋한 꽃차입니다.',
+                    effects: [{ name: '매혹적인 향기', desc: '섭취 시 다음 매력 판정에 +1 보너스를 얻습니다.' }]
+                },
+                {
+                    id: 'magic_plant_tea',
+                    name: '마법 식물차',
+                    ingredients: ['마법 식물 파편', '깨끗한 물'],
+                    desc: '마력이 깃든 차입니다.',
+                    effects: [{ name: '마력 공명', desc: '섭취 시 다음 마법 판정(지능)에 +1 보너스를 얻습니다.' }]
+                }
+            ]
+        }
+    ],
+
+    medicine: [
+        {
+            id: 'minor_healing_potion_recipe',
+            name: '하급 회복약',
+            type: '약',
+            result: '하급 회복약',
+            desc: '상처를 응급 처치할 수 있는 기본 회복약입니다.',
+            materials: [
+                { name: '약초', amount: '2개' },
+                { name: '깨끗한 물', amount: '1개' }
+            ],
+            effects: [
+                { name: '응급 회복', desc: '사용 시 체력을 소량 회복합니다.' }
+            ]
+        }
+    ],
+
+    etc: [
+        {
+            id: 'campfire_kit_recipe',
+            name: '야영 불씨 키트',
+            type: '기타',
+            result: '야영 불씨 키트',
+            desc: '야영지에서 불을 피우기 위한 기본 도구입니다.',
+            materials: [
+                { name: '마른 나뭇가지', amount: '2개' },
+                { name: '부싯돌', amount: '1개' }
+            ],
+            effects: [
+                { name: '야영 보조', desc: '야영 활동 시작 시 불 피우기 판정에 보너스를 줍니다.' }
+            ]
+        },
+        {
+            id: 'iron_ingot_recipe',
+            name: '철 주괴 제련법',
+            type: '기타',
+            result: '철 주괴',
+            desc: '녹슨 철조각을 제련하여 사용할 수 있는 철 주괴로 가공합니다.',
+            materials: [
+                { name: '녹슨 철조각', amount: '3개' }
+            ],
+            effects: [
+                { name: '제작 결과', desc: '철 주괴 1개를 제작합니다.' },
+                { name: '대성공 보너스', desc: '제작 판정이 대성공일 경우, 철 주괴 대신 [순수한 철 주괴]를 제작합니다.' }
+            ]
+        }
+    ]
+};
+
+function renderRecipeList(category) {
+    const listId = `recipe-${category}-list`;
+    const display = document.getElementById(listId);
+    const items = recipeData[category] || [];
+
+    if (!display) return;
+
+    if (items.length === 0) {
+        display.innerHTML = `<div class="col-span-full py-20 text-center text-gray-600 italic">등록된 레시피가 없습니다.</div>`;
+        return;
+    }
+
+    display.innerHTML = items.map(item => `
+        <button class="item-card !p-4 flex items-center justify-between group hover:border-amber-500 transition-all border border-white/5 bg-black/20"
+                onclick="openRecipeModal('${category}', '${item.id}')">
+            <div class="text-left">
+                <span class="text-base font-bold text-gray-300 group-hover:text-white transition-colors">${item.name}</span>
+                <p class="text-[10px] text-amber-700 mt-1 tracking-widest">RESULT: ${item.result}</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500 transition-colors"></i>
+        </button>
+    `).join('');
+}
+
+function openRecipeModal(category, id, pushHistory = true) {
+    const item = recipeData[category].find(r => r.id === id);
+    if (!item) return;
+
+    if (pushHistory) history.pushState({ modal: 'recipe', category: category, id: id }, "");
+
+    const content = document.getElementById('modal-content');
+
+    const materialsHtml = item.materials.map(mat => `
+        <div class="bg-white/5 p-2 rounded border border-white/5 flex justify-between items-center text-left">
+            <span class="text-[12px] font-bold text-blue-400">${mat.name}</span>
+            <span class="text-[10px] text-gray-500 font-bold">${mat.amount}</span>
+        </div>
+    `).join('');
+
+    const effectsHtml = item.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    let resultsHtml = '';
+    if (item.results) {
+        resultsHtml = `
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-orange-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-orange-900/50"></span>
+                    제작될 수 있는 음식
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    ${item.results.map(res => `
+                        <button onclick="openRecipeResultModal('${category}', '${item.id}', '${res.id}')"
+                                class="bg-white/5 p-3 rounded border border-white/10 text-left hover:border-amber-500 transition-colors flex justify-between items-center group">
+                            <span class="text-sm font-bold text-gray-300 group-hover:text-white">[${res.name}]</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] text-gray-700 group-hover:text-amber-500"></i>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="mb-4">
+                <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${item.name}</h2>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="bg-purple-900/40 text-purple-400 text-[8px] px-1.5 py-0.5 rounded border border-purple-800/50 font-bold uppercase tracking-widest">분류</span>
+                    <p class="text-xs text-gray-400 font-semibold">${item.type}</p>
+                </div>
+                <p class="text-sm text-amber-500 font-bold mb-4 tracking-widest">RESULT: ${item.result}</p>
+                <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                    "${item.desc}"
+                </p>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-blue-900/50"></span>
+                    필요 재료
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">${materialsHtml}</div>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                    제작 효과
+                </h4>
+                <div class="flex flex-col gap-3">${effectsHtml}</div>
+            </div>
+            ${resultsHtml}
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.3em]">
+                <span>Recipe Archive Log</span>
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">RC-${item.id.toUpperCase()}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('monster-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function openRecipeResultModal(category, parentRecipeId, resultId, pushHistory = true) {
+    const parent = recipeData[category].find(r => r.id === parentRecipeId);
+    if (!parent || !parent.results) return;
+
+    const result = parent.results.find(r => r.id === resultId);
+    if (!result) return;
+
+    if (pushHistory) history.pushState({ modal: 'recipe-result', category: category, parentId: parentRecipeId, resultId: resultId }, "");
+
+    const content = document.getElementById('modal-content');
+
+    const ingredientsHtml = result.ingredients.map(name => `
+        <div class="bg-white/5 p-2 rounded border border-white/5 text-left">
+            <span class="text-[12px] font-bold text-blue-400">${name}</span>
+        </div>
+    `).join('');
+
+    const effectsHtml = result.effects.map(eff => `
+        <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+            <p class="text-sm font-bold text-amber-500 mb-1">[${eff.name}]</p>
+            <p class="text-[12px] text-gray-400 leading-relaxed text-left">${eff.desc}</p>
+        </div>
+    `).join('');
+
+    content.innerHTML = `
+        <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
+            <div class="mb-4">
+                <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-4">${result.name}</h2>
+
+                <p class="text-sm text-amber-500 font-bold mb-4 tracking-widest">FROM: ${parent.name}</p>
+
+                <p class="text-base text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-6 py-2 bg-white/5 rounded-r italic">
+                    "${result.desc}"
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-blue-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-blue-900/50"></span>
+                    사용 재료
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    ${ingredientsHtml}
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-6">
+                <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                    <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                    음식 효과
+                </h4>
+                <div class="flex flex-col gap-3">
+                    ${effectsHtml}
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                <button onclick="openRecipeModal('${category}', '${parentRecipeId}')"
+                        class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-widest">
+                    ← 간단한 스튜로 돌아가기
+                </button>
+
+                <span class="cinzel text-amber-900/80 font-bold text-xs uppercase">
+                    FOOD-${result.id.toUpperCase()}
+                </span>
+            </div>
+        </div>
+    `;
+}
+</script>
+    <div id="monster-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeMonsterModal()"></div>
+        
+        <div class="relative bg-[#0a0a0a] border border-amber-900/50 w-full max-w-4xl h-[80vh] rounded-lg shadow-2xl overflow-y-auto p-8 flex flex-col no-scrollbar">
+            <button onclick="closeMonsterModal()" class="absolute top-6 right-8 text-3xl text-gray-600 hover:text-amber-500 transition-colors">&times;</button>
+            
+            <div id="modal-content" class="flex-grow"></div>
+        </div>
+    </div>
+</body>
+</html>
