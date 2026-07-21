@@ -1424,7 +1424,7 @@
             desc: '좁은 골목과 시장 뒷길에서 움직이는 절도단입니다. 기습으로 숨통을 막고, 짧은 단검질로 혼란을 만든 뒤 전리품을 낚아챕니다.',
             stats: { '힘': 8, '건강': 7, '속도': 10, '정밀': 9, '지능': 5, '지혜': 6, '매력': 4 },
             skills: [
-                { name: '기습 목조르기', desc: '<span class="text-orange-400">속도 vs 건강.</span> 어둠 속에서 뒤에서 목을 조릅니다. 성공 시 <span class="text-emerald-400">[속박]</span> 및 <span class="text-purple-400">[침묵]</span>.' },
+                { name: '기습 목조르기', desc: '<span class="text-orange-400">속도 vs 건강.</span> 어둠 속에서 뒤에서 목을 조르며 <span class="text-emerald-400">[구속]</span> 및 <span class="text-purple-400">[침묵]</span>.' },
                 { name: '단검 난도질', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 빠르게 단검으로 베어 피해를 줍니다. 전투 중 한 번만 <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span>.' },
                 { name: '전리품 강탈', desc: '<span class="text-orange-400">힘 vs 힘.</span> 상대를 제압하고 소지품 1개를 강제로 빼앗습니다.' }
             ],
@@ -1462,7 +1462,7 @@
             desc: '불법 약물과 연막 가루를 운반하는 트위스타드 밀매상입니다. 직접 싸움보다 감각을 흐리고, 성욕 스택을 누적시켜 저항을 약화시키는 방식에 능합니다.',
             stats: { '힘': 5, '건강': 7, '속도': 8, '정밀': 9, '지능': 9, '지혜': 7, '매력': 11 },
             skills: [
-                { name: '강제 주입', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 불법 약물을 강제로 먹입니다. 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 쾌락 피해 <span class="text-white">2</span>.' },
+                { name: '강제 주입', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 최음제를 강제로 입에 털어 넣으며 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 쾌락 피해 <span class="text-white">2</span>.' },
                 { name: '연막 포박', desc: '<span class="text-orange-400">지능 vs 속도.</span> 연막을 피워 올리고 끈적한 포박 도구를 던집니다. 성공 시 <span class="text-yellow-400">[점착]</span> 및 <span class="text-slate-300">[실명]</span>.' },
                 { name: '패시브: 약물 중독', desc: '<span class="text-red-400">[성욕]</span> 스택을 받은 대상은 자기 턴 시작 시 자동으로 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' }
             ],
@@ -1520,7 +1520,7 @@
             desc: '낙인 조직의 현장 지휘관입니다. 강화 사슬로 대상을 끌어내고, 낙인 의식으로 장기적인 압박 상태를 만들며 하위 조직원을 통솔합니다.',
             stats: { '힘': 13, '건강': 12, '속도': 7, '정밀': 8, '지능': 7, '지혜': 8, '매력': 11 },
             skills: [
-                { name: '사슬 견인', desc: '<span class="text-orange-400">힘 vs 속도.</span> 사슬로 대상을 끌어당깁니다. 성공 시 <span class="text-emerald-400">[속박]</span>.' },
+                { name: '사슬 견인', desc: '<span class="text-orange-400">힘 vs 속도.</span> 사슬로 끌어당겨 <span class="text-emerald-400">[구속]</span>.' },
                 { name: '강제 낙인 의식', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 낙인을 새기며 의식을 강행합니다. 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> 및 <span class="text-purple-400">[광기]</span> <span class="text-white">+2</span>.' },
                 { name: '조직 통솔', desc: '<span class="text-orange-400">매력 판정.</span> 부하를 격려해 즉시 강화합니다. 지정 아군 1체의 다음 판정 <span class="text-green-400">+3</span>.' }
             ],
@@ -1560,7 +1560,7 @@
             skills: [
                 { name: '달콤한 속삭임', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 귀에 대고 유혹합니다. 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> 및 <span class="text-rose-400">[도발]</span>.' },
                 { name: '여왕의 명령', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-gray-500">쿨타임 2턴.</span> 매혹적인 목소리로 일시적 부하화를 시도합니다. 성공 시 대상은 이번 턴 여왕의 명령을 우선합니다.' },
-                { name: '무릎 꿇려', desc: '<span class="text-orange-400">매력 vs 힘.</span> 채찍으로 내리치며 굴복을 강요합니다. 성공 시 <span class="text-emerald-400">[속박]</span> 및 행동 불가.' },
+                { name: '무릎 꿇려', desc: '<span class="text-orange-400">매력 vs 힘.</span> 채찍으로 내리치며 <span class="text-emerald-400">[구속]</span> 및 행동 불가.' },
                 { name: '부하 소환', desc: '<span class="text-gray-500">쿨타임 3턴.</span> 부하를 불러 여왕을 보좌하게 합니다. 거리 절도단 또는 카드샤프 1체가 합류합니다.' },
                 { name: '패시브: S여왕의 시선', desc: '<span class="text-red-400">[성욕]</span> 3 이상인 남성형 대상은 여왕을 공격할 때 판정 <span class="text-red-400">-3</span>.' }
             ],
@@ -1580,11 +1580,11 @@
             desc: '밤거리의 구역을 폭력과 공포로 장악한 남성형 지배자입니다. 체력과 힘이 높고, 대상을 제압한 뒤 행동을 제한하는 데 특화되어 있습니다.',
             stats: { '힘': 14, '건강': 12, '속도': 6, '정밀': 7, '지능': 6, '지혜': 6, '매력': 10 },
             skills: [
-                { name: '강제 제압', desc: '<span class="text-orange-400">힘 vs 건강.</span> 거칠게 쓰러뜨립니다. 성공 시 <span class="text-emerald-400">[속박]</span> 및 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
-                { name: '지속 유린', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">쿨타임 1턴.</span> <span class="text-emerald-400">[속박]</span> 상태의 대상을 계속 압박합니다. 성공 시 피해 <span class="text-white">+3</span>, 쾌락 피해 <span class="text-white">4</span>, <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '강제 제압', desc: '<span class="text-orange-400">힘 vs 건강.</span> 거칠게 쓰러뜨리며 <span class="text-emerald-400">[구속]</span> 및 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '지속 박아넣기', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">쿨타임 1턴.</span> <span class="text-emerald-400">[구속]</span> 상태의 대상을 계속해서 박아대며 피해 <span class="text-white">+3</span>, 쾌락 피해 <span class="text-white">4</span>, <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
                 { name: '파멸의 유린', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">쿨타임 2턴.</span> 절정 상태 대상을 붙잡습니다. 성공 시 대상의 <span class="text-red-400">[성욕]</span> 스택 수치만큼 HP 피해.' },
-                { name: '부하 소환', desc: '<span class="text-gray-500">쿨타임 3턴.</span> 부하를 부르지만 현재 제압 유지 상태는 해제하지 않습니다. 거리 절도단 또는 집행자 1체가 합류합니다.' },
-                { name: '패시브: 끝없는 유린', desc: '<span class="text-emerald-400">[속박]</span> 상태 대상은 자기 턴 시작 시 쾌락 피해 <span class="text-white">2</span>.' }
+                { name: '부하 소환', desc: '<span class="text-gray-500">쿨타임 3턴.</span> 부하를 부르지만 계속 박아대는 상태를 유지합니다. 거리 절도단 또는 집행자 1체가 합류합니다.' },
+                { name: '패시브: 끝없는 유린', desc: '<span class="text-emerald-400">[구속]</span> 상태 대상은 자기 턴 시작 시 쾌락 피해 <span class="text-white">2</span>.' }
             ],
             loots: [
                 { name: '폭군의 사슬 조각', chance: '100%', desc: '밤 거리 폭군이 쓰던 사슬의 일부.' },
