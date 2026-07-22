@@ -1288,9 +1288,9 @@
             desc: '트위스타드와 바란 지역에서 활동하는 낙인 포주. 여성 캐릭터를 표적으로 삼아 부하에게 넘긴다.',
             stats: { '힘': 8, '건강': 7, '속도': 6, '정밀': 7, '지능': 8, '지혜': 6, '매력': 10 },
             skills: [
-                { name: '끌고와!', desc: '<span class="text-orange-400">힘 vs 힘.</span> 성공 시 피해 + <span class="text-red-400">[음욕]</span> +1.' },
-                { name: '최종 상품 포장해!', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[음욕]</span> +2 + <span class="text-yellow-400">[구속]</span>.' },
-                { name: '패시브: 포장 완성', desc: '낙인 대상의 [음욕] 이 최대 한계점에 도달하면 구속구로 전투 동안 영구 고정.' }
+                { name: '저 년 끌고와', desc: '<span class="text-orange-400">확정 발동.</span> 여성 캐릭터 1명에게 <span class="text-red-400">[표식]</span> 디버프를 겁니다. 판정 없이 무조건 성공합니다.' },
+                { name: '상품으로 만들어주지', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-red-400">[표식]</span>이 걸린 여성에게 <span class="text-amber-400">[상품화]</span> 스택을 부여합니다.<br><span class="text-white">1스택:</span> 팔목 구속구(손목을 뒤로 묶음) → 공격 불가<br><span class="text-white">2스택:</span> 발목 구속구(발목을 묶어 이동 크게 제한) → 탈출 불가<br><span class="text-white">3스택:</span> 제갈(입에 재갈을 물림) → 침묵<br><span class="text-white">4스택:</span> <span class="text-amber-400">[상품]</span> 상태로 변경(완전 구속 + 소유물 취급).' },
+                { name: '팝니다!', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-pink-400">[절정]</span> 상태인 <span class="text-amber-400">[상품]</span>을 패배 처리합니다. 전투에서 해당 캐릭터를 제거하며, 포주가 소유물로 선언합니다.' }
             ],
             loots: [
                 { name: '포주 표식', chance: '100%', desc: '낙인 조직 증표.' },
@@ -1307,10 +1307,10 @@
             desc: '포주가 낙인 찍은 대상을 집중적으로 다루는 부하.',
             stats: { '힘': 10, '건강': 8, '속도': 7, '정밀': 6, '지능': 5, '지혜': 5, '매력': 6 },
             skills: [
-                { name: '목덜미 물고 끌기', desc: '성공 시 피해 + <span class="text-red-400">[음욕]</span> +1.' },
-                { name: '척추 꺾는 후배위', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' },
-                { name: '약한 년 깔아뭉개기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2 + <span class="text-yellow-400">[두려움]</span> +1.' },
-                { name: '바닥에 처박아 짓이기', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2, <span class="text-pink-400">[쾌락]</span> +2.' }
+                { name: '잡는다!', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-red-400">[표식]</span>이 걸린 대상에게 유리한 판정으로 <span class="text-emerald-400">[구속]</span>을 시도합니다. 표식 대상일 경우 판정 <span class="text-green-400">+3</span>.' },
+                { name: '끌고 간다!', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-emerald-400">[구속]</span> 상태인 여성형 대상을 포주 앞으로 강제 이동시킵니다. 성공 시 대상에게 <span class="text-amber-400">[포주의 상품?]</span> 상태를 부여합니다.' },
+                { name: '교육한다!', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-amber-400">[상품화]</span> 또는 <span class="text-amber-400">[상품]</span> 상태로 구속구에 묶인 여성을 성적으로 유린합니다. 팔목이 묶인 채로 몸을 비틀며 저항하는 여성을 강제로 벌리고, 자지를 보지에 깊숙이 박아 넣으며 교육합니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '일어난다', desc: '<span class="text-orange-400">패시브.</span> 전장에 포주의 부하가 1명 이하이고 포주가 생존 중일 때, 매 턴 건강 주사위를 굴립니다. 누적 합계가 체력의 50% 이상이 되면 새로운 부하가 등장합니다.' }
             ],
             loots: [
                 { name: '부하의 표식', chance: '100%', desc: '조직원임을 증명하는 토벌 증표.' },
