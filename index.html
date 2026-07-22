@@ -1053,9 +1053,10 @@
             desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
             stats: { '힘': 4, '건강': 4, '속도': 7, '정밀': 5, '지능': 3, '지혜': 4, '매력': 2 },
             skills: [
-                { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 판정.</span> 첫 공격 명중 시 후속 공격은 반드시 명중합니다.' },
-                { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 적에게 <span class="text-purple-400">[악취]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' },
-                { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 성공 시 적에게 <span class="text-red-400">[성욕]</span> 스택을 <span class="text-white">+1</span> 부여합니다.' }
+                { name: '비겁한 연격', desc: '<span class="text-orange-400">속도 vs 속도.</span> 2회 공격합니다. 첫 번째 공격이 명중하면 두 번째 공격은 반드시 명중합니다.' },
+                { name: '조롱 섞인 오물', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 상대를 비웃으며 더러운 오물을 던져 맞힙니다. 성공 시 <span class="text-purple-400">[악취]</span> 스택 <span class="text-white">+1</span>을 부여합니다.' },
+                { name: '비열한 손길', desc: '<span class="text-orange-400">속도 vs 속도.</span> 재빠르게 다가가 은밀한 부위를 더듬습니다. 성공 시 <span class="text-red-400">[성욕]</span> 스택 <span class="text-white">+1</span>을 부여합니다.' },
+                { name: '얼굴 덮어쓰기', desc: '<span class="text-orange-400">속도 vs 건강.</span> <span class="text-gray-500">조건: 대상이 여성형일 때만 사용 가능.</span> 작은 몸으로 여성의 얼굴에 달라붙어 얼굴을 완전히 덮고, 자지를 입에 강제로 밀어 넣습니다. 성공 시 <span class="text-purple-400">[침묵]</span> 1턴 + 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' }
             ],
             loots: [
                 { name: '낡은 페니 주머니', chance: '100%', desc: '4~6 페니가 들어있음.' }, // 추가
@@ -1072,9 +1073,10 @@
             desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
             stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
             skills: [
-                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 묵직한 방패로 적을 1턴 동안 넘어뜨립니다.' },
-                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 고정합니다.' },
-                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+2</span> 부여합니다.' }
+                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 조잡한 방패로 상대를 세게 밀쳐 넘깁니다. 성공 시 대상을 1턴 동안 넘어짐 상태로 만듭니다.' },
+                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 바닥에 고정시킵니다. 성공 시 <span class="text-emerald-400">[구속]</span>을 부여합니다.' },
+                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> <span class="text-gray-500">조건: 대상이 여성형일 때만 사용 가능.</span> 제압된 여성을 짓누르며 몸을 문지릅니다. 성공 시 쾌락 피해 <span class="text-white">2</span>를 입힙니다.' },
+                { name: '잔인한 분쇄', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">전투 중 한 번만 가능. 조건: 대상이 남성형 + [구속] 상태일 때만 사용 가능.</span> 구속된 남성의 사지를 강하게 짓밟아 큰 부상을 입힙니다. 성공 시 피해 <span class="text-white">+5</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span> + 다음 턴 행동 판정 <span class="text-red-400">-3</span>.' }
             ],
             loots: [
             { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
@@ -1091,9 +1093,9 @@
             desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
             stats: { '힘': 3, '건강': 5, '속도': 8, '정밀': 9, '지능': 6, '지혜': 5, '매력': 4 },
             skills: [
-                { name: '마비 촉수', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-yellow-400">[점착]</span> 스택 <span class="text-white">+2</span> 및 턴 밀기.' },
-                { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격 시도. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>.' },
-                { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 성공 시 적에게 <span class="text-pink-400">[쾌락]</span> 스택을 <span class="text-white">+3</span> 부여합니다.' }
+                { name: '현기증 화살', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 상대의 감각을 교란하는 화살을 날립니다. 성공 시 <span class="text-yellow-400">[현기증]</span> 스택 <span class="text-white">+2</span>를 부여합니다.' },
+                { name: '독니 연사', desc: '<span class="text-orange-400">속도 vs 속도.</span> 선제공격으로 독화살을 연속 발사합니다. 명중 시 <span class="text-green-400">[독]</span> 스택 <span class="text-white">+2</span>를 부여합니다.' },
+                { name: '신경 자극', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 신경을 자극하는 독을 맞혀 감각을 과민하게 만듭니다. 성공 시 쾌락 피해 <span class="text-white">3</span>을 입힙니다.' }
             ],
             loots: [
             { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' },
@@ -1110,11 +1112,12 @@
             desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
             stats: { '힘': 12, '건강': 10, '속도': 5, '정밀': 9, '지능': 7, '지혜': 6, '매력': 10 },
             skills: [
-                { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 적을 뒤로 밀어내며 이동 반경을 절반으로 제한합니다.' },
-                { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 적을 인접 칸으로 강제 견인하고 이동 불가로 만듭니다.' },
-                { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 <span class="text-yellow-400">[현기증]</span> 유발.' },
-                { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 실패 시 다음 저항 주사위에 -3 패널티를 줍니다.' },
-                { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> 매 턴 <span class="text-blue-400">[스테미나]</span> <span class="text-white">-5</span> 및 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' }
+                { name: '방패 성채', desc: '<span class="text-orange-400">힘 판정.</span> 거대한 방패를 앞으로 강하게 내밀어 적을 뒤로 밀어냅니다. 성공 시 대상의 이동 반경을 절반으로 제한합니다.' },
+                { name: '갈고리 투척', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 사슬에 달린 갈고리를 던져 적을 끌어당깁니다. 성공 시 대상을 인접 칸으로 강제 견인하고 이동 불가 상태로 만듭니다.' },
+                { name: '강제 복종의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 방패와 함께 묵직한 일격을 가해 상대의 저항 의지를 꺾습니다. 실패 시 대상의 다음 저항 주사위에 <span class="text-red-400">-3</span> 패널티를 부여합니다.' },
+                { name: '방패 뒤의 유린', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 홉고블린이 자신의 방패를 상대의 등 뒤에 세웁니다. 구조는 방패 – 상대 – 홉고블린 순서로, 상대를 방패와 자신 사이에 완전히 가둡니다. 성공 시 대상에게 <span class="text-emerald-400">[방패 가둠]</span> 상태를 부여합니다. <span class="text-gray-500">[방패 가둠] = 이동 불가 + 회피 판정 -3 + 홉고블린의 다음 근접 스킬에 유리.</span>' },
+                { name: '숨막히는 압착', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">조건: 대상이 [방패 가둠] 상태일 때만 사용 가능.</span> 방패와 자신 사이에 선 채로 갇힌 여성을, 선 자세 그대로 자지를 보지에 박아 넣습니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '끝없는 정복', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">쿨 2턴. 조건: 대상이 여성형 + [방패 가둠] + [절정] 상태일 때만 사용 가능.</span> 절정에 빠져 힘이 풀린 여성을 방패에 가둔 채 계속 자지를 박아대며, 스테미나 회복을 막습니다. 성공 시 <span class="text-emerald-400">[방패가둠]</span> 유지 동안 <span class="text-blue-400">[스테미나, 상태이상 회복 불가]</span> 상태를 부여하고, 현재 <span class="text-red-400">[성욕]</span> 스택 수치만큼 체력(HP) 피해를 입힙니다.' }
             ],
             loots: [
                 { name: '묵직한 페니 주머니', chance: '100%', desc: '30~40 페니가 들어있음.' }, // 추가
