@@ -1328,10 +1328,10 @@
             desc: '최음제를 사용해 대상을 약화시키는 밀매상.',
             stats: { '힘': 5, '건강': 6, '속도': 8, '정밀': 9, '지능': 7, '지혜': 6, '매력': 8 },
             skills: [
-                { name: '최음제 강제 주입', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2.' },
-                { name: '약물에 녹아내리는 유린', desc: '성공 시 <span class="text-red-400">[음욕]</span> +2 + 2턴 저항 판정 불리.' },
-                { name: '연막 속 음란 강간', desc: '성공 시 <span class="text-slate-300">[실명]</span> + 매 턴 <span class="text-red-400">[음욕]</span> +1.' },
-                { name: '도주용 실명 가루', desc: '성공 시 <span class="text-slate-300">[실명]</span>.' }
+                { name: '강제 약물 주입', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 마비·약화 약물을 강제로 주입합니다. 성공 시 <span class="text-green-400">[중독]</span> <span class="text-white">+2</span>.' },
+                { name: '약물로 무력화', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 이미 중독된 대상의 저항을 더욱 약화시킵니다. 성공 시 <span class="text-green-400">[중독]</span> <span class="text-white">+1</span> + 2턴 동안 모든 저항 판정 <span class="text-red-400">-2</span>.' },
+                { name: '연막 속 기습 절도', desc: '<span class="text-orange-400">속도 vs 속도.</span> 연막을 뿌린 뒤 빠르게 접근해 소지품을 훔치거나 방해합니다. 성공 시 <span class="text-slate-300">[실명]</span> 1턴 + 대상의 다음 행동 판정 <span class="text-red-400">-3</span>.' },
+                { name: '도주용 실명 가루', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 실명 가루를 뿌리고 재빠르게 도주합니다. 성공 시 <span class="text-slate-300">[실명]</span> 1턴.' }
             ],
             loots: [
                 { name: '불법 약물 잔여물', chance: '100%', desc: '연금 재료.' },
@@ -1348,10 +1348,10 @@
             desc: '유혹으로 접근해 강제로 다루는 길거리 매춘부.',
             stats: { '힘': 6, '건강': 7, '속도': 9, '정밀': 7, '지능': 6, '지혜': 5, '매력': 9 },
             skills: [
-                { name: '달콤한 유혹 끌어들이기', desc: '성공 시 다음 공격이 <span class="text-yellow-400">[구속]</span> 판정으로 전환.' },
-                { name: '기습 육체 포옹', desc: '성공 시 <span class="text-yellow-400">[구속]</span> + <span class="text-red-400">[음욕]</span> +2.' },
-                { name: '승마위로 빨아먹기', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2.' },
-                { name: '야수 후배위 강간', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2.' }
+                { name: '달콤한 유혹', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 달콤한 말과 몸짓으로 대상을 끌어들입니다. 성공 시 다음 공격이 <span class="text-emerald-400">[구속]</span> 판정으로 전환되며, 남성형 대상에게는 추가 <span class="text-rose-400">[유혹]</span> <span class="text-white">+1</span>.' },
+                { name: '기습 육체 포옹', desc: '<span class="text-orange-400">속도 vs 속도.</span> 갑자기 몸을 밀착시켜 제압합니다. 성공 시 <span class="text-emerald-400">[구속]</span> + <span class="text-red-400">[음욕]</span> <span class="text-white">+1</span>. 여성형 대상에게는 <span class="text-purple-400">[조련]</span> <span class="text-white">+1</span> 추가.' },
+                { name: '남자 유혹 승마', desc: '<span class="text-orange-400">매력 vs 건강.</span> <span class="text-gray-500">조건: 대상이 남성형일 때.</span> 승마위 자세로 유혹하며 강제로 다룹니다. 성공 시 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span> + <span class="text-rose-400">[유혹]</span> <span class="text-white">+1</span>.' },
+                { name: '여자 조련 후배위', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">조건: 대상이 여성형일 때.</span> 뒤에서 자세를 잡고 조련하듯 강제 삽입합니다. 성공 시 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span> + <span class="text-purple-400">[조련]</span> <span class="text-white">+1</span> + <span class="text-emerald-400">[구속]</span>.' }
             ],
             loots: [
                 { name: '유혹의 장신구', chance: '100%', desc: '기본 환금품.' },
@@ -1368,10 +1368,11 @@
             desc: '권력을 남용해 대상을 다루는 타락 경비병.',
             stats: { '힘': 9, '건강': 9, '속도': 6, '정밀': 7, '지능': 5, '지혜': 6, '매력': 7 },
             skills: [
-                { name: '불법 검문 & 협박', desc: '성공 시 <span class="text-yellow-400">[구속]</span> + 압박.' },
-                { name: '제압 후 무자비 폭행', desc: '성공 시 피해 + <span class="text-red-400">[음욕]</span> +2.' },
-                { name: '검문 후 후배위 강간', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2 + <span class="text-yellow-400">[구속]</span>.' },
-                { name: '방패로 짓누르는 정상위', desc: '성공 시 <span class="text-pink-400">[쾌락]</span> +2, 추가 제압.' }
+                { name: '불법 검문 & 협박', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 공권력을 남용해 검문과 협박을 가합니다. 성공 시 <span class="text-emerald-400">[구속]</span> + 다음 저항 판정 <span class="text-red-400">-2</span>.' },
+                { name: '제압 후 무자비 폭행', desc: '<span class="text-orange-400">힘 vs 건강.</span> 제압한 대상을 무자비하게 폭행합니다. 성공 시 피해 <span class="text-white">+3</span> + <span class="text-yellow-400">[경직]</span> 1턴.' },
+                { name: '압수품 강제 압류', desc: '<span class="text-orange-400">힘 vs 힘.</span> 불법으로 소지품을 압류하거나 장비를 빼앗습니다. 성공 시 대상의 무기/장비를 1턴간 사용 불가 처리 + <span class="text-purple-400">[혼란]</span> 1턴.' },
+                { name: '검문 후 벽 밀착 후배위', desc: '<span class="text-orange-400">힘 vs 건강.</span> 검문 명목으로 벽을 향해 밀쳐 고정한 뒤, 뒤에서 강제 삽입합니다. 성공 시 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span> + <span class="text-emerald-400">[구속]</span>.' },
+                { name: '동료 경비 소환', desc: '<span class="text-gray-500">쿨 3턴.</span> 근처의 타락 경비병 <span class="text-white">1~2체</span>를 호출해 전투에 참전시킵니다.' }
             ],
             loots: [
                 { name: '경비병 휘장', chance: '100%', desc: '토벌 증표.' },
