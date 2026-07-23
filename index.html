@@ -1704,9 +1704,9 @@
             desc: '아스키즈 지역의 종말 교단 사제입니다. 멸망이 가까울수록 신앙이 완성된다고 믿으며, 공포와 죄책감을 이용해 신도와 적을 동시에 몰아붙입니다.',
             stats: { '힘': 3, '건강': 6, '속도': 5, '정밀': 6, '지능': 9, '지혜': 10, '매력': 8 },
             skills: [
-                { name: '종말 설교', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 대상에게 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span>.' },
-                { name: '죄의 선고', desc: '<span class="text-orange-400">지혜 vs 지혜.</span> 성공 시 대상에게 <span class="text-rose-400">[도발]</span>을 부여하고, 교단 몬스터가 그 대상을 우선 공격합니다.' },
-                { name: '광신의 축복', desc: '아군 1체의 다음 판정에 <span class="text-green-400">+3</span>. 대상 아군은 전투 종료 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span>을 받습니다.' }
+                { name: '종말 설교', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span>.' },
+                { name: '죄의 선고', desc: '<span class="text-orange-400">지혜 vs 지혜.</span> 성공 시 <span class="text-rose-400">[도발]</span> + 교단 몬스터가 그 대상을 우선 공격.' },
+                { name: '광신의 축복', desc: '아군 1체의 다음 판정에 <span class="text-green-400">+3</span>. 대상 아군은 전투 종료 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span>.' }
             ],
             loots: [
                 { name: '종말 교단 성표', chance: '100%', desc: '아스키즈 교단의 토벌 증표.' },
@@ -1723,9 +1723,9 @@
             desc: '종말의 순간까지 성역을 지키겠다고 맹세한 성기사입니다. 방패와 검으로 전열을 붙잡고, 쓰러지는 순간까지 교단의 예언을 외칩니다.',
             stats: { '힘': 12, '건강': 13, '속도': 4, '정밀': 7, '지능': 5, '지혜': 8, '매력': 7 },
             skills: [
-                { name: '종말 방패 돌진', desc: '<span class="text-orange-400">힘 vs 건강.</span> 성공 시 피해를 주고 <span class="text-yellow-400">[넘어짐]</span> 및 <span class="text-yellow-400">[경직]</span>을 부여합니다.' },
-                { name: '심판의 검', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해 <span class="text-white">+4</span> 및 <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span>.' },
-                { name: '순교의 갑주', desc: '<span class="text-orange-400">건강 판정.</span> 이번 턴 받는 피해를 <span class="text-white">-5</span> 감소시킵니다. 감소에 성공하면 인접한 적에게 <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' }
+                { name: '종말 방패 돌진', desc: '<span class="text-orange-400">힘 vs 건강.</span> 성공 시 피해 + <span class="text-yellow-400">[넘어짐]</span> + <span class="text-yellow-400">[경직]</span>.' },
+                { name: '심판의 검', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해 <span class="text-white">+4</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span>.' },
+                { name: '순교의 갑주', desc: '<span class="text-orange-400">건강 판정.</span> 이번 턴 받는 피해 <span class="text-white">-5</span>. 성공 시 인접한 적에게 <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' }
             ],
             loots: [
                 { name: '금간 성기사 휘장', chance: '100%', desc: '교단 성기사의 토벌 증표.' },
@@ -1742,8 +1742,8 @@
             desc: '중죄를 저지른 뒤 교단에 넘겨진 자들입니다. 속죄라는 이름으로 고통에 길들여져, 자신과 적 모두를 사슬 속으로 끌고 들어갑니다.',
             stats: { '힘': 8, '건강': 12, '속도': 6, '정밀': 6, '지능': 3, '지혜': 6, '매력': 3 },
             skills: [
-                { name: '쇠사슬 고행', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 대상에게 <span class="text-emerald-400">[속박]</span>을 부여하고 <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span>.' },
-                { name: '죄책 전가', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 대상에게 <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span> 및 <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' },
+                { name: '쇠사슬 고행', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-emerald-400">[속박]</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span>.' },
+                { name: '죄책 전가', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span> + <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' },
                 { name: '고통으로 버티기', desc: '<span class="text-orange-400">건강 판정.</span> 이번 턴 처음 받는 <span class="text-yellow-400">[경직]</span> 또는 <span class="text-red-400">[기절]</span>을 무시하고 다음 공격 피해 <span class="text-white">+2</span>.' }
             ],
             loots: [
@@ -1762,8 +1762,8 @@
             stats: { '힘': 3, '건강': 7, '속도': 6, '정밀': 8, '지능': 12, '지혜': 11, '매력': 13 },
             skills: [
                 { name: '거짓 성흔', desc: '<span class="text-orange-400">지능 vs 지혜.</span> 성공 시 대상에게 <span class="text-purple-400">[광기]</span> <span class="text-white">+2</span>. 아군 1체는 체력 <span class="text-green-400">+4</span>.' },
-                { name: '성녀의 미소', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 대상에게 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span> 및 다음 공격 대상 고정 효과를 부여합니다.' },
-                { name: '마녀의 축복', desc: '이미 <span class="text-blue-400">[두려움]</span>을 가진 대상에게 사용합니다. 대상의 두려움 스택을 <span class="text-purple-400">[광기]</span> 스택으로 전환하고 <span class="text-white">+1</span>을 추가합니다.' }
+                { name: '성녀의 미소', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span> + 다음 공격 대상 고정.' },
+                { name: '마녀의 축복', desc: '이미 <span class="text-blue-400">[두려움]</span>을 가진 대상에게 사용. 두려움 스택을 <span class="text-purple-400">[광기]</span>로 전환 + <span class="text-white">+1</span>.' }
             ],
             loots: [
                 { name: '가짜 성흔 천', chance: '100%', desc: '기적 연출에 쓰인 의식 천.' },
@@ -1780,9 +1780,9 @@
             desc: '종말 교단의 심문관은 이단을 찾기보다 만들어냅니다. 질문, 낙인, 사슬, 판결을 한 호흡으로 이어가며 전장을 재판장처럼 바꿉니다.',
             stats: { '힘': 10, '건강': 10, '속도': 6, '정밀': 10, '지능': 9, '지혜': 10, '매력': 9 },
             skills: [
-                { name: '자백 강요', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 대상에게 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span> 및 <span class="text-rose-400">[도발]</span>을 부여합니다.' },
-                { name: '화형 낙인', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해를 주고 <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span>, <span class="text-yellow-400">[경직]</span>을 부여합니다.' },
-                { name: '이단 사슬', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-emerald-400">[속박]</span>. 같은 대상에게 2회 성공하면 <span class="text-purple-400">[침묵]</span> 1턴을 추가합니다.' },
+                { name: '자백 강요', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-blue-400">[두려움]</span> <span class="text-white">+2</span> + <span class="text-rose-400">[도발]</span>.' },
+                { name: '화형 낙인', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해 + <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span> + <span class="text-yellow-400">[경직]</span>.' },
+                { name: '이단 사슬', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-emerald-400">[속박]</span>. 같은 대상 2회 성공 시 <span class="text-purple-400">[침묵]</span> 1턴 추가.' },
                 { name: '판결 집행', desc: '<span class="text-orange-400">힘 vs 건강.</span> 상태이상을 2개 이상 가진 대상에게 피해 <span class="text-white">+6</span>. 성공 시 <span class="text-red-400">[기절]</span> 1턴.' }
             ],
             loots: [
@@ -1801,8 +1801,8 @@
             stats: { '힘': 3, '건강': 6, '속도': 6, '정밀': 7, '지능': 9, '지혜': 9, '매력': 11 },
             skills: [
                 { name: '음욕 설교', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
-                { name: '향연의 기도', desc: '<span class="text-orange-400">지혜 판정.</span> 적 전체 <span class="text-cyan-400">[현기증]</span> <span class="text-white">+1</span>, 이미 <span class="text-red-400">[성욕]</span> 대상은 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+1</span> 추가.' },
-                { name: '타락한 고해성사', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 대상의 <span class="text-red-400">[성욕]</span> 스택 절반만큼 다음 저항 판정 대폭 패널티. 강제로 입을 벌리고 성기를 물리게 함.' }
+                { name: '향연의 기도', desc: '<span class="text-orange-400">지혜 판정.</span> 적 전체 <span class="text-cyan-400">[현기증]</span> <span class="text-white">+1</span>, 이미 <span class="text-red-400">[성욕]</span>이 있는 대상에게는 쾌락 피해 <span class="text-white">1</span> 추가.' },
+                { name: '타락한 고해성사', desc: '<span class="text-yellow-400">조건: 대상이 욕정 상태일 때만.</span> <span class="text-orange-400">매력 vs 지혜.</span> 성공 시 쾌락 피해 <span class="text-white">3</span> + 다음 저항 판정 대폭 패널티.' }
             ],
             loots: [
                 { name: '밤 의식 성표', chance: '100%', desc: '밤 의식 사제가 품고 있던 교단 증표.' },
@@ -1819,9 +1819,10 @@
             desc: '밤 의식의 성기사는 신성한 보호와 음욕의 도취를 구분하지 못합니다. 중갑과 방패로 전열을 붙들고, 가까이 있는 대상을 의식권 안에 묶어둡니다.',
             stats: { '힘': 11, '건강': 12, '속도': 5, '정밀': 7, '지능': 5, '지혜': 8, '매력': 9 },
             skills: [
-                { name: '욕망의 방패 압박', desc: '<span class="text-orange-400">힘 vs 건강.</span> 성공 시 피해 + <span class="text-emerald-400">[속박]</span>. 상대를 바닥에 눌러 강제로 다리 벌림.' },
-                { name: '타락한 맹세', desc: '<span class="text-orange-400">건강 판정.</span> 받는 피해 <span class="text-white">-4</span>, 인접 대상에게 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
-                { name: '황홀한 제압', desc: '<span class="text-emerald-400">[속박]</span> 대상에게. <span class="text-orange-400">힘 vs 건강.</span> 성공 시 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span> + 다음 턴 행동 불가. 강제로 성기를 박아 넣는 행위.' }
+                { name: '방패 가둠', desc: '<span class="text-orange-400">힘 vs 건강.</span> 성공 시 <span class="text-emerald-400">[속박]</span> (이동 불가 + 회피 판정 <span class="text-red-400">-3</span>).' },
+                { name: '성스러운 방벽', desc: '<span class="text-orange-400">건강 판정.</span> 이번 턴 받는 피해 <span class="text-white">-5</span>. 가둠 대상이 있으면 추가로 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                { name: '맹세의 일격', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해 <span class="text-white">+4</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span>. <span class="text-emerald-400">[속박]</span> 대상에게 피해 <span class="text-white">+2</span> 추가.' },
+                { name: '광신의 돌진', desc: '<span class="text-orange-400">힘 vs 건강.</span> 성공 시 피해 + <span class="text-yellow-400">[넘어짐]</span> + <span class="text-yellow-400">[경직]</span> 1턴.' }
             ],
             loots: [
                 { name: '밤 성기사 휘장', chance: '100%', desc: '밤 의식에 참여한 성기사의 증표.' },
@@ -1838,9 +1839,9 @@
             desc: '밤 의식의 고행자는 고통과 쾌락의 경계를 잃은 채 움직입니다. 자신이 흔들릴수록 주변의 욕망과 광기를 더 크게 자극합니다.',
             stats: { '힘': 7, '건강': 11, '속도': 7, '정밀': 7, '지능': 3, '지혜': 5, '매력': 5 },
             skills: [
-                { name: '쾌락 고행', desc: '피해 받을 때 인접 적 1체에게 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>. 턴당 1회.' },
-                { name: '사슬의 유혹', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 <span class="text-emerald-400">[속박]</span> + <span class="text-pink-400">[쾌락]</span> <span class="text-white">+1</span>. 사슬로 묶고 강제 애무.' },
-                { name: '죄악 전염', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-red-400">[성욕]</span> 또는 <span class="text-pink-400">[쾌락]</span> 3↑이면 <span class="text-purple-400">[광기]</span> <span class="text-white">+2</span>, 아니면 <span class="text-white">+1</span>. 성적 타락을 퍼뜨림.' }
+                { name: '고통의 공명', desc: '자신이 피해를 받을 때 발동. 인접 적 1체에게 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span> + <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span>. (턴당 1회)' },
+                { name: '자학의 속삭임', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + 다음 지혜 판정 <span class="text-red-400">-2</span>.' },
+                { name: '타락의 전염', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+2</span>. 자신이 <span class="text-red-400">[성욕]</span> 3 이상이면 추가로 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' }
             ],
             loots: [
                 { name: '밤 고행자의 사슬', chance: '100%', desc: '밤 의식에 쓰인 사슬.' },
@@ -1858,8 +1859,9 @@
             stats: { '힘': 3, '건강': 7, '속도': 7, '정밀': 8, '지능': 12, '지혜': 12, '매력': 14 },
             skills: [
                 { name: '달빛 성흔', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span>.' },
-                { name: '몽환의 축복', desc: '대상의 <span class="text-purple-400">[광기]</span>를 같은 수치 <span class="text-red-400">[성욕]</span>으로 전환, 전환 대상 다음 지혜 판정 <span class="text-red-400">-3</span>.' },
-                { name: '성녀의 밤기도', desc: '<span class="text-orange-400">지혜 판정.</span> 아군 체력 <span class="text-green-400">+4</span>, 적 전체 <span class="text-cyan-400">[현기증]</span> <span class="text-white">+1</span>. 환각 속에서 강간당하는 환상을 심음.' }
+                { name: '유혹의 기도', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> + <span class="text-rose-400">[도발]</span> (성녀 우선 접근).' },
+                { name: '몽환의 희생', desc: '<span class="text-orange-400">지혜 판정.</span> 적 전체 <span class="text-cyan-400">[현기증]</span> <span class="text-white">+1</span>. <span class="text-red-400">[성욕]</span>이 있는 적에게는 추가로 <span class="text-rose-400">[도발]</span> + 쾌락 피해 <span class="text-white">1</span>.' },
+                { name: '성녀의 수용', desc: '<span class="text-yellow-400">조건: 자신이 성행위 피격 시.</span> 가해자에게 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + 자신 쾌락 피해 <span class="text-white">1</span>.' }
             ],
             loots: [
                 { name: '달빛 성흔 천', chance: '100%', desc: '밤 의식의 기적을 연출하던 천.' },
@@ -1876,9 +1878,9 @@
             desc: '밤의 심문관은 욕망을 죄라고 기록한 뒤 그 죄를 이용해 대상을 흔듭니다. 침묵과 낙인, 판결을 통해 상태이상을 쌓은 대상을 끝까지 몰아붙입니다.',
             stats: { '힘': 9, '건강': 10, '속도': 6, '정밀': 9, '지능': 10, '지혜': 10, '매력': 11 },
             skills: [
-                { name: '음란 심문', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-purple-400">[침묵]</span> 1턴. 입에 물건을 물려서 소리 못 내게 함.' },
-                { name: '죄목 낙인', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 피해 + 상태이상 2개↑ 대상 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span>.' },
-                { name: '아이언 메이든', desc: '<span class="text-orange-400">지능 vs 지혜.</span> <span class="text-emerald-400">[속박]</span> 부여 + <span class="text-red-400">[성욕]</span>이 지혜 절반 이상이면 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+2</span> + 다음 턴 행동 불가. 철의 처녀 안에 가둬 강제로 관통당함.' }
+                { name: '음란 심문', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> + <span class="text-purple-400">[침묵]</span> 1턴 + 다음 저항 판정 <span class="text-red-400">-2</span>.' },
+                { name: '죄목 낙인', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 성공 시 피해 <span class="text-white">+3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>. 상태이상 2개 이상 대상에게 추가로 쾌락 피해 <span class="text-white">3</span>.' },
+                { name: '아이언 메이든', desc: '<span class="text-yellow-400">조건: 대상이 욕정 상태일 때만.</span> <span class="text-orange-400">힘 vs 힘.</span> 성공 시 아이언 메이든(소환수) 소환 + 대상 가둠.' }
             ],
             loots: [
                 { name: '밤 심문관의 인장', chance: '100%', desc: '밤 의식 심문 권한을 상징하는 증표.' },
