@@ -1960,16 +1960,12 @@
             `).join('') : '';
 
             return `
-                <div class="bg-emerald-950/10 p-3 rounded-lg border border-emerald-900/30 text-left">
-                    <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
-                        <div>
-                            <button type="button" onclick="openSummonModal('${id}', ${summonIndex})" class="text-sm font-bold text-emerald-400 hover:text-emerald-300 transition-colors">[${summon.name}]</button>
-                            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em]">Summoned Unit</p>
-                        </div>
-                        <span class="text-[11px] text-rose-300 font-bold bg-black/30 border border-white/5 px-2 py-1 rounded">체력 ${summon.hp}</span>
-                    </div>
-                    <div class="flex flex-wrap gap-x-3 gap-y-1 mb-2">${summonStatsHtml}</div>
-                    <p class="text-[12px] text-gray-400 leading-snug">${summon.desc}</p>
+                <div class="bg-emerald-950/10 p-2.5 rounded-lg border border-emerald-900/30 text-left">
+                    <button type="button" onclick="openSummonModal('${id}', ${summonIndex})" class="w-full flex items-center justify-between gap-2 text-left group">
+                        <span class="text-sm font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">[${summon.name}]</span>
+                        <span class="text-[10px] text-rose-300 font-bold bg-black/30 border border-white/5 px-2 py-1 rounded shrink-0">체력 ${summon.hp}</span>
+                    </button>
+                    <div class="flex flex-wrap gap-x-3 gap-y-1 mt-2">${summonStatsHtml}</div>
                 </div>
             `;
         }).join('') : '';
