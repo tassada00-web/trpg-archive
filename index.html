@@ -1986,6 +1986,17 @@
                             <h4 class="text-[9px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-2">핵심 능력치</h4>
                             <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
                         </div>
+
+                        ${summonsHtml ? `
+                            <div class="flex flex-col gap-3 bg-emerald-950/5 p-3 rounded-lg border border-emerald-900/30">
+                                <h4 class="text-[9px] text-emerald-500 font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-emerald-900/50"></span> 소환수 목록
+                                </h4>
+                                <div class="grid grid-cols-1 gap-3">
+                                    ${summonsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
 
                     <div class="flex-grow flex flex-col w-full">
@@ -2020,17 +2031,6 @@
                                     ${lootsHtml}
                                 </div>
                             </div>
-
-                            ${summonsHtml ? `
-                                <div class="flex flex-col gap-3 pt-2 border-t border-white/5">
-                                    <h4 class="text-[10px] text-emerald-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
-                                        <span class="w-4 h-[1px] bg-emerald-900/50"></span> 소환수 목록
-                                    </h4>
-                                    <div class="grid grid-cols-1 gap-3">
-                                        ${summonsHtml}
-                                    </div>
-                                </div>
-                            ` : ''}
                         </div>
                     </div>
                 </div>
