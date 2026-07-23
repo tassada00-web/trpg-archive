@@ -488,6 +488,22 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
+<div class="item-card monster-item boss asksz" onclick="openMonsterModal('day_saint_boss')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">낮의 성녀</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"거룩한 거짓 신앙으로 공포를 심는 자."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item boss asksz" onclick="openMonsterModal('night_saint_boss')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">밤의 성자</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"축복을 과도하게 받아 거대화된 성인 남성."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 
     <div id="monster-empty-state" class="monster-empty-state hidden">
@@ -1890,6 +1906,7 @@
                     stats: { '힘': 8, '건강': 10 },
                     title: '대상을 완전히 가두는 철의 처녀',
                     summary: '욕정 상태 대상을 내부에 가두는 이단 심문관의 소환수입니다.',
+                    effectName: '구속 장치',
                     desc: '<span class="text-emerald-400">[속박]</span> + 완전 행동 불가. 즉시 쾌락 피해 <span class="text-white">3</span>. 매 턴 시작 시 쾌락 피해 <span class="text-white">1</span>. 소환수 체력 0이 되면 파괴 → 속박·행동 불가 해제.'
                 }
             ],
@@ -1898,6 +1915,57 @@
                 { name: '도취 심문 기록지', chance: '40%', desc: '밤 의식 대상자와 죄목이 적힌 문서.' },
                 { name: '낙인용 은침', chance: '20%', desc: '정밀한 의식 도구 제작 재료.' },
                 { name: '검은 판결문', chance: '3%', desc: '정신계 저주 장비에 쓰이는 희귀 문서.' }
+            ]
+        },
+        'day_saint_boss': {
+            name: '낮의 성녀',
+            title: '거룩한 거짓 신앙으로 공포를 심는 자',
+            type: '인간형, 여성형, 광신도, 종교, 성녀, 보스, 낮',
+            image: '',
+            desc: '거룩한 거짓 신앙으로 공포를 심는 자입니다. 신앙과 기적을 가장한 말로 전장을 장악하고, 두려움과 광기를 교단의 무기로 바꿉니다.',
+            stats: { '힘': 7, '건강': 11, '속도': 9, '정밀': 10, '지능': 14, '지혜': 16, '매력': 17 },
+            skills: [
+                { name: '거룩한 선포', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 성공 시 <span class="text-blue-400">[두려움]</span> <span class="text-white">+3</span> + <span class="text-rose-400">[도발]</span>.' },
+                { name: '죄의 각인', desc: '<span class="text-orange-400">지혜 vs 지혜.</span> 성공 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+2</span> + 다음 저항 판정 <span class="text-red-400">-2</span>.' },
+                { name: '성모의 포옹', desc: '<span class="text-orange-400">매력 vs 건강.</span> 성공 시 <span class="text-emerald-400">[속박]</span> + 매 턴 <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' },
+                { name: '거짓된 기적', desc: '<span class="text-orange-400">지혜 판정.</span> 아군 1체 체력 <span class="text-green-400">+6</span>, 적 전체 <span class="text-blue-400">[두려움]</span> <span class="text-white">+1</span>.' },
+                { name: '최종 심판', desc: '<span class="text-yellow-400">조건: 대상의 [두려움] 또는 [광기]가 높을 때.</span> <span class="text-orange-400">지혜 vs 지혜.</span> 성공 시 <span class="text-purple-400">[광기]</span> <span class="text-white">+3</span> + 1턴 행동 불가.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'night_saint_boss': {
+            name: '밤의 성자',
+            title: '축복을 과도하게 받아 거대화된 성인 남성',
+            type: '인간형, 남성형, 광신도, 종교, 성자, 보스, 밤',
+            image: '',
+            desc: '축복을 과도하게 받아 거대화된 성인 남성입니다. 비정상적으로 증폭된 힘과 축복으로 대상을 붙잡고, 밤의 노예를 만들어 전장을 내부에서 무너뜨립니다.',
+            stats: { '힘': 18, '건강': 16, '속도': 6, '정밀': 8, '지능': 7, '지혜': 9, '매력': 12 },
+            skills: [
+                { name: '축복의 포획', desc: '<span class="text-orange-400">힘 vs 힘 또는 건강.</span> 양쪽 허리를 강하게 움켜쥐어 고정합니다. 성공 시 <span class="text-emerald-400">[속박]</span>.' },
+                { name: '강제 삽입', desc: '<span class="text-yellow-400">조건: 대상이 [속박] 상태일 때.</span> <span class="text-orange-400">힘 vs 건강.</span> 거근을 강제로 삽입합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>. 삽입된 대상의 배가 임산부처럼 부풀어 오릅니다.' },
+                { name: '밤의 축복 연타', desc: '<span class="text-yellow-400">조건: [속박] + 삽입 상태 유지 중.</span> 거근을 반복해서 깊숙이 박아 넣습니다. 박을 때마다 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span> + 쾌락 피해 <span class="text-white">2</span>.' },
+                { name: '축복 동기화', desc: '<span class="text-yellow-400">조건: 대상이 절정 상태가 되는 순간. 전투 중 1회만 사용 가능.</span> 거근을 깊숙이 박아 넣은 채 축복이 담긴 정액을 강제 주입합니다. 성공 시 밤의 노예화 부여 + <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> + 일시적 행동 불가.' },
+                { name: '거신의 일격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 커진 주먹으로 묵직하게 내려찍습니다. 성공 시 피해 <span class="text-white">+6</span> + <span class="text-yellow-400">[경직]</span> 1턴.' }
+            ],
+            summons: [
+                {
+                    name: '밤의 노예',
+                    title: '축복 동기화로 만들어진 노예',
+                    summary: '처음에는 본인이 노예가 된 줄 모르고 파티원과 함께 싸우는 척하며 방심을 유도합니다. 이후 다른 여성을 성자 앞으로 끌어오거나 배신합니다.',
+                    desc: '축복 동기화로 만들어진 노예입니다. 처음에는 본인이 노예가 된 줄 모르고 파티원과 함께 싸우는 척하며 방심을 유도합니다. 이후 다른 여성을 성자 앞으로 끌어오거나 배신합니다.',
+                    skills: [
+                        { name: '위장된 지원', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 파티원에게 도와주는 척 접근하며 방심을 유도합니다. 성공 시 대상의 다음 방어/회피 판정 <span class="text-red-400">-2</span>.' },
+                        { name: '자연스러운 유인', desc: '<span class="text-orange-400">속도 vs 지혜.</span> 전투 중 자연스럽게 다른 여성 파티원을 성자 쪽으로 유도합니다. 성공 시 대상 여성 1명을 성자 인접으로 강제 이동.' },
+                        { name: '방심의 틈', desc: '<span class="text-yellow-400">조건: 위장된 지원에 성공한 대상에게.</span> 갑자기 본색을 드러내며 배신합니다. 성공 시 <span class="text-emerald-400">[속박]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                        { name: '성자에게로 인도', desc: '<span class="text-orange-400">힘 또는 속도 vs 힘.</span> 다른 여성을 붙잡아 성자 앞으로 끌고 갑니다. 성공 시 <span class="text-emerald-400">[속박]</span> + 성자 앞으로 강제 이동.' },
+                        { name: '노예로서의 복종', desc: '<span class="text-purple-400">패시브.</span> 성자의 명령을 우선적으로 수행합니다. 성자가 지정한 대상을 공격하거나 끌어올 때 판정 <span class="text-green-400">+2</span>.' }
+                    ]
+                }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
             ]
         }
     };
@@ -1958,14 +2026,15 @@
             const summonStatsHtml = summon.stats ? Object.entries(summon.stats).map(([key, value]) => `
                 <span class="text-[10px] text-gray-400">${key} <span class="text-white font-bold">${value}</span></span>
             `).join('') : '';
+            const summonHpHtml = summon.hp ? `<span class="text-[10px] text-rose-300 font-bold bg-black/30 border border-white/5 px-2 py-1 rounded shrink-0">체력 ${summon.hp}</span>` : '';
 
             return `
                 <div class="bg-emerald-950/10 p-2.5 rounded-lg border border-emerald-900/30 text-left">
                     <button type="button" onclick="openSummonModal('${id}', ${summonIndex})" class="w-full flex items-center justify-between gap-2 text-left group">
                         <span class="text-sm font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">[${summon.name}]</span>
-                        <span class="text-[10px] text-rose-300 font-bold bg-black/30 border border-white/5 px-2 py-1 rounded shrink-0">체력 ${summon.hp}</span>
+                        ${summonHpHtml}
                     </button>
-                    <div class="flex flex-wrap gap-x-3 gap-y-1 mt-2">${summonStatsHtml}</div>
+                    ${summonStatsHtml ? `<div class="flex flex-wrap gap-x-3 gap-y-1 mt-2">${summonStatsHtml}</div>` : ''}
                 </div>
             `;
         }).join('') : '';
@@ -2053,13 +2122,19 @@
         if (pushHistory) history.pushState({ modal: 'summon', parentId: parentId, summonIndex: summonIndex }, "");
 
         const content = document.getElementById('modal-content');
-        const stats = { '체력': summon.hp, ...(summon.stats || {}) };
+        const stats = { ...(summon.hp ? { '체력': summon.hp } : {}), ...(summon.stats || {}) };
         const statsHtml = Object.entries(stats).map(([key, value]) => `
             <div class="bg-black/30 p-1.5 rounded border border-white/5 text-center flex flex-col justify-center">
                 <p class="text-[8px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
                 <p class="text-sm font-bold text-white">${value}</p>
             </div>
         `).join('');
+        const summonSkillsHtml = summon.skills ? summon.skills.map(skill => `
+            <div class="bg-black/40 p-3 rounded-lg border border-white/10 hover:border-emerald-500/50 transition-all group">
+                <p class="text-sm font-bold text-emerald-400 mb-1 group-hover:text-emerald-300 transition-colors text-left">[${skill.name}]</p>
+                <p class="text-[12px] text-gray-400 leading-snug text-left">${skill.desc}</p>
+            </div>
+        `).join('') : '';
 
         content.innerHTML = `
             <div class="h-full flex flex-col gap-5 animate-fadeIn text-left">
@@ -2068,10 +2143,12 @@
                         <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-square shadow-2xl">
                             ${renderCatalogImage(summon.image, summon.name)}
                         </div>
-                        <div class="bg-emerald-950/10 p-3 rounded-lg border border-emerald-900/30">
-                            <h4 class="text-[9px] text-emerald-500 font-bold uppercase tracking-[0.2em] mb-2">소환수 능력치</h4>
-                            <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
-                        </div>
+                        ${statsHtml ? `
+                            <div class="bg-emerald-950/10 p-3 rounded-lg border border-emerald-900/30">
+                                <h4 class="text-[9px] text-emerald-500 font-bold uppercase tracking-[0.2em] mb-2">소환수 능력치</h4>
+                                <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
+                            </div>
+                        ` : ''}
                     </div>
 
                     <div class="flex-grow flex flex-col w-full">
@@ -2094,10 +2171,21 @@
                                     <span class="w-4 h-[1px] bg-emerald-900/50"></span> 소환수 효과
                                 </h4>
                                 <div class="bg-black/40 p-3 rounded-lg border border-white/10">
-                                    <p class="text-sm font-bold text-emerald-400 mb-1 text-left">[구속 장치]</p>
+                                    <p class="text-sm font-bold text-emerald-400 mb-1 text-left">[${summon.effectName || '소환수 개요'}]</p>
                                     <p class="text-[12px] text-gray-400 leading-snug text-left">${summon.desc}</p>
                                 </div>
                             </div>
+
+                            ${summonSkillsHtml ? `
+                                <div class="flex flex-col gap-3">
+                                    <h4 class="text-[10px] text-emerald-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                        <span class="w-4 h-[1px] bg-emerald-900/50"></span> 소환수 기술
+                                    </h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        ${summonSkillsHtml}
+                                    </div>
+                                </div>
+                            ` : ''}
 
                             <button type="button" onclick="openMonsterModal('${parentId}')" class="self-start text-[10px] text-amber-500 hover:text-amber-400 uppercase tracking-[0.2em] border border-amber-900/40 px-3 py-2 rounded transition-colors">
                                 ← 소환자 상세로 돌아가기
