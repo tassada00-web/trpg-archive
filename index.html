@@ -1266,9 +1266,9 @@
             desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
             stats: { '힘': 12, '건강': 10, '속도': 8, '정밀': 12, '지능': 7, '지혜': 6, '매력': 9 },
             skills: [
-                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀(12) 판정.</span> 원거리 유저를 앞으로 견인. 성공 시 <span class="text-yellow-400">[이동 불가]</span> 및 <span class="text-amber-400">[연계 트리거]</span> 생성.' },
-                { name: '방어구 강제 해체', desc: '<span class="text-orange-400">정밀(12) vs 속도.</span> 성공 시 방어구 내구도 <span class="text-red-400">-10</span>.' },
-                { name: '전리품 감별 애무', desc: '<span class="text-orange-400">매력(9) vs 지능.</span> 실패 시 유저 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> 및 다음 저항 판정 패널티.' }
+                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 갈고리 달린 사슬을 던져 대상을 끌어옵니다. 성공 시 대상을 구속형 앞으로 강제 이동 + <span class="text-yellow-400">[이동 불가]</span> + <span class="text-amber-400">[연계 표식]</span>.' },
+                { name: '사슬로 넘기기', desc: '<span class="text-yellow-400">조건: [연계 표식]이 있는 대상.</span> <span class="text-orange-400">정밀 vs 속도.</span> 사슬을 구속형에게 넘기며 대상을 넘깁니다. 성공 시 구속형의 <span class="text-emerald-400">몸에 밀착 고정</span>이 유리해집니다.' },
+                { name: '전열 붕괴 타격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 끌어온 대상을 사슬이나 발로 내리칩니다. 성공 시 피해 <span class="text-white">+3</span> + <span class="text-yellow-400">[경직]</span> 1턴.' }
             ],
             loots: [
                 { name: '노리튼 사슬 조각', chance: '100%', desc: '견인형이 사용하던 사슬 잔해.' },
@@ -1282,13 +1282,27 @@
             title: '사냥감을 형틀처럼 고정하는 집행자',
             type: '인간형, 고블린, 노리튼',
             image: './norriton/chainhobgoblin.jpg',
-            desc: '견인형이 끌어온 대상을 붙잡아 단계적으로 구속하는 개체. 팔 고정 → 다리 고정을 거쳐 완전 구속 상태를 만든다.',
+            desc: '견인형이 끌어온 대상을 자신의 몸에 밀착 고정하는 구속형 개체. 사슬과 완력으로 대상을 붙잡아 인간 방패처럼 장비화하는 연계 피니싱을 사용한다.',
             stats: { '힘': 14, '건강': 12, '속도': 5, '정밀': 9, '지능': 8, '지혜': 7, '매력': 11 },
             skills: [
-                { name: '인간 형틀 고정', desc: '<span class="text-orange-400">힘(14) vs 힘.</span> 1회 성공 시 <span class="text-yellow-400">[팔 고정]</span>. 이후 추가 성공 시 <span class="text-yellow-400">[다리 고정]</span> → <span class="text-red-400">[완전 구속]</span>. 탈출은 아군 도움으로만 가능.' },
-                { name: '자비 없는 복종 타격', desc: '<span class="text-orange-400">힘(14) vs 건강.</span> 실패 시 <span class="text-yellow-400">[기절]</span> 1턴 및 감도 상승.' },
-                { name: '공포의 집단 유린', desc: '<span class="text-orange-400">매력(11) vs 지혜.</span> 실패 시 매 턴 <span class="text-pink-400">[쾌락]</span> <span class="text-white">+4</span> 및 <span class="text-purple-400">[두려움]</span> 부여.' },
-                { name: '정복자의 낙인 주입', desc: '<span class="text-orange-400">매력(11) vs 건강.</span> 실패 시 즉시 <span class="text-pink-400">[절정]</span> 및 <span class="text-purple-400">[광기]</span> <span class="text-white">+3</span>.' }
+                { name: '몸에 밀착 고정', desc: '<span class="text-orange-400">힘 vs 힘.</span> <span class="text-yellow-400">조건: 대상에게 [연계 표식]이 있을 때 유리.</span> 대상을 자신의 가슴과 배에 강하게 끌어안아 밀착시킵니다. 손목을 뒤로 묶어 자신의 몸에 고정하고 조입니다. 성공 시 <span class="text-emerald-400">[밀착 구속]</span> 부여. (이동 불가 + 회피/저항 판정 <span class="text-red-400">-3</span>)' },
+                { name: '밀착 유린', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">매력 vs 건강.</span> 상대를 자신의 몸에 꽉 붙인 채 아래에서 거근을 강제로 삽입합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '밀착 압박 연타', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">힘 vs 건강.</span> 자신의 몸에 붙인 채 허리를 반복해서 움직이며 거근을 박아 넣습니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                { name: '인간 방패 장비화', desc: '<span class="text-yellow-400">동시기술 · 피니싱.</span> 조건: 구속형이 <span class="text-emerald-400">[밀착 구속]</span> 상태인 대상을 잡고 있을 때. 견인형과 구속형이 동시에 행동합니다. 구속형은 상대를 자신의 몸 앞에 강제로 밀착시키고 손목·발목을 사슬로 고정합니다. 견인형은 사슬을 추가로 조여 상대를 고블린의 몸 앞에 방패처럼 완전히 고정시킵니다. 성공 시 <span class="text-emerald-400">고블린 인간방패</span> (소환수)를 생성합니다.' }
+            ],
+            summons: [
+                {
+                    name: '고블린 인간방패',
+                    title: '고블린의 몸 앞에 밀착·고정된 인간 방패',
+                    summary: '대상이 고블린의 몸 앞에 밀착·고정된 상태입니다.',
+                    desc: '대상이 고블린의 몸 앞에 밀착·고정된 상태입니다. <span class="text-red-400">[완전 구속]</span> + 완전 행동 불가. 고블린이 받는 피해의 일부를 대신 받고, 고블린의 방어 판정에 보너스를 줍니다. 매 턴 시작 시 쾌락 피해 <span class="text-white">1~2</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.',
+                    skills: [
+                        { name: '피해 대체', desc: '고블린이 받는 피해의 일부를 대신 받습니다.' },
+                        { name: '방어 보너스', desc: '고블린의 방어 판정에 보너스를 줍니다.' },
+                        { name: '강제 밀착 유지', desc: '매 턴 시작 시 쾌락 피해 <span class="text-white">1~2</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                        { name: '파괴/해제 조건', desc: '인간방패 체력이 0이 되면 소환수만 파괴되고 대상은 풀려납니다. 풀려날 때 <span class="text-yellow-400">[경직]</span> 또는 <span class="text-red-400">[기절]</span> 등을 받을 수 있습니다. 고블린이 쓰러져도 대상은 살아남습니다.' }
+                    ]
+                }
             ],
             loots: [
                 { name: '노리튼 구속 장치', chance: '100%', desc: '구속형 장비 잔해.' },
