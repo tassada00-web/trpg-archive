@@ -838,6 +838,7 @@
         if (event.state && event.state.modal) {
             const s = event.state;
             if (s.modal === 'monster') openMonsterModal(s.id, false);
+            else if (s.modal === 'summon') openSummonModal(s.parentId, s.summonIndex, false);
             else if (s.modal === 'weapon') openWeaponModal(s.category, s.id, false);
             else if (s.modal === 'armor') openArmorModal(s.category, s.id, false);
             else if (s.modal === 'recipe') openRecipeModal(s.category, s.id, false);
@@ -1887,6 +1888,8 @@
                     name: '아이언 메이든 (소환수)',
                     hp: 50,
                     stats: { '힘': 8, '건강': 10 },
+                    title: '대상을 완전히 가두는 철의 처녀',
+                    summary: '욕정 상태 대상을 내부에 가두는 이단 심문관의 소환수입니다.',
                     desc: '<span class="text-emerald-400">[속박]</span> + 완전 행동 불가. 즉시 쾌락 피해 <span class="text-white">3</span>. 매 턴 시작 시 쾌락 피해 <span class="text-white">1</span>. 소환수 체력 0이 되면 파괴 → 속박·행동 불가 해제.'
                 }
             ],
@@ -1951,7 +1954,7 @@
             </div>
         `).join('') : '';
 
-        const summonsHtml = data.summons ? data.summons.map(summon => {
+        const summonsHtml = data.summons ? data.summons.map((summon, summonIndex) => {
             const summonStatsHtml = summon.stats ? Object.entries(summon.stats).map(([key, value]) => `
                 <span class="text-[10px] text-gray-400">${key} <span class="text-white font-bold">${value}</span></span>
             `).join('') : '';
@@ -1960,7 +1963,7 @@
                 <div class="bg-emerald-950/10 p-3 rounded-lg border border-emerald-900/30 text-left">
                     <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
                         <div>
-                            <p class="text-sm font-bold text-emerald-400">[${summon.name}]</p>
+                            <button type="button" onclick="openSummonModal('${id}', ${summonIndex})" class="text-sm font-bold text-emerald-400 hover:text-emerald-300 transition-colors">[${summon.name}]</button>
                             <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em]">Summoned Unit</p>
                         </div>
                         <span class="text-[11px] text-rose-300 font-bold bg-black/30 border border-white/5 px-2 py-1 rounded">체력 ${summon.hp}</span>
@@ -2039,6 +2042,78 @@
                 <p class="text-[10px] text-gray-500 leading-relaxed border-t border-white/5 pt-3">
                     이 도감의 성적 상호작용은 성인 캐릭터 간 합의된 허구의 역할극이며, 비동의 성행위는 세계관과 룰에 존재하지 않습니다.
                 </p>
+            </div>
+        `;
+
+        document.getElementById('monster-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function openSummonModal(parentId, summonIndex, pushHistory = true) {
+        const parent = monsterData[parentId];
+        const summon = parent?.summons?.[summonIndex];
+        if (!parent || !summon) return;
+
+        if (pushHistory) history.pushState({ modal: 'summon', parentId: parentId, summonIndex: summonIndex }, "");
+
+        const content = document.getElementById('modal-content');
+        const stats = { '체력': summon.hp, ...(summon.stats || {}) };
+        const statsHtml = Object.entries(stats).map(([key, value]) => `
+            <div class="bg-black/30 p-1.5 rounded border border-white/5 text-center flex flex-col justify-center">
+                <p class="text-[8px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
+                <p class="text-sm font-bold text-white">${value}</p>
+            </div>
+        `).join('');
+
+        content.innerHTML = `
+            <div class="h-full flex flex-col gap-5 animate-fadeIn text-left">
+                <div class="flex flex-col md:flex-row gap-8 items-start w-full">
+                    <div class="w-full md:w-[220px] shrink-0 flex flex-col gap-3">
+                        <div class="bg-black/60 rounded-lg border border-gray-800 p-1.5 overflow-hidden aspect-square shadow-2xl">
+                            ${renderCatalogImage(summon.image, summon.name)}
+                        </div>
+                        <div class="bg-emerald-950/10 p-3 rounded-lg border border-emerald-900/30">
+                            <h4 class="text-[9px] text-emerald-500 font-bold uppercase tracking-[0.2em] mb-2">소환수 능력치</h4>
+                            <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex flex-col w-full">
+                        <div class="mb-4">
+                            <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-3">${summon.name}</h2>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-emerald-900/40 text-emerald-400 text-[8px] px-1.5 py-0.5 rounded border border-emerald-800/50 font-bold uppercase tracking-widest">소환수</span>
+                                <p class="text-xs text-gray-400 font-semibold">${parent.name}의 소환체</p>
+                            </div>
+                            <p class="text-lg text-emerald-600 italic tracking-[0.2em] font-semibold mb-4">${summon.title || '전장에 소환되는 특수 유닛'}</p>
+                        </div>
+
+                        <div class="flex flex-col gap-6">
+                            <p class="text-sm text-gray-300 leading-relaxed border-l-2 border-emerald-900/50 pl-4 py-1 bg-white/5 rounded-r">
+                                ${summon.summary || summon.desc}
+                            </p>
+
+                            <div class="flex flex-col gap-3">
+                                <h4 class="text-[10px] text-emerald-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                                    <span class="w-4 h-[1px] bg-emerald-900/50"></span> 소환수 효과
+                                </h4>
+                                <div class="bg-black/40 p-3 rounded-lg border border-white/10">
+                                    <p class="text-sm font-bold text-emerald-400 mb-1 text-left">[구속 장치]</p>
+                                    <p class="text-[12px] text-gray-400 leading-snug text-left">${summon.desc}</p>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="openMonsterModal('${parentId}')" class="self-start text-[10px] text-amber-500 hover:text-amber-400 uppercase tracking-[0.2em] border border-amber-900/40 px-3 py-2 rounded transition-colors">
+                                ← 소환자 상세로 돌아가기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.2em]">
+                    <span>Summon Archive Log</span>
+                    <span class="cinzel text-emerald-900/80 font-bold text-[10px]">REF-${parentId}-SUMMON-${summonIndex + 1}</span>
+                </div>
             </div>
         `;
 
