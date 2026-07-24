@@ -504,6 +504,30 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
+<div class="item-card monster-item jungle" onclick="openMonsterModal('wood_elf_snare')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">우드엘프 올가미</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"창끝과 올가미 동작으로 상대를 끌어당겨 숨통과 균형을 빼앗는 원시림 전사입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item jungle" onclick="openMonsterModal('wood_elf_ravager')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">우드엘프 유린자</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"강한 완력으로 대상을 들어올려 몸 앞에 고정하는 원시림의 제압자입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
+<div class="item-card monster-item jungle" onclick="openMonsterModal('wood_elf_silence_trainer')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">우드엘프 침묵조련사</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"상대의 머리와 양팔을 눌러 무릎 꿇린 뒤 침묵 상태로 조련하는 원시림 전사입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 
     <div id="monster-empty-state" class="monster-empty-state hidden">
@@ -977,6 +1001,12 @@
             traits: ['속임수, 약물, 사슬, 금전 거래 같은 도시형 전술을 사용합니다.', '전투 외 정보, 단서, 장부 계열 전리품과 연결되기 쉽습니다.'],
             notes: ['조직 계보, 낙인 체계, 밤거리 세력도는 추후 확정합니다.']
         },
+        woodElf: {
+            label: '우드 엘프 계열',
+            desc: '에이델린 원시림에서 올가미, 제압, 조련 전술을 사용하는 숲의 전투 집단',
+            traits: ['빠른 접근과 구속, 고정, 상태이상 연계를 통해 대상을 무력화합니다.', '창, 완력, 신체 제압을 섞어 전투와 NSFW 스킬을 이어갑니다.'],
+            notes: ['부족 구조, 원시림 의식, 공통 전리품은 추후 설정 확정 후 기입합니다.']
+        },
         humanoid: {
             label: '인간형 계열',
             desc: '도시와 외곽에서 마주치는 조직형 위협',
@@ -1004,6 +1034,7 @@
         if (type.includes('고블린')) return 'goblin';
         if (type.includes('광신도') || type.includes('종교') || type.includes('성기사') || type.includes('성녀') || type.includes('마녀') || type.includes('고행자') || type.includes('이단')) return 'cultist';
         if (type.includes('트위스타드 범죄자')) return 'twistedCriminal';
+        if (type.includes('우드엘프') || type.includes('우드 엘프')) return 'woodElf';
         if (type.includes('인간형')) return 'humanoid';
         return 'other';
     }
@@ -2134,6 +2165,60 @@
                         { name: '노예로서의 복종', desc: '<span class="text-purple-400">패시브.</span> 성자의 명령을 우선적으로 수행합니다. 성자가 지정한 대상을 공격하거나 끌어올 때 판정 <span class="text-green-400">+2</span>.' }
                     ]
                 }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'wood_elf_snare': {
+            name: '우드엘프 올가미',
+            title: '창끝으로 숨통과 균형을 빼앗는 원시림 전사',
+            cr: 7,
+            type: '인간형, 우드엘프, 원시림',
+            image: '',
+            desc: '에이델린 원시림의 우드엘프 계열 전사입니다. 창끝과 올가미 동작으로 상대를 끌어당기거나 목을 조여 행동을 제한한 뒤, 밀착 스킬로 이어갑니다.',
+            stats: { '힘': 12, '건강': 11, '속도': 13, '정밀': 12, '지능': 8, '지혜': 7, '매력': 10 },
+            skills: [
+                { name: '올가미 창', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 창의 끝으로 상대의 옷이나 팔을 걸어 끌어당기거나 균형을 무너뜨립니다. 성공 시 피해 <span class="text-white">+2</span> + <span class="text-yellow-400">[경직]</span> 1턴.' },
+                { name: '목 조르기', desc: '<span class="text-orange-400">힘 vs 힘.</span> 뒤에서 창을 목에 걸고 강하게 당겨 숨통을 조릅니다. 성공 시 <span class="text-cyan-400">[질식]</span> (행동 1회 제한 + 회피 <span class="text-red-400">-2</span>).' },
+                { name: '강제 스마타', desc: '<span class="text-yellow-400">조건: 대상이 [질식] 또는 [경직] 상태.</span> <span class="text-orange-400">힘 vs 건강.</span> 뒤에서 강하게 안은 채 옷을 찢어 벗기고, 알몸으로 밀착합니다. 자지를 사타구니에 대고 천천히, 강하게 비빕니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                { name: '체액 도포', desc: '<span class="text-yellow-400">조건: 강제 스마타 성공 후.</span> <span class="text-orange-400">힘 vs 건강.</span> 사정하거나 뿜어낸 체액을 상대의 사타구니와 배에 문지릅니다. 성공 시 <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-lime-400">[체액 오염]</span>.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'wood_elf_ravager': {
+            name: '우드엘프 유린자',
+            title: '완력으로 대상을 들어올려 고정하는 원시림 제압자',
+            cr: 7,
+            type: '인간형, 우드엘프, 원시림',
+            image: '',
+            desc: '에이델린 원시림의 우드엘프 계열 전사입니다. 강한 완력으로 상대의 움직임을 봉쇄하고, 들어올린 채 완전히 고정해 압도합니다.',
+            stats: { '힘': 14, '건강': 12, '속도': 10, '정밀': 10, '지능': 7, '지혜': 6, '매력': 9 },
+            skills: [
+                { name: '제압 잡기', desc: '<span class="text-orange-400">힘 vs 힘.</span> 양팔로 상대를 강하게 끌어안아 몸을 완전히 고정합니다. 성공 시 <span class="text-emerald-400">[속박]</span> (이동 불가 + 회피 <span class="text-red-400">-3</span>).' },
+                { name: '들어올리기', desc: '<span class="text-yellow-400">조건: 대상이 [속박] 상태.</span> <span class="text-orange-400">힘 판정.</span> 상대를 들어올려 자신의 몸 앞에 고정합니다. 성공 시 <span class="text-red-400">[완전 고정]</span> (행동 불가).' },
+                { name: '들어올려 박기', desc: '<span class="text-yellow-400">조건: 대상이 [완전 고정] 상태.</span> <span class="text-orange-400">힘 vs 건강.</span> 다리를 벌린 채로 안아 올리고, 자지를 질 안으로 강제로 밀어 넣은 뒤 허리를 움직여 연타합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '강제 질내사정', desc: '<span class="text-yellow-400">조건: 들어올려 박기 성공 후.</span> <span class="text-orange-400">힘 vs 건강.</span> 깊숙이 박아 넣은 채로 허리를 고정하고 질내에 사정합니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-lime-400">[정액 주입]</span>.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'wood_elf_silence_trainer': {
+            name: '우드엘프 침묵조련사',
+            title: '무릎 꿇린 대상을 침묵시키는 원시림 조련사',
+            cr: 7,
+            type: '인간형, 우드엘프, 원시림',
+            image: '',
+            desc: '에이델린 원시림의 우드엘프 계열 전사입니다. 머리를 짓누르고 양팔을 제압해 상대를 무릎 꿇린 뒤, 입을 점유하는 침묵형 스킬로 이어갑니다.',
+            stats: { '힘': 13, '건강': 11, '속도': 11, '정밀': 11, '지능': 8, '지혜': 7, '매력': 11 },
+            skills: [
+                { name: '머리 짓누르기', desc: '<span class="text-orange-400">힘 vs 건강.</span> 서 있는 상대의 머리를 강하게 아래로 눌러 무릎을 꿇립니다. 성공 시 <span class="text-yellow-400">[무릎 꿇기]</span> (이동 불가 + 회피 <span class="text-red-400">-2</span>).' },
+                { name: '양팔 제압', desc: '<span class="text-yellow-400">조건: 대상이 [무릎 꿇기] 상태.</span> <span class="text-orange-400">힘 vs 힘.</span> 무릎을 꿇은 상대의 양팔을 뒤로 잡아 고정합니다. 성공 시 <span class="text-red-400">[완전 제압]</span> (행동 불가).' },
+                { name: '허릿힘 구강 강간', desc: '<span class="text-yellow-400">조건: 대상이 [완전 제압] 상태.</span> <span class="text-orange-400">힘 vs 건강.</span> 양팔을 잡은 채로 머리를 고정하고, 허리를 써서 자지를 강제로 구강에 밀어 넣으며 연타합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span> + <span class="text-purple-400">[구강 점유]</span>.' },
+                { name: '구강 사정', desc: '<span class="text-yellow-400">조건: 허릿힘 구강 강간 성공 후.</span> <span class="text-orange-400">힘 vs 건강.</span> 구강 깊숙이 박아 넣은 채로 사정합니다. 성공 시 쾌락 피해 <span class="text-white">2</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-lime-400">[정액 삼킴]</span>.' }
             ],
             loots: [
                 { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
