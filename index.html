@@ -528,6 +528,14 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
+<div class="item-card monster-item jungle" onclick="openMonsterModal('wood_elf_parasite')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">기생체 우드엘프</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"정액 충만 상태에서 기생 형태를 전환하며 상대를 압박하는 원시림의 변이 우드엘프입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 
     <div id="monster-empty-state" class="monster-empty-state hidden">
@@ -2219,6 +2227,29 @@
                 { name: '양팔 제압', desc: '<span class="text-yellow-400">조건: 대상이 [무릎 꿇기] 상태.</span> <span class="text-orange-400">힘 vs 힘.</span> 무릎을 꿇은 상대의 양팔을 뒤로 잡아 고정합니다. 성공 시 <span class="text-red-400">[완전 제압]</span> (행동 불가).' },
                 { name: '허릿힘 구강 강간', desc: '<span class="text-yellow-400">조건: 대상이 [완전 제압] 상태.</span> <span class="text-orange-400">힘 vs 건강.</span> 양팔을 잡은 채로 머리를 고정하고, 허리를 써서 자지를 강제로 구강에 밀어 넣으며 연타합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span> + <span class="text-purple-400">[구강 점유]</span>.' },
                 { name: '구강 사정', desc: '<span class="text-yellow-400">조건: 허릿힘 구강 강간 성공 후.</span> <span class="text-orange-400">힘 vs 건강.</span> 구강 깊숙이 박아 넣은 채로 사정합니다. 성공 시 쾌락 피해 <span class="text-white">2</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-lime-400">[정액 삼킴]</span>.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'wood_elf_parasite': {
+            name: '기생체 우드엘프',
+            title: '정액 충만으로 기생 형태를 전환하는 원시림 변이체',
+            cr: 7,
+            type: '인간형, 우드엘프, 원시림, 기생체',
+            image: '',
+            desc: '에이델린 원시림의 기생체 우드엘프입니다. 피격당하거나 자신의 공격이 성공했을 때 <span class="text-lime-400">[정액 충만]</span> 상태를 얻고, 그 상태에서 기생 형태를 전환해 특화 스킬을 강화합니다.',
+            stats: { '힘': 10, '건강': 11, '속도': 13, '정밀': 10, '지능': 9, '지혜': 8, '매력': 10 },
+            skills: [
+                { name: '상태이상: 정액 충만', desc: '<span class="text-lime-400">[정액 충만]</span>. 획득 조건: 피격당하거나, 자신의 공격(스킬)이 성공했을 때. 효과: 이 상태가 되어야 <span class="text-emerald-400">기생 형태 전환</span>과 패시브를 사용할 수 있습니다.' },
+                { name: '기생 형태 전환', desc: '<span class="text-yellow-400">조건: [정액 충만] 상태일 때만 사용 가능.</span> 자유 행동 (턴당 1회). 기생체와 숙주의 결합 방식을 바꿔 자세를 전환합니다. 전환 즉시 스탯이 변경되며, 해당 형태에 맞는 특화 스킬이 강화됩니다.' },
+                { name: '공중 포식 형태', desc: '<span class="text-cyan-400">스탯 변화:</span> 속도 <span class="text-green-400">+3</span> / 힘 <span class="text-red-400">-2</span> / 정밀 <span class="text-green-400">+1</span>.<br><span class="text-emerald-400">특화 스킬: 공중 거꾸로 구강 강간.</span> <span class="text-orange-400">속도 vs 속도.</span> 공중에서 상대를 붙잡아 들어올린 뒤, 착지와 동시에 몸을 완전히 거꾸로 고정합니다. 상대의 머리가 아래로 향하게 한 채 얼굴을 자신의 자지 앞에 강제로 밀착시킵니다. 허리를 앞뒤로 움직이며 구강 깊숙이 자지를 밀어 넣고 연타합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-purple-400">[구강 점유]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '지상 압박 형태', desc: '<span class="text-cyan-400">스탯 변화:</span> 힘 <span class="text-green-400">+3</span> / 속도 <span class="text-red-400">-2</span> / 건강 <span class="text-green-400">+1</span>.<br><span class="text-emerald-400">특화 스킬: 뒤에서 강제 삽입.</span> <span class="text-orange-400">힘 vs 건강.</span> 상대를 바닥에 쓰러뜨리거나 엎드리게 만든 뒤, 뒤에서 몸을 강하게 눌러 고정합니다. 자지를 질 입구에 대고 뿌리까지 강제로 밀어 넣은 후, 허리를 잡아당기며 깊게 연타합니다. 피격자의 몸이 앞으로 밀리면서도 빠져나가지 못하게 압박을 유지합니다. 성공 시 쾌락 피해 <span class="text-white">5</span> + <span class="text-emerald-400">[속박]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '직립 삽입 형태', desc: '<span class="text-cyan-400">스탯 변화:</span> 힘 <span class="text-green-400">+2</span> / 정밀 <span class="text-green-400">+1</span> / 속도 <span class="text-red-400">-1</span>.<br><span class="text-emerald-400">특화 스킬: 서서 강제 삽입.</span> <span class="text-orange-400">힘 vs 건강.</span> 상대의 한쪽 다리를 들어 올리거나 허리를 잡아 고정한 채, 서서 정면 또는 약간 비스듬히 삽입합니다. 상대가 한쪽 발로만 중심을 잡게 만든 상태로 허리를 강하게 움직여 연타합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-yellow-400">[경직]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '분체 주입 형태', desc: '<span class="text-yellow-400">특수 형태. 조건: 대상이 우드엘프일 때만 전환 가능.</span> <span class="text-cyan-400">스탯 변화:</span> 정밀 <span class="text-green-400">+2</span> / 지능 <span class="text-green-400">+2</span> / 힘 <span class="text-red-400">-1</span>.<br><span class="text-emerald-400">특화 스킬: 분체 주입.</span> <span class="text-orange-400">정밀 vs 건강.</span> 기생체의 꼬리를 상대의 질 안으로 깊게 집어넣습니다. 막대한 에너지와 함께 자신의 70% 이상 크기에 달하는 분체를 자궁 쪽으로 밀어 넣습니다. 성공 시 쾌락 피해 <span class="text-white">5</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> + <span class="text-lime-400">[기생 분체]</span>.' },
+                { name: '패시브 - 정액 흡수', desc: '<span class="text-yellow-400">조건: [정액 충만] 상태일 때 발동.</span> 사정할 때마다 자궁 안에 있는 기생체가 정액을 흡수합니다. 흡수에 성공하면 즉시 다시 발기 상태가 되며, 같은 상대에게 삽입 계열 스킬을 연속으로 사용할 수 있습니다.' },
+                { name: '피니시 - 절정 사정 도포', desc: '<span class="text-yellow-400">조건: 대상이 [절정] 상태일 때.</span> <span class="text-orange-400">힘 vs 건강.</span> 절정으로 힘이 풀린 상대를 누른 채 자지를 깊숙이 박아 넣고 사정합니다. 정액을 질 안과 바깥에 듬뿍 뿌려 하반신을 완전히 눅눅하게 적십니다. 성공 시 <span class="text-lime-400">[정액 도포]</span>.' },
+                { name: '정액 도포 추가 효과', desc: '<span class="text-lime-400">[정액 도포]</span>가 묻은 대상은 스스로 기생체 우드엘프에게 다가와 삽입을 원하게 됩니다.' }
             ],
             loots: [
                 { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
