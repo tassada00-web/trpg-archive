@@ -1131,8 +1131,8 @@
             groupMap.get(key).querySelector('.monster-group-panel').appendChild(card);
         });
 
-        Array.from(groupMap.values()).forEach((section, index) => {
-            setMonsterGroupOpen(section, index === 0);
+        Array.from(groupMap.values()).forEach(section => {
+            setMonsterGroupOpen(section, false);
         });
 
         updateMonsterGroups();
@@ -1156,7 +1156,6 @@
 
     function updateMonsterGroups() {
         const groups = Array.from(document.querySelectorAll('.monster-group'));
-        let hasOpenVisibleGroup = false;
         let firstVisibleGroup = null;
 
         groups.forEach(section => {
@@ -1168,14 +1167,9 @@
             section.querySelector('.monster-group-count').textContent = `${visibleCards.length}종`;
 
             if (isVisible && !firstVisibleGroup) firstVisibleGroup = section;
-            if (isVisible && !section.classList.contains('collapsed')) hasOpenVisibleGroup = true;
         });
 
         document.getElementById('monster-empty-state')?.classList.toggle('hidden', !!firstVisibleGroup);
-
-        if (firstVisibleGroup && !hasOpenVisibleGroup) {
-            setMonsterGroupOpen(firstVisibleGroup, true);
-        }
     }
 
     // 몬스터 상세 정보 데이터베이스
