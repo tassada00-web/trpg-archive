@@ -224,6 +224,7 @@ nav {
 }
 
 .boss-catalog-active .monster-group-controls,
+.boss-catalog-active .monster-group-header,
 .boss-catalog-active .monster-group-toggle {
     display: none;
 }
@@ -257,6 +258,13 @@ nav {
     display: none;
 }
 
+.monster-group-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: 10px;
+}
+
 .monster-group-toggle {
     width: 100%;
     display: grid;
@@ -274,6 +282,30 @@ nav {
 .monster-group-toggle:hover {
     border-color: #f59e0b;
     background: rgba(28, 28, 28, 0.95);
+}
+
+.monster-group-lore-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 132px;
+    padding: 0 16px;
+    background: rgba(69, 26, 3, 0.36);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 8px;
+    color: #f59e0b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.monster-group-lore-btn:hover {
+    background: rgba(120, 53, 15, 0.42);
+    border-color: #f59e0b;
+    color: #fbbf24;
 }
 
 .monster-group-main {
@@ -338,8 +370,17 @@ nav {
 }
 
 @media (max-width: 640px) {
+    .monster-group-header {
+        grid-template-columns: 1fr;
+    }
+
     .monster-group-toggle {
         grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .monster-group-lore-btn {
+        min-height: 44px;
+        width: 100%;
     }
 
     .monster-group-icon {

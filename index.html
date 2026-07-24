@@ -855,6 +855,7 @@
             const s = event.state;
             if (s.modal === 'monster') openMonsterModal(s.id, false);
             else if (s.modal === 'summon') openSummonModal(s.parentId, s.summonIndex, false);
+            else if (s.modal === 'monster-group') openMonsterGroupModal(s.groupKey, false);
             else if (s.modal === 'weapon') openWeaponModal(s.category, s.id, false);
             else if (s.modal === 'armor') openArmorModal(s.category, s.id, false);
             else if (s.modal === 'recipe') openRecipeModal(s.category, s.id, false);
@@ -940,14 +941,54 @@
     }
 
     const monsterGroupMeta = {
-        goblin: { label: '고블린 계열', desc: '무리 전술과 조잡한 장비를 쓰는 기본 위협군' },
-        slime: { label: '슬라임류', desc: '점착, 흡수, 용해 능력으로 전장을 장악하는 점액 생명체' },
-        undead: { label: '언데드 계열', desc: '전장의 기억과 장비에 묶인 망자들' },
-        norriton: { label: '노리튼 변종', desc: '타락한 노리튼 지역에서 변질된 특수 개체' },
-        cultist: { label: '광신도', desc: '아스키즈 지역에서 교단 신앙을 퍼뜨리는 종교 세력' },
-        twistedCriminal: { label: '트위스타드 범죄자', desc: '도박, 밀매, 낙인과 폭력으로 거리를 장악한 범죄 조직' },
-        humanoid: { label: '인간형 계열', desc: '도시와 외곽에서 마주치는 조직형 위협' },
-        other: { label: '기타 계열', desc: '분류가 확정되지 않은 개체' }
+        goblin: {
+            label: '고블린 계열',
+            desc: '무리 전술과 조잡한 장비를 쓰는 기본 위협군',
+            traits: ['무리 단위 행동과 연계 공격을 기본 전술로 사용합니다.', '조잡한 무기와 방패를 사용하지만 수적 우세일 때 위협도가 크게 상승합니다.'],
+            notes: ['공통 약점, 서식지, 전리품 경향은 추후 설정 확정 후 기입합니다.']
+        },
+        slime: {
+            label: '슬라임류',
+            desc: '점착, 흡수, 용해 능력으로 전장을 장악하는 점액 생명체',
+            traits: ['점액성 신체로 구속, 점착, 흡수 계열 행동과 잘 연결됩니다.', '개체별 속성에 따라 마나, 체력, 장비 내구도에 영향을 줍니다.'],
+            notes: ['핵, 점액, 산성 부산물 등 공통 전리품 구조를 추후 정리합니다.']
+        },
+        undead: {
+            label: '언데드 계열',
+            desc: '전장의 기억과 장비에 묶인 망자들',
+            traits: ['생전의 전투 역할이 남아 있어 장비와 행동 패턴이 뚜렷합니다.', '출혈, 경직, 넘어짐 등 물리 상태이상과 자주 연결됩니다.'],
+            notes: ['성수, 은, 화염, 정신계 저항 여부는 추후 규칙으로 확정합니다.']
+        },
+        norriton: {
+            label: '노리튼 변종',
+            desc: '타락한 노리튼 지역에서 변질된 특수 개체',
+            traits: ['사슬, 견인, 구속 같은 위치 제어 전술을 중심으로 움직입니다.', '특수 개체는 서로 연계될 때 위협도가 크게 올라갑니다.'],
+            notes: ['노리튼 타락 원인과 지역 고유 특성은 별도 설정 확정 후 기입합니다.']
+        },
+        cultist: {
+            label: '광신도',
+            desc: '아스키즈 지역에서 교단 신앙을 퍼뜨리는 종교 세력',
+            traits: ['두려움, 광기, 도발, 침묵 같은 정신계 압박을 자주 사용합니다.', '낮과 밤에 따라 같은 계열이라도 전술과 상태이상 경향이 달라집니다.'],
+            notes: ['교단 교리, 낮/밤 의식 차이, 보스와의 관계를 추후 정리합니다.']
+        },
+        twistedCriminal: {
+            label: '트위스타드 범죄자',
+            desc: '도박, 밀매, 낙인과 폭력으로 거리를 장악한 범죄 조직',
+            traits: ['속임수, 약물, 사슬, 금전 거래 같은 도시형 전술을 사용합니다.', '전투 외 정보, 단서, 장부 계열 전리품과 연결되기 쉽습니다.'],
+            notes: ['조직 계보, 낙인 체계, 밤거리 세력도는 추후 확정합니다.']
+        },
+        humanoid: {
+            label: '인간형 계열',
+            desc: '도시와 외곽에서 마주치는 조직형 위협',
+            traits: ['장비, 대화, 협박, 거래 등 비전투 상황과도 연결될 수 있습니다.', '개체별 직업과 소속에 따라 능력치와 전리품 편차가 큽니다.'],
+            notes: ['공통 사회 규칙과 우호/적대 전환 조건을 추후 정리합니다.']
+        },
+        other: {
+            label: '기타 계열',
+            desc: '분류가 확정되지 않은 개체',
+            traits: ['아직 계열 규칙이 확정되지 않은 임시 분류입니다.'],
+            notes: ['분류 기준이 정해지면 별도 계열로 이동합니다.']
+        }
     };
 
     function getMonsterIdFromCard(card) {
@@ -967,6 +1008,68 @@
         return 'other';
     }
 
+    function openMonsterGroupModal(groupKey, pushHistory = true) {
+        const meta = monsterGroupMeta[groupKey] || monsterGroupMeta.other;
+        const content = document.getElementById('modal-content');
+        if (!content) return;
+
+        if (pushHistory) history.pushState({ modal: 'monster-group', groupKey: groupKey }, "");
+
+        const traitsHtml = (meta.traits || []).map(trait => `
+            <div class="bg-black/40 p-4 rounded-lg border border-white/10 text-left">
+                <p class="text-sm text-gray-300 leading-relaxed">${trait}</p>
+            </div>
+        `).join('');
+
+        const notesHtml = (meta.notes || []).map(note => `
+            <li class="flex gap-2 text-sm text-gray-400 leading-relaxed">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0"></span>
+                <span>${note}</span>
+            </li>
+        `).join('');
+
+        content.innerHTML = `
+            <div class="h-full flex flex-col gap-6 animate-fadeIn text-left">
+                <div class="mb-2">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none">${meta.label}</h2>
+                        <span class="bg-amber-950/50 text-amber-300 text-xs px-3 py-1 rounded border border-amber-800/60 font-bold uppercase tracking-[0.25em]">COMMON</span>
+                    </div>
+                    <p class="text-lg text-amber-600 italic tracking-[0.16em] font-semibold mb-4">${meta.desc}</p>
+                    <p class="text-sm text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-4 py-2 bg-white/5 rounded-r">
+                        이 계열에 공통으로 적용할 종족 특징, 전투 습성, 약점, 전리품 경향을 기록하는 페이지입니다.
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <h4 class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                        <span class="w-4 h-[1px] bg-amber-900/50"></span> 공통 특징
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${traitsHtml}
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 pt-2 border-t border-white/5">
+                    <h4 class="text-[10px] text-blue-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
+                        <span class="w-4 h-[1px] bg-blue-900/50"></span> 특성 메모
+                    </h4>
+                    <ul class="space-y-2 bg-black/30 rounded-lg border border-white/5 p-4">
+                        ${notesHtml}
+                    </ul>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-[8px] text-gray-600 uppercase tracking-[0.2em]">
+                    <span>Monster Group Archive</span>
+                    <span class="cinzel text-amber-900/80 font-bold text-[10px]">GROUP-${groupKey.toUpperCase()}</span>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('monster-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
     function initMonsterGroups() {
         const list = document.getElementById('monster-list');
         if (!list || list.dataset.grouped === 'true') return;
@@ -982,7 +1085,16 @@
 
         cards.forEach(card => {
             const id = getMonsterIdFromCard(card);
-            const key = getMonsterGroupKey(monsterData[id]);
+            const data = monsterData[id] || {};
+            const key = getMonsterGroupKey(data);
+
+            if (data.cr && !card.querySelector('.monster-cr-badge')) {
+                const titleRow = card.querySelector('.flex.justify-between.items-center');
+                const badge = document.createElement('span');
+                badge.className = 'monster-cr-badge shrink-0 rounded border border-red-800/60 bg-red-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-red-300';
+                badge.textContent = `CR ${data.cr}`;
+                titleRow?.appendChild(badge);
+            }
 
             if (!groupMap.has(key)) {
                 const meta = monsterGroupMeta[key] || monsterGroupMeta.other;
@@ -991,14 +1103,20 @@
                 section.dataset.group = key;
 
                 section.innerHTML = `
-                    <button type="button" class="monster-group-toggle" aria-expanded="true">
-                        <span class="monster-group-main">
-                            <span class="monster-group-title">${meta.label}</span>
-                            <span class="monster-group-desc">${meta.desc}</span>
-                        </span>
-                        <span class="monster-group-count">0</span>
-                        <i class="fa-solid fa-chevron-down monster-group-icon"></i>
-                    </button>
+                    <div class="monster-group-header">
+                        <button type="button" class="monster-group-toggle" aria-expanded="true">
+                            <span class="monster-group-main">
+                                <span class="monster-group-title">${meta.label}</span>
+                                <span class="monster-group-desc">${meta.desc}</span>
+                            </span>
+                            <span class="monster-group-count">0</span>
+                            <i class="fa-solid fa-chevron-down monster-group-icon"></i>
+                        </button>
+                        <button type="button" class="monster-group-lore-btn" onclick="openMonsterGroupModal('${key}')">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>공통 특징</span>
+                        </button>
+                    </div>
                     <div class="monster-group-panel grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 `;
 
@@ -1065,6 +1183,7 @@
         'goblin': {
             name: '고블린',
             title: '비겁한 숲의 약탈자',
+            cr: 1,
             type: '인간형, 고블린',
             image: './normal/goblin.jpg',
             desc: '무리를 지어 여행자를 습격하는 비열한 생명체입니다. 영악한 생존 본능을 지니고 있습니다.',
@@ -1085,6 +1204,7 @@
         'goblin_warrior': {
             name: '고블린 병사',
             title: '단단하게 무장한 전선 보병',
+            cr: 2,
             type: '인간형, 고블린',
             image: './normal/goblin_warrior.jpg',
             desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
@@ -1105,6 +1225,7 @@
         'goblin_archer': {
             name: '고블린 궁수',
             title: '그늘 속에 숨어든 저격수',
+            cr: 2,
             type: '인간형, 고블린',
             image: './normal/goblin_archer.jpg',
             desc: '수풀 뒤에 숨어 독화살을 쏘아대는 교활한 사수들입니다.',
@@ -1124,6 +1245,7 @@
         'hobgoblin': {
             name: '홉고블린',
             title: '군단 위계의 정점에 선 지배자',
+            cr: 7,
             type: '인간형, 고블린',
             image: './normal/Hobgoblin.jpg',
             desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
@@ -1147,6 +1269,7 @@
         'fallen_swordsman': {
             name: '전사한 검사',
             title: '검술의 잔향만 남은 망자',
+            cr: 2,
             type: '언데드, 검사',
             image: '',
             desc: '전장에서 쓰러진 뒤에도 검을 놓지 못한 언데드입니다. 생전의 검술은 무너졌지만, 찌르고 베는 동작만큼은 집요하게 반복합니다.',
@@ -1166,6 +1289,7 @@
         'fallen_raider': {
             name: '전사한 습격병',
             title: '기습 본능에 묶인 시체',
+            cr: 2,
             type: '언데드, 습격병',
             image: '',
             desc: '살아 있을 때의 습격 습관이 저주처럼 남은 언데드입니다. 낮은 자세로 파고들어 짧은 공격을 여러 번 겹쳐 넣습니다.',
@@ -1185,6 +1309,7 @@
         'fallen_crossbowman': {
             name: '전사한 석궁병',
             title: '죽어서도 조준을 멈추지 않는 사수',
+            cr: 2,
             type: '언데드, 석궁병',
             image: '',
             desc: '차갑게 굳은 손가락으로 석궁을 장전하는 원거리 언데드입니다. 탄약이 떨어지면 검은 화약병을 던져 시야를 빼앗습니다.',
@@ -1204,6 +1329,7 @@
         'fallen_mage': {
             name: '전사한 마도사',
             title: '어둠의 주문을 되뇌는 시체',
+            cr: 2,
             type: '언데드, 마도사',
             image: '',
             desc: '죽은 뒤에도 마력 회로만은 꺼지지 않은 마도사입니다. 부서진 정신으로 어둠의 주문을 반복하며 생명력을 갉아먹습니다.',
@@ -1223,6 +1349,7 @@
         'fallen_charger': {
             name: '전사한 돌격병',
             title: '도끼와 함께 되살아난 돌파병',
+            cr: 2,
             type: '언데드, 돌격병',
             image: '',
             desc: '무거운 도끼를 끌며 전열로 돌진하는 언데드입니다. 움직임은 둔하지만, 일단 거리를 좁히면 육중한 일격으로 방어선을 흔듭니다.',
@@ -1242,6 +1369,7 @@
         'fallen_heavy_infantry': {
             name: '전사한 중갑병',
             title: '갑주에 집념을 덧댄 방패병',
+            cr: 2,
             type: '언데드, 중갑병',
             image: '',
             desc: '부서진 중갑을 입은 채 천천히 전진하는 방어형 언데드입니다. 공격보다 버티기에 능하며, 철갑 내구도로 피해를 먼저 받아냅니다.',
@@ -1261,6 +1389,7 @@
         'norriton_chain_hobgoblin_puller': {
             name: '노리튼 사슬 홉고블린 - [견인형]',
             title: '사슬로 전열을 무너뜨리는 약탈자',
+            cr: 8,
             type: '인간형, 고블린, 노리튼',
             image: './norriton/chainhobgoblin.jpg',
             desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
@@ -1280,6 +1409,7 @@
         'norriton_chain_hobgoblin_binder': {
             name: '노리튼 사슬 홉고블린 - [구속형]',
             title: '사냥감을 형틀처럼 고정하는 집행자',
+            cr: 9,
             type: '인간형, 고블린, 노리튼',
             image: './norriton/chainhobgoblin.jpg',
             desc: '견인형이 끌어온 대상을 자신의 몸에 밀착 고정하는 구속형 개체. 사슬과 완력으로 대상을 붙잡아 인간 방패처럼 장비화하는 연계 피니싱을 사용한다.',
@@ -1314,6 +1444,7 @@
         'poju': {
             name: '포주',
             title: '낙인 계열 포주',
+            cr: 5,
             type: '인간형, 포주',
             image: '',
             desc: '트위스타드와 바란 지역에서 활동하는 낙인 포주. 여성 캐릭터를 표적으로 삼아 부하에게 넘긴다.',
@@ -1333,6 +1464,7 @@
         'poju_buha': {
             name: '포주의 부하',
             title: '낙인 대상 집중 실행형',
+            cr: 4,
             type: '인간형, 포주 부하',
             image: '',
             desc: '포주가 낙인 찍은 대상을 집중적으로 다루는 부하.',
@@ -1354,6 +1486,7 @@
         'milmaesang': {
             name: '밀매상',
             title: '약물 밀매자',
+            cr: 4,
             type: '인간형, 밀매상',
             image: '',
             desc: '최음제를 사용해 대상을 약화시키는 밀매상.',
@@ -1374,6 +1507,7 @@
         'gilgeori_maechunbu': {
             name: '길거리 매춘부',
             title: '유혹 후 기습',
+            cr: 4,
             type: '인간형, 매춘부',
             image: '',
             desc: '유혹으로 접근해 강제로 다루는 길거리 매춘부.',
@@ -1394,6 +1528,7 @@
         'talak_gyeongbibyeong': {
             name: '타락 경비병',
             title: '공권력 남용',
+            cr: 4,
             type: '인간형, 경비병',
             image: '',
             desc: '권력을 남용해 대상을 다루는 타락 경비병.',
@@ -1415,6 +1550,7 @@
         'pokryokbae': {
             name: '폭력배',
             title: '잔인한 근접 강제형',
+            cr: 4,
             type: '인간형, 폭력배',
             image: '',
             desc: '직접적인 폭력으로 대상을 다루는 폭력배.',
@@ -1434,7 +1570,8 @@
         },
         'twisted_card_sharp': {
             name: '카드샤프',
-            title: 'CR 1~2 · 도박판의 독침 사기꾼',
+            title: '도박판의 독침 사기꾼',
+            cr: 3,
             type: '인간형, 트위스타드 범죄자, 도박꾼',
             image: '',
             desc: '트위스타드의 도박장과 뒷골목을 오가는 카드 사기꾼입니다. 얇게 갈아낸 카드와 소매 속 단검으로 판돈을 지키고, 불리해지면 블러프로 흐름을 뒤집습니다.',
@@ -1453,7 +1590,8 @@
         },
         'twisted_street_cutthroat': {
             name: '거리 절도단',
-            title: 'CR 2~3 · 골목의 기습 절도범',
+            title: '골목의 기습 절도범',
+            cr: 4,
             type: '인간형, 트위스타드 범죄자, 절도단',
             image: '',
             desc: '좁은 골목과 시장 뒷길에서 움직이는 절도단입니다. 기습으로 숨통을 막고, 짧은 단검질로 혼란을 만든 뒤 전리품을 낚아챕니다.',
@@ -1472,7 +1610,8 @@
         },
         'twisted_rumor_monger': {
             name: '소문상',
-            title: 'CR 2~3 · 거짓말을 파는 정보상',
+            title: '거짓말을 파는 정보상',
+            cr: 3,
             type: '인간형, 트위스타드 범죄자, 정보상',
             image: '',
             desc: '소문상은 정보와 거짓말을 같은 값으로 거래합니다. 직접 전투력은 낮지만, 이간질과 헛소문으로 적의 판단을 흐리고 빠져나갈 틈을 만듭니다.',
@@ -1491,7 +1630,8 @@
         },
         'twisted_aphrodisiac_smuggler': {
             name: '최음제 밀매상',
-            title: 'CR 3 · 감각을 흐리는 약물 밀매자',
+            title: '감각을 흐리는 약물 밀매자',
+            cr: 6,
             type: '인간형, 트위스타드 범죄자, 밀매상',
             image: '',
             desc: '불법 약물과 연막 가루를 운반하는 트위스타드 밀매상입니다. 직접 싸움보다 감각을 흐리고, 성욕 스택을 누적시켜 저항을 약화시키는 방식에 능합니다.',
@@ -1511,7 +1651,8 @@
         },
         'twisted_enforcer': {
             name: '집행자',
-            title: 'CR 3~4 · 빚과 규칙의 폭력 대리인',
+            title: '빚과 규칙의 폭력 대리인',
+            cr: 5,
             type: '인간형, 트위스타드 범죄자, 집행자',
             image: '',
             desc: '조직의 빚 문서를 들고 다니는 근접 집행자입니다. 철제 곤봉으로 본보기를 만들고, 주변 조직원에게 명령을 내려 전열을 단단하게 유지합니다.',
@@ -1530,7 +1671,8 @@
         },
         'twisted_gambling_broker': {
             name: '도박 중개인',
-            title: 'CR 3~4 · 판돈과 배당의 조작자',
+            title: '판돈과 배당의 조작자',
+            cr: 5,
             type: '인간형, 트위스타드 범죄자, 도박 중개인',
             image: '',
             desc: '싸움마저 판돈으로 바꾸는 도박 중개인입니다. 전투의 흐름을 배당처럼 조작해 아군의 이득을 키우고, 상대의 판단을 흔듭니다.',
@@ -1549,7 +1691,8 @@
         },
         'twisted_branded_enforcer': {
             name: '낙인 포주 부하장',
-            title: 'CR 4 · 낙인 조직의 사슬 통솔자',
+            title: '낙인 조직의 사슬 통솔자',
+            cr: 9,
             type: '인간형, 트위스타드 범죄자, 낙인 조직',
             image: '',
             desc: '낙인 조직의 현장 지휘관입니다. 강화 사슬로 대상을 끌어내고, 낙인 의식으로 장기적인 압박 상태를 만들며 하위 조직원을 통솔합니다.',
@@ -1568,7 +1711,8 @@
         },
         'twisted_cipher_merchant': {
             name: '암호상',
-            title: 'CR 4~5 · 암호와 폭관을 거래하는 상인',
+            title: '암호와 폭관을 거래하는 상인',
+            cr: 6,
             type: '인간형, 트위스타드 범죄자, 암호상',
             image: '',
             desc: '암호문과 거래 코드를 사고파는 상인입니다. 직접 충돌을 피하려 하지만, 몰리면 암호 폭관과 거래 제안으로 판을 엎습니다.',
@@ -1587,7 +1731,8 @@
         },
         'twisted_night_street_queen': {
             name: '밤 거리 여왕',
-            title: 'CR 5~6 · 유혹과 지배의 밤거리 지휘관',
+            title: '유혹과 지배의 밤거리 지휘관',
+            cr: 8,
             type: '인간형, 트위스타드 범죄자, 밤거리 지배자',
             image: '',
             desc: '밤거리 조직원을 매력과 명령으로 움직이는 여성형 지휘관입니다. 직접적인 힘보다 유혹, 통솔, 지배 명령으로 전장을 흐트러뜨립니다.',
@@ -1609,7 +1754,8 @@
         },
         'twisted_night_street_tyrant': {
             name: '밤 거리 폭군',
-            title: 'CR 5~6 · 강압과 공포의 밤거리 지배자',
+            title: '강압과 공포의 밤거리 지배자',
+            cr: 8,
             type: '인간형, 트위스타드 범죄자, 밤거리 지배자',
             image: '',
             desc: '밤거리의 구역을 폭력과 공포로 장악한 남성형 지배자입니다. 체력과 힘이 높고, 대상을 제압한 뒤 행동을 제한하는 데 특화되어 있습니다.',
@@ -1633,6 +1779,7 @@
         'slime': {
             name: '슬라임',
             title: '도시 하수의 점착성 포식자',
+            cr: 1,
             type: '슬라임, 점액',
             image: '',
             desc: '하수구, 폐허, 습한 골목에서 흔히 발견되는 기본 슬라임입니다. 지능은 낮지만 몸 전체가 접착성 점액이라 좁은 지형에서 특히 성가십니다.',
@@ -1652,6 +1799,7 @@
         'mana_absorbing_slime': {
             name: '마나 흡수 슬라임',
             title: '주문을 먹어 치우는 청색 점액',
+            cr: 3,
             type: '슬라임, 마나 흡수',
             image: '',
             desc: '마력 흐름에 민감하게 반응하는 변종 슬라임입니다. 주문 시전자의 손끝과 촉매에 달라붙어 마나를 빨아들이며, 과충전되면 푸른 섬광을 토해냅니다.',
@@ -1671,6 +1819,7 @@
         'life_absorbing_slime': {
             name: '체력 흡수 슬라임',
             title: '생명력을 빨아먹는 붉은 점액',
+            cr: 3,
             type: '슬라임, 체력 흡수',
             image: '',
             desc: '부상자의 피 냄새와 체온을 따라 움직이는 붉은 슬라임입니다. 상처에 달라붙으면 생명력을 흡수해 자신의 몸집을 불립니다.',
@@ -1690,6 +1839,7 @@
         'limb_dissolving_slime': {
             name: '사지 용해 슬라임',
             title: '관절을 노리는 잔혹한 산성 점액',
+            cr: 4,
             type: '슬라임, 산성, 부위 파괴',
             image: '',
             desc: '살점보다 관절, 장비 연결부, 보호구의 틈을 먼저 찾아 녹이는 위험 개체입니다. 사지를 직접 노려 전투 능력을 빠르게 빼앗는 방식으로 사냥합니다.',
@@ -1709,6 +1859,7 @@
         'devouring_slime_boss': {
             name: '포식 슬라임 군체',
             title: '삼켜서 전장에서 지워버리는 군체 보스',
+            cr: 10,
             type: '보스, 슬라임, 군체',
             image: '',
             desc: '여러 슬라임 핵이 한 몸처럼 뭉친 거대 군체입니다. 전투가 길어질수록 바닥과 벽을 뒤덮고, 고립된 대상을 통째로 삼켜 전장에서 제거하려 듭니다.',
@@ -1730,6 +1881,7 @@
         'apocalyptic_priest': {
             name: '광신도 사제 (낮)',
             title: '멸망을 구원이라 설교하는 자',
+            cr: 5,
             type: '인간형, 광신도, 종교, 사제',
             image: '',
             desc: '아스키즈 지역의 종말 교단 사제입니다. 멸망이 가까울수록 신앙이 완성된다고 믿으며, 공포와 죄책감을 이용해 신도와 적을 동시에 몰아붙입니다.',
@@ -1749,6 +1901,7 @@
         'apocalyptic_paladin': {
             name: '광신도 성기사 (낮)',
             title: '끝의 날을 지키는 중갑 맹세자',
+            cr: 6,
             type: '인간형, 광신도, 종교, 성기사',
             image: '',
             desc: '종말의 순간까지 성역을 지키겠다고 맹세한 성기사입니다. 방패와 검으로 전열을 붙잡고, 쓰러지는 순간까지 교단의 예언을 외칩니다.',
@@ -1768,6 +1921,7 @@
         'penitent_sinner': {
             name: '죄인 고행자 (낮)',
             title: '죄를 고통으로 갚는 사슬 신도',
+            cr: 4,
             type: '인간형, 광신도, 고행자',
             image: '',
             desc: '중죄를 저지른 뒤 교단에 넘겨진 자들입니다. 속죄라는 이름으로 고통에 길들여져, 자신과 적 모두를 사슬 속으로 끌고 들어갑니다.',
@@ -1787,6 +1941,7 @@
         'sainted_witch': {
             name: '성녀로 추앙받는 마녀 (낮)',
             title: '마녀의 기적을 성흔으로 포장한 우상',
+            cr: 7,
             type: '인간형, 광신도, 종교, 성녀, 마녀',
             image: '',
             desc: '본질은 마녀이지만 교단은 그녀의 저주와 환각을 성스러운 기적으로 선전합니다. 신도들은 그녀를 종말 직전의 구원자로 떠받듭니다.',
@@ -1806,6 +1961,7 @@
         'heresy_inquisitor': {
             name: '이단 심문관 (낮)',
             title: '의심을 죄로 만드는 교단의 집행자',
+            cr: 8,
             type: '인간형, 광신도, 종교, 이단 심문관',
             image: '',
             desc: '종말 교단의 심문관은 이단을 찾기보다 만들어냅니다. 질문, 낙인, 사슬, 판결을 한 호흡으로 이어가며 전장을 재판장처럼 바꿉니다.',
@@ -1826,6 +1982,7 @@
         'apocalyptic_priest_night': {
             name: '광신도 사제 (밤)',
             title: '욕망을 고해성사로 바꾸는 밤 의식 사제',
+            cr: 6,
             type: '인간형, 광신도, 종교, 사제, 밤',
             image: '',
             desc: '밤 의식에 나타나는 광신도 사제입니다. 향, 촛불, 낮은 기도문으로 욕망을 신앙처럼 포장해 대상의 판단을 흐리게 만듭니다.',
@@ -1845,6 +2002,7 @@
         'apocalyptic_paladin_night': {
             name: '광신도 성기사 (밤)',
             title: '뒤틀린 맹세로 압박하는 밤의 수호자',
+            cr: 7,
             type: '인간형, 광신도, 종교, 성기사, 밤',
             image: '',
             desc: '밤 의식의 성기사는 신성한 보호와 음욕의 도취를 구분하지 못합니다. 중갑과 방패로 전열을 붙들고, 가까이 있는 대상을 의식권 안에 묶어둡니다.',
@@ -1865,6 +2023,7 @@
         'penitent_sinner_night': {
             name: '죄인 고행자 (밤)',
             title: '고통과 쾌락을 혼동하는 의식 노예',
+            cr: 4,
             type: '인간형, 광신도, 고행자, 밤',
             image: '',
             desc: '밤 의식의 고행자는 고통과 쾌락의 경계를 잃은 채 움직입니다. 자신이 흔들릴수록 주변의 욕망과 광기를 더 크게 자극합니다.',
@@ -1884,6 +2043,7 @@
         'sainted_witch_night': {
             name: '성녀로 추앙받는 마녀 (밤)',
             title: '환각과 음욕을 기적으로 위장한 밤의 성녀',
+            cr: 8,
             type: '인간형, 광신도, 종교, 성녀, 마녀, 밤',
             image: '',
             desc: '달빛 아래의 성녀는 축복과 저주를 구분하지 않습니다. 몽환적인 기적으로 두려움을 욕망으로 바꾸고, 신도들의 도취를 더 깊게 만듭니다.',
@@ -1904,6 +2064,7 @@
         'heresy_inquisitor_night': {
             name: '이단 심문관 (밤)',
             title: '욕망을 죄목으로 판결하는 밤의 집행자',
+            cr: 9,
             type: '인간형, 광신도, 종교, 이단 심문관, 밤',
             image: '',
             desc: '밤의 심문관은 욕망을 죄라고 기록한 뒤 그 죄를 이용해 대상을 흔듭니다. 침묵과 낙인, 판결을 통해 상태이상을 쌓은 대상을 끝까지 몰아붙입니다.',
@@ -1934,6 +2095,7 @@
         'day_saint_boss': {
             name: '낮의 성녀',
             title: '거룩한 거짓 신앙으로 공포를 심는 자',
+            cr: 11,
             type: '인간형, 여성형, 광신도, 종교, 성녀, 보스, 낮',
             image: '',
             desc: '거룩한 거짓 신앙으로 공포를 심는 자입니다. 신앙과 기적을 가장한 말로 전장을 장악하고, 두려움과 광기를 교단의 무기로 바꿉니다.',
@@ -1952,6 +2114,7 @@
         'night_saint_boss': {
             name: '밤의 성자',
             title: '축복을 과도하게 받아 거대화된 성인 남성',
+            cr: 11,
             type: '인간형, 남성형, 광신도, 종교, 성자, 보스, 밤',
             image: '',
             desc: '축복을 과도하게 받아 거대화된 성인 남성입니다. 비정상적으로 증폭된 힘과 축복으로 대상을 붙잡고, 밤의 노예를 만들어 전장을 내부에서 무너뜨립니다.',
@@ -2012,6 +2175,13 @@
 
         const content = document.getElementById('modal-content');
         
+        const crStatHtml = data.cr ? `
+            <div class="bg-red-950/30 p-1.5 rounded border border-red-900/40 text-center flex flex-col justify-center">
+                <p class="text-[8px] text-red-400 uppercase font-bold mb-0.5">CR</p>
+                <p class="text-sm font-bold text-white">${data.cr}</p>
+            </div>
+        ` : '';
+
         const statsHtml = data.stats ? Object.entries(data.stats).map(([key, value]) => `
             <div class="bg-black/30 p-1.5 rounded border border-white/5 text-center flex flex-col justify-center">
                 <p class="text-[8px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
@@ -2063,7 +2233,7 @@
                         </div>
                         <div class="bg-amber-900/10 p-3 rounded-lg border border-amber-900/30">
                             <h4 class="text-[9px] text-amber-700 font-bold uppercase tracking-[0.2em] mb-2">핵심 능력치</h4>
-                            <div class="grid grid-cols-2 gap-1.5">${statsHtml}</div>
+                            <div class="grid grid-cols-2 gap-1.5">${crStatHtml}${statsHtml}</div>
                         </div>
 
                         ${summonsHtml ? `
@@ -2080,7 +2250,10 @@
 
                     <div class="flex-grow flex flex-col w-full">
                         <div class="mb-4">
-                            <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none mb-3">${data.name}</h2>
+                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none">${data.name}</h2>
+                                ${data.cr ? `<span class="bg-red-950/50 text-red-300 text-xs px-3 py-1 rounded border border-red-800/60 font-bold uppercase tracking-[0.25em]">CR ${data.cr}</span>` : ''}
+                            </div>
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="bg-blue-900/40 text-blue-400 text-[8px] px-1.5 py-0.5 rounded border border-blue-800/50 font-bold uppercase tracking-widest">분류</span>
                                 <p class="text-xs text-gray-400 font-semibold">${data.type || '미분류'}</p>
