@@ -536,6 +536,14 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
+<div class="item-card monster-item jungle" onclick="openMonsterModal('parasite_wasp')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">기생벌</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"공중에서 대상을 고정한 뒤 산란 준비와 완전 착상을 노리는 원시림의 곤충형 몬스터입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 
     <div id="monster-empty-state" class="monster-empty-state hidden">
@@ -1015,6 +1023,12 @@
             traits: ['빠른 접근과 구속, 고정, 상태이상 연계를 통해 대상을 무력화합니다.', '창, 완력, 신체 제압을 섞어 전투와 NSFW 스킬을 이어갑니다.'],
             notes: ['부족 구조, 원시림 의식, 공통 전리품은 추후 설정 확정 후 기입합니다.']
         },
+        insect: {
+            label: '곤충 계열',
+            desc: '에이델린 원시림에 출몰하는 곤충형 몬스터',
+            traits: ['비행, 고정, 산란 준비 같은 특수 상태이상으로 대상을 압박합니다.', '부위별 점유와 착상 상태를 중심으로 전투 흐름이 이어집니다.'],
+            notes: ['곤충 계열의 서식지, 군집 구조, 공통 전리품은 추후 설정 확정 후 기입합니다.']
+        },
         humanoid: {
             label: '인간형 계열',
             desc: '도시와 외곽에서 마주치는 조직형 위협',
@@ -1043,6 +1057,7 @@
         if (type.includes('광신도') || type.includes('종교') || type.includes('성기사') || type.includes('성녀') || type.includes('마녀') || type.includes('고행자') || type.includes('이단')) return 'cultist';
         if (type.includes('트위스타드 범죄자')) return 'twistedCriminal';
         if (type.includes('우드엘프') || type.includes('우드 엘프')) return 'woodElf';
+        if (type.includes('곤충')) return 'insect';
         if (type.includes('인간형')) return 'humanoid';
         return 'other';
     }
@@ -2250,6 +2265,25 @@
                 { name: '패시브 - 정액 흡수', desc: '<span class="text-yellow-400">조건: [정액 충만] 상태일 때 발동.</span> 사정할 때마다 자궁 안에 있는 기생체가 정액을 흡수합니다. 흡수에 성공하면 즉시 다시 발기 상태가 되며, 같은 상대에게 삽입 계열 스킬을 연속으로 사용할 수 있습니다.' },
                 { name: '피니시 - 절정 사정 도포', desc: '<span class="text-yellow-400">조건: 대상이 [절정] 상태일 때.</span> <span class="text-orange-400">힘 vs 건강.</span> 절정으로 힘이 풀린 상대를 누른 채 자지를 깊숙이 박아 넣고 사정합니다. 정액을 질 안과 바깥에 듬뿍 뿌려 하반신을 완전히 눅눅하게 적십니다. 성공 시 <span class="text-lime-400">[정액 도포]</span>.' },
                 { name: '정액 도포 추가 효과', desc: '<span class="text-lime-400">[정액 도포]</span>가 묻은 대상은 스스로 기생체 우드엘프에게 다가와 삽입을 원하게 됩니다.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'parasite_wasp': {
+            name: '기생벌',
+            title: '산란관으로 완전 착상을 노리는 원시림 곤충',
+            cr: 6,
+            type: '곤충, 원시림, 기생체',
+            image: '',
+            desc: '에이델린 원시림에 출몰하는 곤충 계열 몬스터입니다. 공중에서 대상을 강하게 고정한 뒤 부위별로 <span class="text-lime-400">[산란 준비]</span>를 만들고, 산란관을 통해 알을 완전 착상시킵니다.',
+            stats: { '힘': 11, '건강': 9, '속도': 14, '정밀': 10, '지능': 7, '지혜': 9, '매력': 6 },
+            skills: [
+                { name: '질내 산란', desc: '<span class="text-orange-400">힘 vs 건강.</span> 기생벌이 공중에서 날개를 펴고 떠 있는 상태로 피격자를 몸 전체로 감싸 안아 완전히 고정합니다. 둥근 복부를 피격자의 사타구니에 강하게 밀착시킨 뒤, 산란관을 질 입구에 대고 뿌리까지 강제로 밀어 넣습니다. 피격자는 발이 허공에 뜬 채로 저항하기 어려운 자세가 됩니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-emerald-400">[속박]</span> + <span class="text-lime-400">[산란 준비]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '구강 산란', desc: '<span class="text-orange-400">힘 vs 건강.</span> 기생벌이 뒤를 돌린 상태로 뒷다리와 중간다리를 사용해 피격자의 머리와 상체를 강하게 고정합니다. 산란관을 피격자의 입 안으로 강제로 밀어 넣고, 깊게 집어넣은 채 움직이며 구강을 점유합니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-purple-400">[구강 점유]</span> + <span class="text-lime-400">[산란 준비]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                { name: '유두 산란', desc: '<span class="text-orange-400">힘 vs 건강.</span> 기생벌이 피격자의 뒤에서 상체를 감싸 안고 가슴을 강하게 고정합니다. 산란관을 유두에 대고 강제로 찔러 넣은 뒤, 깊게 밀어 넣으며 움직입니다. 유두가 벌어지면서 산란관이 들어가고, 체액이 흘러나옵니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-purple-400">[유두 점유]</span> + <span class="text-lime-400">[산란 준비]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
+                { name: '산란', desc: '<span class="text-yellow-400">공통 스킬. 조건: 대상이 [산란 준비] 상태일 때.</span> <span class="text-orange-400">건강 vs 건강.</span> 이미 삽입된 산란관을 통해 알을 강제로 밀어 넣습니다. 알은 해당 부위에 완전 착상되어 더 이상 빼낼 수 없습니다. 방어자가 방어에 성공해도 산란(완전 착상)은 무조건 확정됩니다. 방어자가 방어에 실패하면 추가 패널티가 적용됩니다. 성공 시 <span class="text-lime-400">[산란 완료]</span> (부위에 따라 <span class="text-lime-400">[자궁 산란]</span> / <span class="text-lime-400">[구강 산란]</span> / <span class="text-lime-400">[유선 산란]</span>) + 알 완전 착상으로 제거 불가.' },
+                { name: '이탈 조건', desc: '기생벌은 질내 산란, 구강 산란, 유두 산란 세 가지를 모두 성공시킨 후에만 전투에서 이탈하고 도망갑니다.' }
             ],
             loots: [
                 { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
