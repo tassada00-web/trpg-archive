@@ -1273,6 +1273,20 @@
             groupMap.get(key).querySelector('.monster-group-panel').appendChild(card);
         });
 
+        groupMap.forEach(section => {
+            const panel = section.querySelector('.monster-group-panel');
+            const sortedCards = Array.from(panel.querySelectorAll(':scope > .monster-item')).sort((a, b) => {
+                const dataA = monsterData[getMonsterIdFromCard(a)] || {};
+                const dataB = monsterData[getMonsterIdFromCard(b)] || {};
+                const crA = Number.isFinite(Number(dataA.cr)) ? Number(dataA.cr) : Number.POSITIVE_INFINITY;
+                const crB = Number.isFinite(Number(dataB.cr)) ? Number(dataB.cr) : Number.POSITIVE_INFINITY;
+                if (crA !== crB) return crA - crB;
+                return (dataA.name || '').localeCompare(dataB.name || '', 'ko');
+            });
+
+            sortedCards.forEach(card => panel.appendChild(card));
+        });
+
         Array.from(groupMap.values()).forEach(section => {
             setMonsterGroupOpen(section, false);
         });
