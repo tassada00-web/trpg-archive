@@ -264,15 +264,7 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
-<div class="item-card monster-item twisted baran" onclick="openMonsterModal('poju_buha')">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-red-500">포주의 부하</h3>
-    </div>
-    <p class="text-xs text-gray-400 italic font-medium">"낙인 대상만 집중적으로 다루는 부하."</p>
-    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
-</div>
-
-<div class="item-card monster-item norriton araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('milmaesang')">
+<div class="item-card monster-item norriton araon baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('milmaesang')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">밀매상</h3>
     </div>
@@ -320,22 +312,6 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_rumor_monger')">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-red-500">소문상</h3>
-    </div>
-    <p class="text-xs text-gray-400 italic font-medium">"정보와 거짓말을 같은 값에 팔아 전장을 혼란스럽게 만드는 장사꾼입니다."</p>
-    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
-</div>
-
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_aphrodisiac_smuggler')">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-red-500">최음제 밀매상</h3>
-    </div>
-    <p class="text-xs text-gray-400 italic font-medium">"연막과 약병으로 감각을 흐리고 거래 흔적을 지우는 밀매 조직원입니다."</p>
-    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
-</div>
-
 <div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_enforcer')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">집행자</h3>
@@ -352,7 +328,7 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_branded_enforcer')">
+<div class="item-card monster-item boss twisted" onclick="openMonsterModal('twisted_branded_enforcer')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">낙인 포주 부하장</h3>
     </div>
@@ -360,15 +336,7 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_cipher_merchant')">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-red-500">암호상</h3>
-    </div>
-    <p class="text-xs text-gray-400 italic font-medium">"암호문과 밀거래 장부를 품고 정보를 화약처럼 터뜨리는 거래상입니다."</p>
-    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
-</div>
-
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_night_street_queen')">
+<div class="item-card monster-item boss twisted" onclick="openMonsterModal('twisted_night_street_queen')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">밤 거리 여왕</h3>
     </div>
@@ -376,7 +344,7 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
-<div class="item-card monster-item twisted" onclick="openMonsterModal('twisted_night_street_tyrant')">
+<div class="item-card monster-item boss twisted" onclick="openMonsterModal('twisted_night_street_tyrant')">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold text-red-500">밤 거리 폭군</h3>
     </div>
@@ -1059,6 +1027,30 @@
             traits: ['장비, 대화, 협박, 거래 등 비전투 상황과도 연결될 수 있습니다.', '개체별 직업과 소속에 따라 능력치와 전리품 편차가 큽니다.'],
             notes: ['공통 사회 규칙과 우호/적대 전환 조건을 추후 정리합니다.']
         },
+        dungeon1: {
+            label: '계열 1',
+            desc: '던전 보스 임시 분류 1',
+            traits: ['각 지역 보스를 던전 편성용으로 임시 분류합니다.'],
+            notes: ['정식 계열명이 정해지면 교체합니다.']
+        },
+        dungeon2: {
+            label: '계열 2',
+            desc: '던전 보스 임시 분류 2',
+            traits: ['각 지역 보스를 던전 편성용으로 임시 분류합니다.'],
+            notes: ['정식 계열명이 정해지면 교체합니다.']
+        },
+        dungeon3: {
+            label: '계열 3',
+            desc: '던전 보스 임시 분류 3',
+            traits: ['각 지역 보스를 던전 편성용으로 임시 분류합니다.'],
+            notes: ['정식 계열명이 정해지면 교체합니다.']
+        },
+        dungeon4: {
+            label: '계열 4',
+            desc: '던전 보스 임시 분류 4',
+            traits: ['각 지역 보스를 던전 편성용으로 임시 분류합니다.'],
+            notes: ['정식 계열명이 정해지면 교체합니다.']
+        },
         other: {
             label: '기타',
             desc: '분류가 확정되지 않은 개체',
@@ -1441,6 +1433,7 @@
             name: '홉고블린',
             title: '군단 위계의 정점에 선 지배자',
             cr: 7,
+            group: 'dungeon1',
             type: '인간형, 고블린',
             image: '',
             desc: '엄격한 군대식 규율로 무리를 통솔하는 거구의 지배자입니다.',
@@ -1585,6 +1578,7 @@
             name: '노리튼 사슬 홉고블린 - [견인형]',
             title: '사슬로 전열을 무너뜨리는 약탈자',
             cr: 8,
+            group: 'dungeon1',
             type: '인간형, 고블린, 노리튼',
             image: '',
             desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
@@ -1605,6 +1599,7 @@
             name: '노리튼 사슬 홉고블린 - [구속형]',
             title: '사냥감을 형틀처럼 고정하는 집행자',
             cr: 9,
+            group: 'dungeon1',
             type: '인간형, 고블린, 노리튼',
             image: '',
             desc: '견인형이 끌어온 대상을 자신의 몸에 밀착 고정하는 구속형 개체. 사슬과 완력으로 대상을 붙잡아 인간 방패처럼 장비화하는 연계 피니싱을 사용한다.',
@@ -1649,14 +1644,8 @@
                 { name: '상품으로 만들어주지', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-red-400">[표식]</span>이 걸린 여성에게 <span class="text-amber-400">[상품화]</span> 스택을 부여합니다.<br><span class="text-white">1스택:</span> 팔목 구속구(손목을 뒤로 묶음) → 공격 불가<br><span class="text-white">2스택:</span> 발목 구속구(발목을 묶어 이동 크게 제한) → 탈출 불가<br><span class="text-white">3스택:</span> 제갈(입에 재갈을 물림) → 침묵<br><span class="text-white">4스택:</span> <span class="text-amber-400">[상품]</span> 상태로 변경(완전 구속 + 소유물 취급).' },
                 { name: '팝니다!', desc: '<span class="text-orange-400">매력 vs 지혜.</span> <span class="text-pink-400">[절정]</span> 상태인 <span class="text-amber-400">[상품]</span>을 패배 처리합니다. 전투에서 해당 캐릭터를 제거하며, 포주가 소유물로 선언합니다.' }
             ],
-            loots: [
-                { name: '포주 표식', chance: '100%', desc: '낙인 조직 증표.' },
-                { name: '찢어진 장부 페이지', chance: '35%', desc: '거래 기록의 일부. 여러 장을 모으면 조직 단서로 사용할 수 있다.' },
-                { name: '쓰다남은 향수', chance: '20%', desc: '향료 또는 연금 재료로 쓰이는 잔여품.' },
-                { name: '낙인 장식 채찍', chance: '2%', desc: '구속 계열 효과를 지닌 희귀 장비.' }
-            ]
-        },
-        'poju_buha': {
+            summons: [
+                {
             name: '포주의 부하',
             title: '낙인 대상 집중 실행형',
             cr: 4,
@@ -1669,13 +1658,15 @@
                 { name: '끌고 간다!', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-emerald-400">[구속]</span> 상태인 여성형 대상을 포주 앞으로 강제 이동시킵니다. 성공 시 대상에게 <span class="text-amber-400">[포주의 상품?]</span> 상태를 부여합니다.' },
                 { name: '교육한다!', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-amber-400">[상품화]</span> 또는 <span class="text-amber-400">[상품]</span> 상태로 구속구에 묶인 여성을 성적으로 유린합니다. 팔목이 묶인 채로 몸을 비틀며 저항하는 여성을 강제로 벌리고, 자지를 보지에 깊숙이 박아 넣으며 교육합니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
                 { name: '일어난다', desc: '<span class="text-orange-400">패시브.</span> 전장에 포주의 부하가 1명 이하이고 포주가 생존 중일 때, 매 턴 건강 주사위를 굴립니다. 누적 합계가 체력의 50% 이상이 되면 새로운 부하가 등장합니다.' }
+            ]
+                }
             ],
+
             loots: [
-                { name: '부하의 표식', chance: '100%', desc: '조직원임을 증명하는 토벌 증표.' },
-                { name: '거친 가죽끈', chance: '45%', desc: '가죽 장비와 구속구 제작 재료.' },
-                { name: '피 묻은 가죽장갑', chance: '30%', desc: '방어구 보강에 쓰이는 재료.' },
-                { name: '휘어진 철제 고리', chance: '15%', desc: '구속 장비 제작 재료.' },
-                { name: '은닉 단검', chance: '3%', desc: '수리 후 사용할 수 있는 희귀 소형 무기.' }
+                { name: '포주 표식', chance: '100%', desc: '낙인 조직 증표.' },
+                { name: '찢어진 장부 페이지', chance: '35%', desc: '거래 기록의 일부. 여러 장을 모으면 조직 단서로 사용할 수 있다.' },
+                { name: '쓰다남은 향수', chance: '20%', desc: '향료 또는 연금 재료로 쓰이는 잔여품.' },
+                { name: '낙인 장식 채찍', chance: '2%', desc: '구속 계열 효과를 지닌 희귀 장비.' }
             ]
         },
         'milmaesang': {
@@ -1803,47 +1794,6 @@
                 { name: '절도 도구 세트', chance: '12%', desc: '자물쇠와 함정 해제에 쓰이는 도구.' }
             ]
         },
-        'twisted_rumor_monger': {
-            name: '소문상',
-            title: '거짓말을 파는 정보상',
-            cr: 3,
-            type: '인간형, 도시 범죄자, 정보상',
-            image: '',
-            desc: '소문상은 정보와 거짓말을 같은 값으로 거래합니다. 직접 전투력은 낮지만, 이간질과 헛소문으로 적의 판단을 흐리고 빠져나갈 틈을 만듭니다.',
-            stats: { '힘': 3, '건강': 6, '속도': 7, '정밀': 6, '지능': 8, '지혜': 9, '매력': 8 },
-            skills: [
-                { name: '헛소문 주입', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 귀에 대고 거짓 소문을 속삭여 <span class="text-blue-400">[두려움]</span> 또는 <span class="text-purple-400">[광기]</span> <span class="text-white">+1</span>.' },
-                { name: '이간질', desc: '<span class="text-orange-400">지혜 vs 지혜.</span> 파티 내부를 이간질해 도발 대상을 아군으로 고정합니다.' },
-                { name: '꼬리 자르기', desc: '<span class="text-orange-400">속도 판정.</span> 위험해지면 재빨리 도망치며 1회 공격을 무효화합니다.' }
-            ],
-            loots: [
-                { name: '찢어진 소문 기록지', chance: '100%', desc: '거리 소문과 거짓 정보가 섞인 기록.' },
-                { name: '페니 주머니', chance: '45%', desc: '정보 거래로 모은 소액 주머니.' },
-                { name: '정보 쪽지', chance: '30%', desc: '다른 범죄 조직과 이어지는 단서.' },
-                { name: '은밀한 인장', chance: '6%', desc: '비밀 거래망을 증명하는 희귀 표식.' }
-            ]
-        },
-        'twisted_aphrodisiac_smuggler': {
-            name: '최음제 밀매상',
-            title: '감각을 흐리는 약물 밀매자',
-            cr: 6,
-            type: '인간형, 도시 범죄자, 밀매상',
-            image: '',
-            desc: '불법 약물과 연막 가루를 운반하는 트위스타드 밀매상입니다. 직접 싸움보다 감각을 흐리고, 성욕 스택을 누적시켜 저항을 약화시키는 방식에 능합니다.',
-            stats: { '힘': 5, '건강': 7, '속도': 8, '정밀': 9, '지능': 9, '지혜': 7, '매력': 11 },
-            skills: [
-                { name: '강제 주입', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 최음제를 강제로 입에 털어 넣으며 <span class="text-red-400">[성욕]</span> <span class="text-white">+3</span> + 쾌락 피해 <span class="text-white">2</span>.' },
-                { name: '연막 포박', desc: '<span class="text-orange-400">지능 vs 속도.</span> 연막을 피워 올려 <span class="text-yellow-400">[점착]</span> + <span class="text-slate-300">[실명]</span>.' },
-                { name: '패시브 - 약물 중독', desc: '<span class="text-red-400">[성욕]</span> 스택을 받은 대상은 매 턴 자동으로 <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' }
-            ],
-            loots: [
-                { name: '최음제 잔여 병', chance: '100%', desc: '내용물이 조금 남은 불법 약병.' },
-                { name: '밀매 장부 페이지', chance: '55%', desc: '거래처와 공급 루트의 일부.' },
-                { name: '연막 가루 주머니', chance: '35%', desc: '실명 계열 소모품 제작 재료.' },
-                { name: '밀매 조직 증표', chance: '15%', desc: '트위스타드 밀매 조직의 표식.' },
-                { name: '고급 봉인 약병 세트', chance: '5%', desc: '희귀 약물 보관에 쓰이는 고급 용기.' }
-            ]
-        },
         'twisted_enforcer': {
             name: '집행자',
             title: '빚과 규칙의 폭력 대리인',
@@ -1888,6 +1838,7 @@
             name: '낙인 포주 부하장',
             title: '낙인 조직의 사슬 통솔자',
             cr: 9,
+            group: 'dungeon1',
             type: '인간형, 도시 범죄자, 낙인 조직',
             image: '',
             desc: '낙인 조직의 현장 지휘관입니다. 강화 사슬로 대상을 끌어내고, 낙인 의식으로 장기적인 압박 상태를 만들며 하위 조직원을 통솔합니다.',
@@ -1904,30 +1855,11 @@
                 { name: '낙인 도구 세트', chance: '8%', desc: '구속과 낙인 장비 제작에 쓰이는 희귀 도구.' }
             ]
         },
-        'twisted_cipher_merchant': {
-            name: '암호상',
-            title: '암호와 폭관을 거래하는 상인',
-            cr: 6,
-            type: '인간형, 도시 범죄자, 암호상',
-            image: '',
-            desc: '암호문과 거래 코드를 사고파는 상인입니다. 직접 충돌을 피하려 하지만, 몰리면 암호 폭관과 거래 제안으로 판을 엎습니다.',
-            stats: { '힘': 4, '건강': 7, '속도': 8, '정밀': 9, '지능': 11, '지혜': 10, '매력': 7 },
-            skills: [
-                { name: '해독', desc: '<span class="text-orange-400">지능 vs 지능.</span> 상대 버프를 풀고 자신에게 <span class="text-green-400">+2</span>.' },
-                { name: '암호 폭관', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 암호가 새겨진 물건을 던져 랜덤 상태이상을 부여합니다.' },
-                { name: '거래 제안', desc: '<span class="text-orange-400">매력 vs 지혜.</span> 달콤한 거래를 제안해 다음 턴 공격 불가.' }
-            ],
-            loots: [
-                { name: '암호 기록지', chance: '100%', desc: '거래 암호와 해독표 일부.' },
-                { name: '밀매 약물 잔여물', chance: '45%', desc: '정체불명의 거래 샘플.' },
-                { name: '은밀한 인장', chance: '22%', desc: '비밀 거래망 표식.' },
-                { name: '희귀 정보 쪽지', chance: '7%', desc: '상위 조직으로 이어지는 희귀 단서.' }
-            ]
-        },
         'twisted_night_street_queen': {
             name: '밤 거리 여왕',
             title: '유혹과 지배의 밤거리 지휘관',
             cr: 8,
+            group: 'dungeon2',
             type: '인간형, 도시 범죄자, 밤거리 지배자',
             image: '',
             desc: '밤거리 조직원을 매력과 명령으로 움직이는 여성형 지휘관입니다. 직접적인 힘보다 유혹, 통솔, 지배 명령으로 전장을 흐트러뜨립니다.',
@@ -1951,6 +1883,7 @@
             name: '밤 거리 폭군',
             title: '강압과 공포의 밤거리 지배자',
             cr: 8,
+            group: 'dungeon3',
             type: '인간형, 도시 범죄자, 밤거리 지배자',
             image: '',
             desc: '밤거리의 구역을 폭력과 공포로 장악한 남성형 지배자입니다. 체력과 힘이 높고, 대상을 제압한 뒤 행동을 제한하는 데 특화되어 있습니다.',
@@ -2055,6 +1988,7 @@
             name: '포식 슬라임 군체',
             title: '삼켜서 전장에서 지워버리는 군체 보스',
             cr: 10,
+            group: 'dungeon2',
             type: '보스, 슬라임, 군체',
             image: '',
             desc: '여러 슬라임 핵이 한 몸처럼 뭉친 거대 군체입니다. 전투가 길어질수록 바닥과 벽을 뒤덮고, 고립된 대상을 통째로 삼켜 전장에서 제거하려 듭니다.',
@@ -2291,6 +2225,7 @@
             name: '낮의 성녀',
             title: '거룩한 거짓 신앙으로 공포를 심는 자',
             cr: 11,
+            group: 'dungeon4',
             type: '인간형, 여성형, 광신도, 종교, 성녀, 보스, 낮',
             image: '',
             desc: '거룩한 거짓 신앙으로 공포를 심는 자입니다. 신앙과 기적을 가장한 말로 전장을 장악하고, 두려움과 광기를 교단의 무기로 바꿉니다.',
@@ -2310,6 +2245,7 @@
             name: '밤의 성자',
             title: '축복을 과도하게 받아 거대화된 성인 남성',
             cr: 11,
+            group: 'dungeon4',
             type: '인간형, 남성형, 광신도, 종교, 성자, 보스, 밤',
             image: '',
             desc: '축복을 과도하게 받아 거대화된 성인 남성입니다. 비정상적으로 증폭된 힘과 축복으로 대상을 붙잡고, 밤의 노예를 만들어 전장을 내부에서 무너뜨립니다.',
