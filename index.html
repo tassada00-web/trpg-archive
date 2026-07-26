@@ -544,6 +544,14 @@
     <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
 </div>
 
+<div class="item-card monster-item jungle" onclick="openMonsterModal('blood_mosquito')">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-red-500">흡혈모기</h3>
+    </div>
+    <p class="text-xs text-gray-400 italic font-medium">"공중에서 몸에 달라붙어 배꼽 관 삽입과 체액 흡혈로 대상을 약화시키는 곤충형 몬스터입니다."</p>
+    <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+</div>
+
 </div>
 
     <div id="monster-empty-state" class="monster-empty-state hidden">
@@ -2284,6 +2292,24 @@
                 { name: '유두 산란', desc: '<span class="text-orange-400">힘 vs 건강.</span> 기생벌이 피격자의 뒤에서 상체를 감싸 안고 가슴을 강하게 고정합니다. 산란관을 유두에 대고 강제로 찔러 넣은 뒤, 깊게 밀어 넣으며 움직입니다. 유두가 벌어지면서 산란관이 들어가고, 체액이 흘러나옵니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-purple-400">[유두 점유]</span> + <span class="text-lime-400">[산란 준비]</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
                 { name: '산란', desc: '<span class="text-yellow-400">공통 스킬. 조건: 대상이 [산란 준비] 상태일 때.</span> <span class="text-orange-400">건강 vs 건강.</span> 이미 삽입된 산란관을 통해 알을 강제로 밀어 넣습니다. 알은 해당 부위에 완전 착상되어 더 이상 빼낼 수 없습니다. 방어자가 방어에 성공해도 산란(완전 착상)은 무조건 확정됩니다. 방어자가 방어에 실패하면 추가 패널티가 적용됩니다. 성공 시 <span class="text-lime-400">[산란 완료]</span> (부위에 따라 <span class="text-lime-400">[자궁 산란]</span> / <span class="text-lime-400">[구강 산란]</span> / <span class="text-lime-400">[유선 산란]</span>) + 알 완전 착상으로 제거 불가.' },
                 { name: '이탈 조건', desc: '기생벌은 질내 산란, 구강 산란, 유두 산란 세 가지를 모두 성공시킨 후에만 전투에서 이탈하고 도망갑니다.' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'blood_mosquito': {
+            name: '흡혈모기',
+            title: '배꼽 관 삽입으로 체액을 유도하는 원시림 곤충',
+            cr: 3,
+            type: '곤충, 원시림, 흡혈',
+            image: '',
+            desc: '에이델린 원시림에 출몰하는 곤충 계열 몬스터입니다. 공중에서 빠르게 달라붙어 배꼽에 관을 삽입하고, 체액 분비를 유도한 뒤 흡혈로 자신의 체력을 회복합니다.',
+            stats: { '힘': 7, '건강': 6, '속도': 13, '정밀': 9, '지능': 5, '지혜': 7, '매력': 4 },
+            skills: [
+                { name: '공중 밀착', desc: '<span class="text-orange-400">속도 vs 속도.</span> 공중에서 빠르게 접근해 피격자의 몸에 달라붙습니다. 다리로 상체나 허리를 감싸 고정한 뒤, 배꼽 쪽으로 관을 조준합니다. 성공 시 <span class="text-emerald-400">[속박]</span> + 다음 스킬 명중 보너스.' },
+                { name: '배꼽 관 삽입', desc: '<span class="text-orange-400">정밀 vs 건강.</span> 이미 밀착된 상태에서 가늘고 긴 관을 배꼽에 강제로 박아 넣습니다. 관이 몸속으로 들어가면 피격자는 이물감과 함께 저항하기 어려워집니다. 성공 시 <span class="text-purple-400">[배꼽 점유]</span> + <span class="text-lime-400">[체액 유도]</span>.' },
+                { name: '체액 유도 주입', desc: '<span class="text-yellow-400">조건: [배꼽 점유] 상태일 때.</span> <span class="text-orange-400">건강 vs 건강.</span> 배꼽에 꽂힌 관을 통해 기생 유도 물질을 주입합니다. 피격자의 SP가 오버 회복되며, 여성은 유두에서 남성은 성기에서 강제로 체액이 분비되기 시작합니다. 성공 시 SP 오버 회복 + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span> + <span class="text-yellow-400">[경직]</span> + <span class="text-lime-400">[체액 분비]</span>.' },
+                { name: '체액 흡혈', desc: '<span class="text-yellow-400">조건: [체액 분비] 상태일 때.</span> <span class="text-orange-400">힘 vs 건강.</span> 분비된 체액(모유/정액 유사)을 입으로 직접 빨아먹습니다. 이 체액을 흡수하면서 피격자의 HP를 함께 빼앗습니다. 성공 시 대상 HP 감소 + 모기 자신 HP 회복 + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span> + <span class="text-yellow-400">[경직]</span> 유지.' }
             ],
             loots: [
                 { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
