@@ -154,7 +154,7 @@
 
     <div class="item-card monster-item norriton araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('goblin_warrior')">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-red-500">고블린 병사</h3>
+            <h3 class="text-xl font-bold text-red-500">고블린 병사 (노리튼)</h3>
             </div>
         <p class="text-xs text-gray-400 italic font-medium">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
@@ -1325,7 +1325,7 @@
             ]
         },
         'goblin_warrior': {
-            name: '고블린 병사',
+            name: '고블린 병사 (노리튼)',
             title: '단단하게 무장한 전선 보병',
             cr: 2,
             type: '인간형, 고블린',
@@ -1336,7 +1336,8 @@
                 { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 조잡한 방패로 상대를 세게 밀쳐 넘깁니다. 성공 시 대상을 1턴 동안 넘어짐 상태로 만듭니다.' },
                 { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 바닥에 고정시킵니다. 성공 시 <span class="text-emerald-400">[구속]</span>을 부여합니다.' },
                 { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> <span class="text-gray-500">조건: 대상이 여성형일 때만 사용 가능.</span> 제압된 여성을 짓누르며 몸을 문지릅니다. 성공 시 쾌락 피해 <span class="text-white">2</span>를 입힙니다.' },
-                { name: '잔인한 분쇄', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">전투 중 한 번만 가능. 조건: 대상이 남성형 + [구속] 상태일 때만 사용 가능.</span> 구속된 남성의 사지를 강하게 짓밟아 큰 부상을 입힙니다. 성공 시 피해 <span class="text-white">+5</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span> + 다음 턴 행동 판정 <span class="text-red-400">-3</span>.' }
+                { name: '잔인한 분쇄', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">전투 중 한 번만 가능. 조건: 대상이 남성형 + [구속] 상태일 때만 사용 가능.</span> 구속된 남성의 사지를 강하게 짓밟아 큰 부상을 입힙니다. 성공 시 피해 <span class="text-white">+5</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span> + 다음 턴 행동 판정 <span class="text-red-400">-3</span>.' },
+                { name: '약탈 신호', desc: '<span class="text-yellow-400">조건: 아군 고블린 병사 또는 고블린 궁수가 사망한 뒤 5턴이 지났을 때. 전투당 1회.</span> 동료의 죽음을 신호로 삼아 주변에 숨어 있던 약탈 무리를 부릅니다. 사용 시 1~2 주사위를 굴려, 나온 눈만큼 고블린(풀피)이 즉시 전투에 합류합니다. 한 명의 고블린 병사가 사용하면, 같은 전투에서 다른 고블린 병사는 이 스킬을 사용할 수 없습니다.' }
             ],
             loots: [
             { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
