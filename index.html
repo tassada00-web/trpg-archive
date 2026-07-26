@@ -152,11 +152,19 @@
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
 
-    <div class="item-card monster-item norriton araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('goblin_warrior')">
+    <div class="item-card monster-item araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('goblin_warrior')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 병사</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
+    <div class="item-card monster-item norriton" onclick="openMonsterModal('goblin_warrior_norriton')">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-red-500">고블린 병사 (노리튼)</h3>
             </div>
-        <p class="text-xs text-gray-400 italic font-medium">"조잡한 방패를 들어 생존력을 높인 개체입니다."</p>
+        <p class="text-xs text-gray-400 italic font-medium">"동료의 죽음을 신호로 삼아 숨어 있던 약탈 무리를 불러내는 노리튼 고블린 병사입니다."</p>
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
 
@@ -1127,6 +1135,8 @@
     }
 
     function getMonsterGroupKey(data = {}) {
+        if (data.group) return data.group;
+
         const type = data.type || '';
         if (type.includes('노리튼')) return 'norriton';
         if (type.includes('슬라임')) return 'slime';
@@ -1333,12 +1343,34 @@
             ]
         },
         'goblin_warrior': {
-            name: '고블린 병사 (노리튼)',
+            name: '고블린 병사',
             title: '단단하게 무장한 전선 보병',
             cr: 2,
             type: '인간형, 고블린',
             image: '',
             desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 개체입니다.',
+            stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
+            skills: [
+                { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 조잡한 방패로 상대를 세게 밀쳐 넘깁니다. 성공 시 대상을 1턴 동안 넘어짐 상태로 만듭니다.' },
+                { name: '압도적 구속', desc: '<span class="text-orange-400">힘 vs 힘.</span> 거대한 완력으로 적의 사지를 눌러 바닥에 고정시킵니다. 성공 시 <span class="text-emerald-400">[구속]</span>을 부여합니다.' },
+                { name: '무력한 유린', desc: '<span class="text-orange-400">건강 vs 건강.</span> <span class="text-gray-500">조건: 대상이 여성형일 때만 사용 가능.</span> 제압된 여성을 짓누르며 몸을 문지릅니다. 성공 시 쾌락 피해 <span class="text-white">2</span>를 입힙니다.' },
+                { name: '잔인한 분쇄', desc: '<span class="text-orange-400">힘 vs 건강.</span> <span class="text-gray-500">전투 중 한 번만 가능. 조건: 대상이 남성형 + [구속] 상태일 때만 사용 가능.</span> 구속된 남성의 사지를 강하게 짓밟아 큰 부상을 입힙니다. 성공 시 피해 <span class="text-white">+5</span> + <span class="text-red-400">[출혈]</span> <span class="text-white">+2</span> + 다음 턴 행동 판정 <span class="text-red-400">-3</span>.' }
+            ],
+            loots: [
+            { name: '가죽 페니 주머니', chance: '100%', desc: '10~15 페니가 들어있음.' }, // 추가
+            { name: '고블린의 귀', chance: '100%', desc: '기본 전리품.' },
+            { name: '녹슨 철 조각', chance: '30%', desc: '야금 스킬의 주 재료.' },
+            { name: '철검', chance: '5%', desc: '근접 무기.' }
+            ]
+        },
+        'goblin_warrior_norriton': {
+            name: '고블린 병사 (노리튼)',
+            title: '단단하게 무장한 노리튼 전선 보병',
+            cr: 2,
+            type: '인간형, 고블린, 노리튼',
+            group: 'goblin',
+            image: '',
+            desc: '조잡하지만 단단한 갑주와 방패를 들고 전열을 유지하는 노리튼 개체입니다.',
             stats: { '힘': 8, '건강': 8, '속도': 5, '정밀': 6, '지능': 4, '지혜': 5, '매력': 3 },
             skills: [
                 { name: '방패 밀치기', desc: '<span class="text-orange-400">힘 판정.</span> 조잡한 방패로 상대를 세게 밀쳐 넘깁니다. 성공 시 대상을 1턴 동안 넘어짐 상태로 만듭니다.' },
@@ -1358,6 +1390,7 @@
             name: '식탐의 고블린',
             title: '배고픔에 미친 약탈자',
             type: '인간형, 고블린, 노리튼',
+            group: 'goblin',
             image: '',
             desc: '체력이 높고 뚱뚱해 보이는 고블린입니다. 음식 재료를 가진 상대를 집요하게 노리며, 훔친 음식을 게걸스럽게 삼킵니다.',
             stats: { '힘': 5, '건강': 9, '속도': 4, '정밀': 5, '지능': 3, '지혜': 3, '매력': 2 },
