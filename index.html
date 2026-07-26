@@ -1051,6 +1051,68 @@
         }
     };
 
+    const monsterRegionLabels = {
+        norriton: '타락한 노리튼',
+        araon: '고요한 아라온',
+        twisted: '악독한 트위스타드',
+        baran: '잊혀진 바란',
+        dotrey: '혹한의 도트레이',
+        'karaz-dum': '폐허의 카라즈-둠',
+        asksz: '고행의 아스키즈',
+        arcana: '무너진 아르카나',
+        jungle: '에이델린 원시림'
+    };
+
+    const monsterRegionalGroupMeta = {
+        norriton: {
+            goblin: {
+                desc: '농장과 곡물 창고를 노리는 약탈 무리',
+                traits: [
+                    '노리튼의 고블린 계열은 농장과 곡물 창고를 노리는 약탈 무리로 변질되었습니다.',
+                    '식량과 가축을 미끼로 유인하거나 함정을 치며, 전투가 길어질수록 주변 고블린 무리가 추가로 합류할 확률이 높아집니다.'
+                ],
+                notes: ['곡물 창고 습격, 가축 미끼, 함정, 중간 참전, 식량 약탈과 연결됩니다.']
+            },
+            undead: {
+                desc: '옛 농장 경비병, 소작농, 용병들의 잔해',
+                traits: [
+                    '노리튼의 언데드 계열은 옛 농장 경비병, 소작농, 용병들의 잔해로 해석됩니다.',
+                    '농기구, 사슬, 낡은 농장 도구를 무기로 사용하며, 논밭과 진흙 지형에서 출혈, 경직, 넘어짐 계열 상태이상이 특히 강하게 나타납니다.'
+                ],
+                notes: ['낡은 낫, 쟁기날, 농장 사슬, 진흙, 논밭, 넘어짐, 경직과 연결됩니다.']
+            },
+            humanoid: {
+                desc: '식량과 빚을 쥔 지주 세력과 굶주린 하층민',
+                traits: [
+                    '노리튼의 인간형 계열은 지주 측 사설 경비, 배고픈 농민 폭도, 곡물 밀매상, 뒷골목 폭력배가 주를 이룹니다.',
+                    '협박, 거래, 매수가 자주 발생하지만 식량과 빚이 핵심 협상 카드가 되며, 지주 측은 장비가 좋고 농민 측은 약하지만 수가 많습니다.'
+                ],
+                notes: ['지주 사설 경비, 곡물 밀매, 빚 문서, 식량 거래, 농민 폭도, 장비 격차와 연결됩니다.']
+            },
+            slime: {
+                desc: '썩은 곡물과 축사 오물에서 증식한 탁한 점액 생명체',
+                traits: [
+                    '노리튼의 슬라임류는 썩은 곡물, 축사 오물, 진흙 수로의 오염물을 흡수해 탁한 점액으로 변질됩니다.',
+                    '곡물 창고와 배수로 주변에 숨어 있다가 점착, 부식, 악취로 이동을 방해하고 장비와 식량을 망가뜨립니다.'
+                ],
+                notes: ['썩은 곡물, 축사 오물, 진흙 수로, 악취, 장비 부식, 식량 오염과 연결됩니다.']
+            }
+        }
+    };
+
+    function getMonsterGroupDisplayMeta(groupKey, regionId = currentMonsterRegion) {
+        const base = monsterGroupMeta[groupKey] || monsterGroupMeta.other;
+        const regional = monsterRegionalGroupMeta[regionId]?.[groupKey];
+        if (!regional) return { ...base, regionLabel: 'COMMON', isRegional: false };
+
+        return {
+            ...base,
+            ...regional,
+            regionLabel: monsterRegionLabels[regionId] || '지역 특징',
+            isRegional: true
+        };
+    }
+
     function getMonsterIdFromCard(card) {
         const onclick = card.getAttribute('onclick') || '';
         return onclick.match(/openMonsterModal\('([^']+)'\)/)?.[1] || '';
@@ -1071,7 +1133,7 @@
     }
 
     function openMonsterGroupModal(groupKey, pushHistory = true) {
-        const meta = monsterGroupMeta[groupKey] || monsterGroupMeta.other;
+        const meta = getMonsterGroupDisplayMeta(groupKey);
         const content = document.getElementById('modal-content');
         if (!content) return;
 
@@ -1095,17 +1157,17 @@
                 <div class="mb-2">
                     <div class="flex flex-wrap items-center gap-3 mb-3">
                         <h2 class="cinzel text-4xl md:text-5xl text-white font-bold uppercase tracking-tighter leading-none">${meta.label}</h2>
-                        <span class="bg-amber-950/50 text-amber-300 text-xs px-3 py-1 rounded border border-amber-800/60 font-bold uppercase tracking-[0.25em]">COMMON</span>
+                        <span class="bg-amber-950/50 text-amber-300 text-xs px-3 py-1 rounded border border-amber-800/60 font-bold uppercase tracking-[0.25em]">${meta.regionLabel}</span>
                     </div>
                     <p class="text-lg text-amber-600 italic tracking-[0.16em] font-semibold mb-4">${meta.desc}</p>
                     <p class="text-sm text-gray-300 leading-relaxed border-l-2 border-amber-900/50 pl-4 py-2 bg-white/5 rounded-r">
-                        이 계열에 공통으로 적용할 종족 특징, 전투 습성, 약점, 전리품 경향을 기록하는 페이지입니다.
+                        ${meta.isRegional ? '현재 도시에서 이 계열에 적용할 지역 특징, 전투 습성, 협상 요소, 전리품 경향을 기록하는 페이지입니다.' : '이 계열에 공통으로 적용할 종족 특징, 전투 습성, 약점, 전리품 경향을 기록하는 페이지입니다.'}
                     </p>
                 </div>
 
                 <div class="flex flex-col gap-3">
                     <h4 class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.3em] flex items-center gap-2">
-                        <span class="w-4 h-[1px] bg-amber-900/50"></span> 공통 특징
+                        <span class="w-4 h-[1px] bg-amber-900/50"></span> ${meta.isRegional ? '도시별 특징' : '공통 특징'}
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         ${traitsHtml}
@@ -1159,7 +1221,7 @@
             }
 
             if (!groupMap.has(key)) {
-                const meta = monsterGroupMeta[key] || monsterGroupMeta.other;
+                const meta = getMonsterGroupDisplayMeta(key);
                 const section = document.createElement('section');
                 section.className = 'monster-group';
                 section.dataset.group = key;
@@ -1224,9 +1286,14 @@
             const visibleCards = Array.from(section.querySelectorAll('.monster-item'))
                 .filter(card => !card.classList.contains('hidden'));
             const isVisible = visibleCards.length > 0;
+            const meta = getMonsterGroupDisplayMeta(section.dataset.group);
 
             section.classList.toggle('hidden', !isVisible);
+            section.querySelector('.monster-group-title').textContent = meta.label;
+            section.querySelector('.monster-group-desc').textContent = meta.desc;
             section.querySelector('.monster-group-count').textContent = `${visibleCards.length}종`;
+            const loreLabel = section.querySelector('.monster-group-lore-btn span');
+            if (loreLabel) loreLabel.textContent = meta.isRegional ? '도시 특징' : '공통 특징';
 
             if (isVisible && !firstVisibleGroup) firstVisibleGroup = section;
         });
