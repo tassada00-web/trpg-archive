@@ -176,6 +176,14 @@
         <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
     </div>
 
+    <div class="item-card monster-item norriton" onclick="openMonsterModal('goblin_reared_wolf')">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-red-500">고블린 사육 늑대</h3>
+            </div>
+        <p class="text-xs text-gray-400 italic font-medium">"고블린들이 가축 추적과 전투 보조를 위해 거칠게 기른 약탈 무리의 사냥개입니다."</p>
+        <p class="text-[10px] text-amber-700 mt-6 uppercase tracking-[0.2em] animate-pulse">상세 정보 보기 (Click)</p>
+    </div>
+
     <div class="item-card monster-item norriton araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('goblin_archer')">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-red-500">고블린 궁수</h3>
@@ -1404,6 +1412,23 @@
                 { name: '먹잇감 감지', desc: '전투 중 음식 재료를 가진 대상을 우선적으로 공격 대상으로 지정합니다.' },
                 { name: '식량 강탈', desc: '<span class="text-orange-400">속도 vs 속도.</span> 대상이 가진 음식 재료 1개를 훔칩니다. 성공 시 해당 재료를 자신이 소지합니다.' },
                 { name: '게걸스러운 식사', desc: '<span class="text-yellow-400">조건: 자신이 음식 재료를 소지 중일 때.</span> 소지한 음식 재료 1개를 즉시 먹습니다. 효과: 체력 <span class="text-green-400">+7</span> 회복 + <span class="text-lime-400">[배부름]</span> 부여. <span class="text-lime-400">[배부름]</span> = 속도 <span class="text-red-400">-2</span>, 회피 판정 <span class="text-red-400">-2</span> (2턴).' }
+            ],
+            loots: [
+                { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
+            ]
+        },
+        'goblin_reared_wolf': {
+            name: '고블린 사육 늑대',
+            title: '약탈 무리의 사냥개',
+            type: '야수, 늑대, 노리튼',
+            group: 'goblin',
+            image: '',
+            desc: '고블린들이 가축을 추적하고 전투에서 보조하기 위해 거칠게 기른 늑대입니다. 제대로 된 훈련보다는 굶주림과 학대로 길들여져, 주인의 명령보다 먹잇감 냄새에 더 민감하게 반응합니다.',
+            stats: { '힘': 6, '건강': 6, '속도': 8, '정밀': 6, '지능': 2, '지혜': 5, '매력': 1 },
+            skills: [
+                { name: '물어뜯기', desc: '<span class="text-orange-400">힘 vs 속도.</span> 날카로운 이빨로 상대를 물어뜯습니다. 성공 시 피해 + <span class="text-red-400">[출혈]</span> <span class="text-white">+1</span>.' },
+                { name: '가축 추적', desc: '음식 재료나 가축 관련 아이템을 가진 대상을 우선 추격합니다. 해당 대상에 대한 명중/추격 판정에 <span class="text-green-400">+2</span> 보너스를 받습니다.' },
+                { name: '주인의 그림자', desc: '<span class="text-orange-400">패시브.</span> 조건: 주변에 고블린이 1명 이상 생존 중일 때 힘 <span class="text-green-400">+1</span>, 속도 <span class="text-green-400">+1</span>. 고블린과 호흡을 맞춰 공격할 때 추가 피해 <span class="text-white">+2</span>. 고블린 수와 상관없이 효과는 동일합니다.' }
             ],
             loots: [
                 { name: '추후 입력', chance: '-', desc: '전리품은 추후 입력 예정.' }
