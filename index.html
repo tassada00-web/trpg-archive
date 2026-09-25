@@ -1609,9 +1609,9 @@
             desc: '타락한 노리튼 지역에서 활동하는 홉고블린 진화형. 갈고리 사슬로 대상을 끌어내어 전열을 붕괴시키고, 구속형 개체와의 연계를 통해 위협적인 전투 흐름을 만든다.',
             stats: { '힘': 12, '건강': 10, '속도': 8, '정밀': 12, '지능': 7, '지혜': 6, '매력': 9 },
             skills: [
-                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 갈고리 달린 사슬을 던져 대상을 끌어옵니다. 성공 시 대상을 구속형 앞으로 강제 이동 + <span class="text-yellow-400">[이동 불가]</span> + <span class="text-amber-400">[연계 표식]</span>.' },
-                { name: '사슬로 넘기기', desc: '<span class="text-yellow-400">조건: [연계 표식]이 있는 대상.</span> <span class="text-orange-400">정밀 vs 속도.</span> 사슬을 구속형에게 넘기며 대상을 넘깁니다. 성공 시 구속형의 <span class="text-emerald-400">몸에 밀착 고정</span>이 유리해집니다.' },
-                { name: '전열 붕괴 타격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 끌어온 대상을 사슬이나 발로 내리칩니다. 성공 시 피해 <span class="text-white">+3</span> + <span class="text-yellow-400">[경직]</span> 1턴.' }
+                { name: '약탈자의 견인 사슬', desc: '<span class="text-orange-400">정밀 vs 속도.</span> 갈고리 달린 사슬을 던져 대상을 끌어옵니다. 성공 시 선택한 구속형 아군에게 인접할 때까지 강제 이동시키고 <span class="text-yellow-400">[이동 불가]</span> + <span class="text-amber-400">[연계 표식]</span>을 부여합니다. 장애물이나 다른 유닛 앞에서 멈추며 대각선 모서리를 통과하지 않습니다. [이동 불가]는 자발적 이동만 막고 강제 이동은 허용합니다. 두 상태는 턴 감소 없이 유지되며 해제 성공 시 제거됩니다. 직접 피해는 없습니다.' },
+                { name: '사슬로 넘기기', desc: '<span class="text-yellow-400">조건: [연계 표식]이 있는 대상.</span> <span class="text-orange-400">정밀 vs 속도.</span> 사슬을 구속형에게 넘기며 대상을 넘깁니다. 성공 시 선택한 구속형 아군 1명이 같은 대상에게 시도하는 다음 <span class="text-emerald-400">몸에 밀착 고정</span> 판정에 <span class="text-white">+2</span>. 성공·실패와 관계없이 판정 시도 시 1회 소모하며, 다른 대상·아군·행동에는 적용되지 않습니다. 같은 보너스는 중첩하지 않고 높은 수치로 갱신합니다. [연계 표식]은 유지되며 직접 피해는 없습니다.' },
+                { name: '전열 붕괴 타격', desc: '<span class="text-orange-400">힘 vs 건강.</span> 끌어온 대상을 사슬이나 발로 내리칩니다. 성공 시 이번 HP 공격 피해에 <span class="text-white">+3</span>을 한 번 적용하고 <span class="text-yellow-400">[경직]</span> 1턴을 부여합니다. 경직 면역은 경직 부여만 막으며, [경직]은 대상의 턴 종료에 감소합니다.' }
             ],
             loots: [
                 { name: '노리튼 사슬 조각', chance: '100%', desc: '견인형이 사용하던 사슬 잔해.' },
@@ -1630,9 +1630,9 @@
             desc: '견인형이 끌어온 대상을 자신의 몸에 밀착 고정하는 구속형 개체. 사슬과 완력으로 대상을 붙잡아 인간 방패처럼 장비화하는 연계 피니싱을 사용한다.',
             stats: { '힘': 14, '건강': 12, '속도': 5, '정밀': 9, '지능': 8, '지혜': 7, '매력': 11 },
             skills: [
-                { name: '몸에 밀착 고정', desc: '<span class="text-orange-400">힘 vs 힘.</span> <span class="text-yellow-400">조건: 대상에게 [연계 표식]이 있을 때 유리.</span> 대상을 자신의 가슴과 배에 강하게 끌어안아 밀착시킵니다. 손목을 뒤로 묶어 자신의 몸에 고정하고 조입니다. 성공 시 <span class="text-emerald-400">[밀착 구속]</span> 부여. (이동 불가 + 회피/저항 판정 <span class="text-red-400">-3</span>)' },
-                { name: '밀착 유린', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">매력 vs 건강.</span> 상대를 자신의 몸에 꽉 붙인 채 아래에서 거근을 강제로 삽입합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>.' },
-                { name: '밀착 압박 연타', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">힘 vs 건강.</span> 자신의 몸에 붙인 채 허리를 반복해서 움직이며 거근을 박아 넣습니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>.' },
+                { name: '몸에 밀착 고정', desc: '<span class="text-orange-400">힘 vs 힘.</span> 대상을 자신의 가슴과 배에 강하게 끌어안아 밀착시킵니다. 손목을 뒤로 묶어 자신의 몸에 고정하고 조입니다. 성공 시 <span class="text-emerald-400">[밀착 구속]</span> 부여. 자발적 이동 불가 + 회피/저항 판정 <span class="text-red-400">-3</span>; 강제 이동은 허용합니다. 턴 감소 없이 유지되며 해제 성공 시 제거됩니다. <span class="text-yellow-400">[연계 표식]만으로는 판정 보너스가 생기지 않습니다.</span> 견인형의 사슬로 넘기기가 자신과 같은 대상을 지정했다면 이번 판정에 <span class="text-white">+2</span>, 시도 시 1회 소모합니다. 직접 피해는 없습니다.' },
+                { name: '밀착 유린', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">매력 vs 건강.</span> 상대를 자신의 몸에 꽉 붙인 채 아래에서 거근을 강제로 삽입합니다. 성공 시 쾌락 피해 <span class="text-white">4</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+2</span>. [밀착 구속]은 유지하며 HP·SP 직접 피해는 없습니다.' },
+                { name: '밀착 압박 연타', desc: '<span class="text-yellow-400">조건: [밀착 구속] 상태인 대상.</span> <span class="text-orange-400">힘 vs 건강.</span> 자신의 몸에 붙인 채 허리를 반복해서 움직이며 거근을 박아 넣습니다. 성공 시 쾌락 피해 <span class="text-white">3</span> + <span class="text-red-400">[성욕]</span> <span class="text-white">+1</span>을 한 번만 부여합니다. [밀착 구속]은 유지하며 HP·SP 직접 피해는 없습니다.' },
                 { name: '인간 방패 장비화', desc: '<span class="text-yellow-400">동시기술 · 피니싱.</span> 조건: 구속형이 <span class="text-emerald-400">[밀착 구속]</span> 상태인 대상을 잡고 있을 때. 견인형과 구속형이 동시에 행동합니다. 구속형은 상대를 자신의 몸 앞에 강제로 밀착시키고 손목·발목을 사슬로 고정합니다. 견인형은 사슬을 추가로 조여 상대를 고블린의 몸 앞에 방패처럼 완전히 고정시킵니다. 성공 시 <span class="text-emerald-400">고블린 인간방패</span> (소환수)를 생성합니다.' }
             ],
             summons: [
