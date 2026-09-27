@@ -600,7 +600,7 @@
             <button onclick="showPage('equip')" class="text-gray-500 hover:text-amber-500 transition text-xs font-bold tracking-tighter">← BACK TO EQUIP</button>
         </div>
 
-        <div id="weapon-category-selector" class="grid grid-cols-3 md:grid-cols-9 gap-2 mb-12">
+        <div id="weapon-category-selector" class="grid grid-cols-3 md:grid-cols-7 gap-2 mb-12">
             <button onclick="filterWeapon('shield', '방패')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
                 <i class="fa-solid fa-shield text-xl text-blue-500 group-hover:scale-110 transition"></i>
                 <span class="text-[10px] font-bold">방패</span>
@@ -652,6 +652,26 @@
             <button onclick="filterWeapon('musket', '머스킷')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
                 <i class="fa-solid fa-gun text-xl text-stone-500 group-hover:scale-110 transition"></i>
                 <span class="text-[10px] font-bold">머스킷</span>
+            </button>
+
+            <button onclick="filterWeapon('axe', '도끼')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-gavel text-xl text-amber-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">도끼</span>
+            </button>
+
+            <button onclick="filterWeapon('whip', '채찍')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-wave-square text-xl text-amber-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">채찍</span>
+            </button>
+
+            <button onclick="filterWeapon('knuckle', '너클')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-hand-fist text-xl text-amber-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">너클</span>
+            </button>
+
+            <button onclick="filterWeapon('chain', '사슬')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-link text-xl text-amber-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">사슬</span>
             </button>
         </div>
 
@@ -723,6 +743,11 @@
             <button onclick="filterArmor('bracelet', '팔찌')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
                 <i class="fa-solid fa-link text-xl text-blue-500 group-hover:scale-110 transition"></i>
                 <span class="text-[10px] font-bold">팔찌</span>
+            </button>
+
+            <button onclick="filterArmor('accessory', '기타 장신구')" class="item-card !p-3 flex flex-col items-center gap-2 group transition-all">
+                <i class="fa-solid fa-medal text-xl text-blue-500 group-hover:scale-110 transition"></i>
+                <span class="text-[10px] font-bold">기타 장신구</span>
             </button>
         </div>
 
@@ -2719,7 +2744,116 @@
     }
 
     const weaponData = {
+        chain: [
+            {
+                id: 'tyrants_chain',
+                name: '폭군의 사슬',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '제압 계열 효과를 품은 희귀 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '밤 거리 폭군 전리품 · 드롭 확률 4%' }
+                ]
+            }
+        ],
+        knuckle: [
+            {
+                id: 'boss_steel_knuckles',
+                name: '두목의 강철 너클',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '수리 후 사용할 수 있는 희귀 근접 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '폭력배 전리품 · 드롭 확률 3%' }
+                ]
+            }
+        ],
+        whip: [
+            {
+                id: 'branded_whip',
+                name: '낙인 장식 채찍',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '구속 계열 효과를 지닌 희귀 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '포주 전리품 · 드롭 확률 2%' }
+                ]
+            },
+            {
+                id: 'queens_whip',
+                name: '여왕의 채찍',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '지배 계열 효과를 품은 희귀 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '밤 거리 여왕 전리품 · 드롭 확률 4%' }
+                ]
+            }
+        ],
+        axe: [
+            {
+                id: 'hobgoblin_axe',
+                name: '엑스',
+                image: '',
+                price: '가격 미정',
+                desc: '강력한 파괴력을 가진 힘 기반 도끼 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '홉고블린 전리품 · 드롭 확률 5%' }
+                ]
+            },
+            {
+                id: 'battle_axe',
+                name: '전투 도끼',
+                image: '',
+                price: '가격 미정',
+                desc: '강한 힘을 요구하는 근접 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '전사한 돌격병 전리품 · 드롭 확률 5%' }
+                ]
+            }
+        ],
         'shield': [
+            {
+                id: 'hobgoblin_shield',
+                name: '방패',
+                image: '',
+                price: '가격 미정',
+                desc: '방어력을 높여주는 방어 보조 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '홉고블린 전리품 · 드롭 확률 5%' }
+                ]
+            },
+            {
+                id: 'guard_standard_shield',
+                name: '경비대 제식 방패',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '수리 후 사용할 수 있는 희귀 방어 장비.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '타락 경비병 전리품 · 드롭 확률 3%' }
+                ]
+            },
             {
                 id: 'wooden_shield',
                 name: '나무 방패',
@@ -2756,6 +2890,18 @@
             }
         ],
             'sword': [
+            {
+                id: 'worn_longsword',
+                name: '낡은 장검',
+                image: '',
+                price: '가격 미정',
+                desc: '수리하면 사용할 수 있는 근접 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '전사한 검사 전리품 · 드롭 확률 5%' }
+                ]
+            },
         {
                 id: 'iron_sword',
                 name: '철검',
@@ -2892,6 +3038,42 @@
     ],
         'dagger': [
             {
+                id: 'chipped_dagger',
+                name: '이가 빠진 단검',
+                image: '',
+                price: '가격 미정',
+                desc: '야금 스킬 재료 혹은 임시 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '고블린 전리품 · 드롭 확률 15%' }
+                ]
+            },
+            {
+                id: 'cracked_dagger',
+                name: '균열 난 단검',
+                image: '',
+                price: '가격 미정',
+                desc: '수리하면 사용할 수 있는 보조 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '전사한 습격병 전리품 · 드롭 확률 5%' }
+                ]
+            },
+            {
+                id: 'dirty_dagger',
+                name: '더러운 단검',
+                image: '',
+                price: '가격 미정',
+                desc: '절도단이 쓰던 값싼 단검.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '거리 절도단 전리품 · 드롭 확률 100%' }
+                ]
+            },
+            {
                 id: 'dagger',
                 name: '단검',
                 image: './weapon/dagger/rusty_dagger.jpg',
@@ -2937,6 +3119,31 @@
             }
         ],
         'mace': [
+            {
+                id: 'iron_club',
+                name: '철제 곤봉',
+                image: '',
+                price: '가격 미정',
+                desc: '집행자가 쓰던 무거운 곤봉.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '집행자 전리품 · 드롭 확률 100%' }
+                ]
+            },
+            {
+                id: 'black_judgment_hammer',
+                name: '검은 재판망치',
+                special: true,
+                image: '',
+                price: '가격 미정',
+                desc: '심문관이 사용하던 희귀 둔기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '이단 심문관 (낮) 전리품 · 드롭 확률 3%' }
+                ]
+            },
             {
                 id: 'iron_mace',
                 name: '철제 둔기',
@@ -2986,6 +3193,18 @@
         ],
         'bow': [
             {
+                id: 'tough_bow',
+                name: '질긴 활',
+                image: '',
+                price: '가격 미정',
+                desc: '원거리 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '고블린 궁수 전리품 · 드롭 확률 5%' }
+                ]
+            },
+            {
                 id: 'wood_short_bow',
                 name: '우드 숏보우',
                 image: './weapon/bow/short.jpg',
@@ -3009,6 +3228,18 @@
             }
         ],
         'crossbow': [
+            {
+                id: 'worn_crossbow',
+                name: '낡은 석궁',
+                image: '',
+                price: '가격 미정',
+                desc: '수리하면 사용할 수 있는 원거리 무기.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '전사한 석궁병 전리품 · 드롭 확률 5%' }
+                ]
+            },
             {
                 id: 'light_crossbow',
                 name: '경량 석궁',
@@ -3104,6 +3335,26 @@
     };
 
     const weaponCatalogDescriptions = {
+        axe: {
+            title: '도끼',
+            english: 'Axe',
+            traits: ['날의 무게와 힘을 활용하는 근접 무기입니다.']
+        },
+        whip: {
+            title: '채찍',
+            english: 'Whip',
+            traits: ['유연한 길이를 활용하는 구속 계열 무기입니다.']
+        },
+        knuckle: {
+            title: '너클',
+            english: 'Knuckles',
+            traits: ['주먹에 착용해 근접 타격을 보강하는 무기입니다.']
+        },
+        chain: {
+            title: '사슬',
+            english: 'Chain',
+            traits: ['사슬을 이용해 상대를 제압하는 무기입니다.']
+        },
         shield: {
             title: '방패',
             english: 'Shield',
@@ -3270,6 +3521,20 @@
     ];
 
     const armorData = {
+        accessory: [
+            {
+                id: 'hobgoblin_epaulet',
+                name: '홉고블린의 견장',
+                image: '',
+                price: '가격 미정',
+                desc: '매력이나 힘 스탯 보너스 장신구.',
+                stats: {},
+                statsPending: true,
+                effects: [
+                    { name: '획득처', desc: '홉고블린 전리품 · 드롭 확률 10%' }
+                ]
+            }
+        ],
         head: [],
         outer: [],
         top: [
@@ -3701,7 +3966,11 @@ function openWeaponModal(category, id, pushHistory = true) {
 
     const content = document.getElementById('modal-content');
     
-    const statsHtml = Object.entries(item.stats).map(([key, value]) => `
+    const statsHtml = item.statsPending ? `
+        <div class="col-span-2 bg-black/30 p-3 rounded border border-white/5 text-center">
+            <p class="text-xs text-gray-500 font-bold">능력치 미정</p>
+        </div>
+    ` : Object.entries(item.stats).map(([key, value]) => `
         <div class="bg-black/30 p-2 rounded border border-white/5 text-center">
             <p class="text-[9px] text-gray-500 uppercase font-medium mb-0.5">${key}</p>
             <p class="text-sm font-bold text-white">${value}</p>
@@ -3778,7 +4047,7 @@ function openArmorModal(category, id, pushHistory = true) {
         </div>
     `).join('') : `
         <div class="col-span-2 bg-black/30 p-3 rounded border border-white/5 text-center">
-            <p class="text-xs text-gray-500 font-bold">보너스 없음</p>
+            <p class="text-xs text-gray-500 font-bold">${item.statsPending ? '능력치 미정' : '보너스 없음'}</p>
         </div>
     `;
 
