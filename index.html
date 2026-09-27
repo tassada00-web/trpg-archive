@@ -126,7 +126,7 @@
     <h2 id="monster-catalog-title" class="cinzel text-5xl text-white mb-2 text-center uppercase">Enemies</h2>
     <p id="monster-catalog-subtitle" class="text-amber-700 mb-8 text-center tracking-widest uppercase italic">중앙 대륙의 위협적 생명체들</p>
     
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
         <button onclick="filterRegion('norriton', this)" class="region-btn active">타락한 노리튼</button>
         <button onclick="filterRegion('araon', this)" class="region-btn">고요한 아라온</button>
         <button onclick="filterRegion('twisted', this)" class="region-btn">악독한 트위스타드</button>
@@ -138,10 +138,19 @@
         <button onclick="filterRegion('jungle', this)" class="region-btn">에이델린 원시림</button>
     </div>
 
-    <div class="monster-group-controls flex justify-end gap-2 mb-4">
-        <button type="button" onclick="setAllMonsterGroups(false)" class="monster-group-control">전체 접기</button>
-        <button type="button" onclick="setAllMonsterGroups(true)" class="monster-group-control">전체 펼치기</button>
+    <div class="monster-group-controls mb-2">
+        <div class="monster-search">
+            <label class="sr-only" for="monster-search-input">몬스터 이름 검색</label>
+            <i class="fa-solid fa-magnifying-glass monster-search-icon" aria-hidden="true"></i>
+            <input id="monster-search-input" type="search" placeholder="몬스터 이름 검색…" autocomplete="off" oninput="searchMonsters(this.value)">
+            <button type="button" id="monster-search-clear" class="monster-search-clear hidden" onclick="clearMonsterSearch()" aria-label="검색어 지우기">×</button>
+        </div>
+        <div class="monster-group-actions">
+            <button type="button" onclick="setAllMonsterGroups(false)" class="monster-group-control">전체 접기</button>
+            <button type="button" onclick="setAllMonsterGroups(true)" class="monster-group-control">전체 펼치기</button>
+        </div>
     </div>
+    <p id="monster-search-status" class="monster-search-status mb-5" role="status" aria-live="polite"></p>
 
     <div id="monster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div class="item-card monster-item norriton araon twisted baran dotrey karaz-dum asksz arcana jungle" onclick="openMonsterModal('goblin')">
@@ -810,6 +819,8 @@
     const monsterRegionIds = ['norriton', 'araon', 'twisted', 'baran', 'dotrey', 'karaz-dum', 'asksz', 'arcana', 'jungle'];
     let currentMonsterRegion = 'norriton';
     let currentMonsterCatalogMode = 'normal';
+    let monsterSearchQuery = '';
+    let monsterGroupOpenBeforeSearch = null;
 
     function parsePageHash() {
         const [pageId, regionId] = window.location.hash.substring(1).split('/');
@@ -939,13 +950,14 @@
             document.querySelector(`.region-btn[onclick="filterRegion('${regionId}', this)"]`)?.classList.add('active');
         }
 
-        const monsters = document.querySelectorAll('.monster-item');
-        monsters.forEach(monster => monster.classList.add('hidden'));
-
-        const selectedMonsters = document.querySelectorAll('.monster-item.' + regionId);
-        selectedMonsters.forEach(monster => {
+        const monsters = document.querySelectorAll('#monster-list .monster-item');
+        monsters.forEach(monster => {
             const isBoss = monster.classList.contains('boss');
-            const shouldShow = currentMonsterCatalogMode === 'boss' ? isBoss : !isBoss;
+            const id = getMonsterIdFromCard(monster);
+            const name = (monsterData[id]?.name || monster.querySelector('h3')?.textContent || '')
+                .normalize('NFKC').toLocaleLowerCase('ko').replace(/\s+/g, ' ');
+            const matchesMode = currentMonsterCatalogMode === 'boss' ? isBoss : !isBoss;
+            const shouldShow = monster.classList.contains(regionId) && matchesMode && name.includes(monsterSearchQuery);
             monster.classList.toggle('hidden', !shouldShow);
         });
 
@@ -978,6 +990,32 @@
         section?.classList.toggle('boss-catalog-active', currentMonsterCatalogMode === 'boss');
 
         filterRegion(currentMonsterRegion);
+    }
+
+    function searchMonsters(value) {
+        const query = value.trim().normalize('NFKC').toLocaleLowerCase('ko').replace(/\s+/g, ' ');
+        if (query && !monsterSearchQuery) {
+            monsterGroupOpenBeforeSearch = new Map(Array.from(document.querySelectorAll('.monster-group'))
+                .map(section => [section.dataset.group, !section.classList.contains('collapsed')]));
+        }
+        const wasSearching = !!monsterSearchQuery;
+        monsterSearchQuery = query;
+        document.getElementById('monster-search-clear')?.classList.toggle('hidden', !query);
+        filterRegion(currentMonsterRegion, null, false);
+        if (!query && wasSearching && monsterGroupOpenBeforeSearch) {
+            document.querySelectorAll('.monster-group').forEach(section => {
+                setMonsterGroupOpen(section, monsterGroupOpenBeforeSearch.get(section.dataset.group) ?? false);
+            });
+            monsterGroupOpenBeforeSearch = null;
+        }
+    }
+
+    function clearMonsterSearch() {
+        const input = document.getElementById('monster-search-input');
+        if (!input) return;
+        input.value = '';
+        searchMonsters('');
+        input.focus();
     }
 
     const monsterGroupMeta = {
@@ -1313,12 +1351,14 @@
     function updateMonsterGroups() {
         const groups = Array.from(document.querySelectorAll('.monster-group'));
         let firstVisibleGroup = null;
+        let resultCount = 0;
 
         groups.forEach(section => {
             const visibleCards = Array.from(section.querySelectorAll('.monster-item'))
                 .filter(card => !card.classList.contains('hidden'));
             const isVisible = visibleCards.length > 0;
             const meta = getMonsterGroupDisplayMeta(section.dataset.group);
+            resultCount += visibleCards.length;
 
             section.classList.toggle('hidden', !isVisible);
             section.querySelector('.monster-group-title').textContent = meta.label;
@@ -1328,9 +1368,20 @@
             if (loreLabel) loreLabel.textContent = meta.isRegional ? '도시 특징' : '공통 특징';
 
             if (isVisible && !firstVisibleGroup) firstVisibleGroup = section;
+            if (isVisible && monsterSearchQuery) setMonsterGroupOpen(section, true);
         });
 
-        document.getElementById('monster-empty-state')?.classList.toggle('hidden', !!firstVisibleGroup);
+        const regionName = document.querySelector('.region-btn.active')?.textContent.trim() || '현재 지역';
+        const modeName = currentMonsterCatalogMode === 'boss' ? '보스' : '일반';
+        const status = document.getElementById('monster-search-status');
+        if (status) status.textContent = `${regionName} · ${modeName} ${monsterSearchQuery ? '검색 결과 ' : ''}${resultCount}종`;
+        const emptyState = document.getElementById('monster-empty-state');
+        if (emptyState) {
+            emptyState.classList.toggle('hidden', !!firstVisibleGroup);
+            emptyState.textContent = monsterSearchQuery
+                ? `현재 지역의 ${modeName} 목록에서 ‘${document.getElementById('monster-search-input')?.value.trim() || monsterSearchQuery}’ 검색 결과가 없습니다.`
+                : '이 지역에는 아직 등록된 몬스터가 없습니다.';
+        }
     }
 
     // 몬스터 상세 정보 데이터베이스
