@@ -2761,16 +2761,32 @@
         ],
         knuckle: [
             {
+                id: 'steel_knuckles',
+                name: '강철 너클',
+                image: '',
+                price: '가격 미정',
+                desc: '주먹에 착용하는 강철제 타격 무기. 단단한 금속으로 타격의 위력을 보강합니다.',
+                stats: { '힘': '+2' },
+                effects: [
+                    { name: '견고한 구조', desc: '무기 내구도 감소량이 절반으로 감소합니다.' }
+                ]
+            },
+            {
                 id: 'boss_steel_knuckles',
                 name: '두목의 강철 너클',
                 special: true,
                 image: '',
                 price: '가격 미정',
                 desc: '수리 후 사용할 수 있는 희귀 근접 장비.',
-                stats: {},
-                statsPending: true,
+                stats: { '힘': '+2' },
                 effects: [
+                    { name: '견고한 구조', desc: '무기 내구도 감소량이 절반으로 감소합니다.' },
                     { name: '획득처', desc: '폭력배 전리품 · 드롭 확률 3%' }
+                ],
+                randomOptions: [
+                    { name: '힘 +1', desc: '고정 장비 보너스에 힘 +1이 추가됩니다.' },
+                    { name: '속도 +1', desc: '속도 +1 보너스가 추가됩니다.' },
+                    { name: '거친 제압', desc: '능동 스킬 [거친 제압]을 획득합니다. 사용 시 넘어진 상대에게 [속박]을 부여한 채 공격합니다. 공격 명중 시 [현기증] 스택 +1을 확정 부여합니다.' }
                 ]
             }
         ],
@@ -3348,7 +3364,8 @@
         knuckle: {
             title: '너클',
             english: 'Knuckles',
-            traits: ['주먹에 착용해 근접 타격을 보강하는 무기입니다.']
+            traits: ['주먹에 착용해 근접 타격을 보강하는 무기입니다.'],
+            risks: ['[판금 갑옷] 착용 대상에게 주는 데미지 N 감소']
         },
         chain: {
             title: '사슬',
@@ -3984,6 +4001,24 @@ function openWeaponModal(category, id, pushHistory = true) {
         </div>
     `).join('');
 
+    const randomOptionsHtml = item.randomOptions ? `
+        <div class="flex flex-col gap-4 border-t border-white/10 pt-6 mt-6">
+            <h4 class="text-xs text-amber-500 font-bold uppercase tracking-[0.4em] flex items-center gap-3">
+                <span class="w-6 h-[1px] bg-amber-900/50"></span>
+                추가 랜덤 옵션
+            </h4>
+            <p class="text-[12px] text-gray-400 leading-relaxed">획득 시 아래 후보 중 서로 다른 옵션이 0~${item.randomOptions.length}개 부여됩니다. 각 옵션은 한 번만 부여되며 획득 후 고정됩니다. 고정 장비 보너스와 특수효과는 항상 유지됩니다.</p>
+            <div class="flex flex-col gap-3">
+                ${item.randomOptions.map((option, index) => `
+                    <div class="bg-black/40 p-4 rounded-lg border border-white/10 group shadow-md">
+                        <p class="text-sm font-bold text-amber-500 mb-1">${index + 1}. [${option.name}]</p>
+                        <p class="text-[12px] text-gray-400 leading-relaxed text-left">${option.desc}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    ` : '';
+
     content.innerHTML = `
         <div class="h-full flex flex-col gap-6 animate-fadeIn text-left no-scrollbar">
             <div class="flex flex-col md:flex-row gap-8 items-start w-full">
@@ -4017,6 +4052,7 @@ function openWeaponModal(category, id, pushHistory = true) {
                             ${effectsHtml}
                         </div>
                     </div>
+                    ${randomOptionsHtml}
                 </div>
             </div>
 
